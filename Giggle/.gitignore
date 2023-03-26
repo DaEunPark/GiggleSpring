@@ -10,7 +10,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
 .loadpath
 .recommenders
 
@@ -48,7 +47,6 @@ jdbc.properties
 .texlipse
 
 # STS (Spring Tool Suite)
-.springBeans
 
 # Code Recommenders
 .recommenders/
@@ -144,9 +142,9 @@ buildNumber.properties
 
 # Eclipse m2e generated files
 # Eclipse Core
-.project
+
 # JDT-specific (Eclipse Java Development Tools)
-.classpath
+
 
 ### MavensMate ###
 #Sublime Text exclusions
