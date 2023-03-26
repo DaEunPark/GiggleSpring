@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -21,8 +23,32 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.giggler.giggle" />
+	<context:component-scan base-package="com.giggler.giggle.*" />
 	
+	<!--   업로드 패스 설정 (임시)
+		: 상품 등록 페이지에 나온 등록 버튼 위 경로를 이미지 업로드 경로로 사용
+		: 이미지 경로를 하단 beans:constructor-arg value=""에 붙여넣기 
+		: 이미지 경로에 이동하여 imgUload, ckUpload 폴더 생성		
+		========
+		에디터에서 이미지 등록 : 이미지 아이콘 클릭 - 업로드 - 파일 선택 - 서버로 전송 : 상품 이미지
+		상품 등록 하단 파일 선택 : 이미지 선택 : 상품 썸네일
+	-->   
+<!-- 	<beans:bean class="java.lang.String" id="uploadPath">
+	   	<beans:constructor-arg value="F:\SpringProject\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CodeGreen\resources" />
+	</beans:bean> -->
 	
+
+	<!-- 일반 파일 업로드 경로 -->
+<!-- 	<resources mapping="/imgUpload/**" location="/resources/imgUpload/" />
+	
+	<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	 <beans:property name="maxUploadSize" value="10485760"/>
+	</beans:bean> -->
+	
+	<!-- ck에디터 파일 업로드 경로 -->   
+<!-- 	<resources mapping="/ckUpload/**" location="/resources/ckUpload/" /> -->
+	
+	<!-- 대체 이미지 파일 경로 -->
+<!-- 	<resources mapping="/images/**" location="/resources/images/"/>	 -->
 	
 </beans:beans>

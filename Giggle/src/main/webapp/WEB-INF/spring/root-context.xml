@@ -1,8 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean id="propertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>/WEB-INF/config/jdbc.properties</value>
+		</property>
+	</bean>
+
+	<bean id="DataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+		<property name="driver"		value="${jdbc.driverClassName}"></property>
+		<property name="url"		value="${jdbc.url}"></property>
+		<property name="username"	value="${jdbc.username}"></property>
+		<property name="password"	value="${jdbc.password}"></property>
+	</bean>
+
+	<!-- SqlSessionFactory는 DB와의 연결과 SQL의 실행에 대한 모든 것을 가진 객체. -->
+	<bean id="SqlSessionFactory"	class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource"	ref="DataSource"></property>
+		<property name="mapperLocations"	value="classpath:mappers/**/*Mapper.xml"></property>
+	</bean>
+
+	<!-- SqlSession 객체 주입 -->
+	<bean id="sqlSession"	class="org.mybatis.spring.SqlSessionTemplate" 
+	destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="SqlSessionFactory"></constructor-arg>
+	</bean>
+
+	<!-- 업로드 패스 설정 --> 
+<!-- 	<bean class="java.lang.String" id="uploadPath">
+	 <constructor-arg value="C:\Users\home\Documents\workspace-sts-3.9.18.RELEASE\.metadata\.plugins\org.eclipse.wst.server.core\tmp1\wtpwebapps\CodeGreen\resources" />
+	</bean> -->
 		
+	
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	 <property name="maxUploadSize" value="10485760"/>
+	</bean>	
+
 </beans>
