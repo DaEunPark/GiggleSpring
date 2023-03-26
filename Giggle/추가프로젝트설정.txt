@@ -1,0 +1,3 @@
+jstl.jar 추가
+jdbc.properties 추가
+Tomcat 서버 설정

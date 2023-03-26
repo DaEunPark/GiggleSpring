@@ -1,4 +1,4 @@
-package com.giggler.giggle;
+package com.giggler.giggle.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
