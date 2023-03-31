@@ -21,7 +21,7 @@ public class VueListController {
 	private ListService listService;
 	
 	//메인 피드 목록 VUE 
-		@GetMapping("/main/upload")
+		@GetMapping("/main/mainhome")
 		public List<ListDTO> allfeedList() throws Exception {
 			
 			List<ListDTO> allfeedList = listService.allfeedList();
