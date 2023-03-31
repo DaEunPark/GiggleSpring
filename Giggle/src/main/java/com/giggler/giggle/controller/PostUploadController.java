@@ -17,7 +17,7 @@ import com.giggler.giggle.service.PostUploadService;
 
 @RestController("postUploadController")
 @RequestMapping("/post")
-@CrossOrigin("")
+@CrossOrigin("http://localhost:8080")
 public class PostUploadController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostUploadController.class);
