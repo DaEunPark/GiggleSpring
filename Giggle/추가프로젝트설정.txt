@@ -1,4 +1,4 @@
 jstl.jar 추가
 jdbc.properties 추가
 Tomcat 서버 설정 => 프로젝트 Giggle 선택, Path '/'
-실행 잘 되는지 보기
+실행 잘 되는지 보기~~~~
