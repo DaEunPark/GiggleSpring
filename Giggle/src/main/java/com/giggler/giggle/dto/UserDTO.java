@@ -1,22 +1,26 @@
 package com.giggler.giggle.dto;
 
+
 import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("userDTO")
 public class UserDTO {
+	
 
 	private int user_no;
 	private String user_email;
 	private String user_pwd;
 	private String user_nick;
 	private String user_birth;
+
 	private Timestamp user_joindate;
 	private String open_yn = "Y";	//기본값 Y 세팅
 	private String status_message;
-	private String prifile_image;
+	private String profile_image;
 	private String back_image;
+
 	public int getUser_no() {
 		return user_no;
 	}
@@ -47,6 +51,7 @@ public class UserDTO {
 	public void setUser_birth(String user_birth) {
 		this.user_birth = user_birth;
 	}
+
 	public Timestamp getUser_joindate() {
 		return user_joindate;
 	}
@@ -65,11 +70,13 @@ public class UserDTO {
 	public void setStatus_message(String status_message) {
 		this.status_message = status_message;
 	}
-	public String getPrifile_image() {
-		return prifile_image;
+
+	public String getProfile_image() {
+		return profile_image;
 	}
-	public void setPrifile_image(String prifile_image) {
-		this.prifile_image = prifile_image;
+	public void setProfile_image(String profile_image) {
+		this.profile_image = profile_image;
+
 	}
 	public String getBack_image() {
 		return back_image;
@@ -79,12 +86,10 @@ public class UserDTO {
 	}
 	@Override
 	public String toString() {
-		return "MemberDTO [user_no=" + user_no + ", user_email=" + user_email + ", user_pwd=" + user_pwd
-				+ ", user_nick=" + user_nick + ", user_birth=" + user_birth + ", user_joindate=" + user_joindate
-				+ ", open_yn=" + open_yn + ", status_message=" + status_message + ", prifile_image=" + prifile_image
-				+ ", back_image=" + back_image + "]";
+		return "UserDTO [user_no=" + user_no + ", user_email=" + user_email + ", user_pwd=" + user_pwd + ", user_nick="
+				+ user_nick + ", user_birth=" + user_birth + ", user_joindate=" + user_joindate + ", open_yn=" + open_yn
+				+ ", status_message=" + status_message + ", profile_image=" + profile_image + ", back_image="
+				+ back_image + "]";
 	}
-	
-	
 	
 }
