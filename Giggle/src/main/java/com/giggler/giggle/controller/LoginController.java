@@ -32,29 +32,63 @@ public class LoginController {
 	//----------------------------------------------------------------------------------//
 	@PostMapping("/login")
 	@ResponseBody
-	public int login(@RequestBody Map<String, String> info) throws Exception {
+	public UserDTO login(@RequestBody Map<String, String> info) throws Exception {
 		
-		logger.info("login() 실행....");
-		
-		int res = 0;
+		logger.info("LoginController에서 login() 실행....");
 		
 		userDTO.setUser_email(info.get("email"));
 		userDTO.setUser_pwd(info.get("pwd"));
-		
-		int check = loginService.userCheck(userDTO);
-		
-		if(check == 0)	{
-			System.out.println("일치하는 회원 정보가 없습니다.");
-			res = 0;
-		}
-		else 			{
-			System.out.println("로그인을 시작합니다.");
-			res = 1;
-		}
 
-		return res;
+		UserDTO userDTOS = loginService.userCheck(userDTO);
+
+		System.out.println("userDTOS = " + userDTOS);
+		
+		if(userDTOS == null) {
+			System.out.println("검색 결과가 없습니다.");
+		}
+		
+		return userDTOS; 
 		
 	} // End - 로그인 정보 가져오기
+	
+	//----------------------------------------------------------------------------------//
+	// 아이디찾기
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/searchId")
+	@ResponseBody
+	public UserDTO searchId(@RequestBody Map<String, String> searchInfo) throws Exception {
+		
+		logger.info("LoginController에서 searchId()실행...");
+		
+		userDTO.setUser_birth(searchInfo.get("birth"));
+		userDTO.setUser_phone(searchInfo.get("phone"));
+				
+		UserDTO userDTOI = loginService.searchId(userDTO);
+
+		System.out.println("userDTOI = " + userDTOI);
+		
+		return userDTOI;
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 비밀번호찾기
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/searchPwd")
+	@ResponseBody
+	public UserDTO searchPwd(@RequestBody Map<String, String> searchInfo) throws Exception {
+		
+		logger.info("LoginController에서 searchPwd()실행...");
+		
+		userDTO.setUser_email(searchInfo.get("email"));
+		userDTO.setUser_birth(searchInfo.get("birth"));
+		userDTO.setUser_phone(searchInfo.get("phone"));
+				
+		UserDTO userDTOP = loginService.searchPwd(userDTO);
+
+		System.out.println("userDTOP = " + userDTOP);
+		
+		return userDTOP;
+	}
 	
 } // End - public class LoginController
 
