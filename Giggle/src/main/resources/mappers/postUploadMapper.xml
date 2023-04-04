@@ -8,7 +8,7 @@
 	<!-- 포스트 등록하기 -->
  	<insert id="addPost" parameterType="com.giggler.giggle.dto.PostDTO">
 		<![CDATA[
-			INSERT INTO post ( user_no, text_content, post_date, post_link, read_count )
+			INSERT INTO giggledbaws.post ( user_no, text_content, post_date, post_link, read_count )
 			VALUES	(#{user_no}, #{text_content}, sysdate(), #{post_link}, 0)
 		]]>
 	</insert> 

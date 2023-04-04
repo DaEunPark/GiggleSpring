@@ -39,19 +39,9 @@ public class ListController {
 		
 	}//END - 메인 피드 목록 
 	
-	
 	//검색 피드 목록 
-//	@RequestMapping(value="/searchfeedList" , method=RequestMethod.GET)
-//	public void searchfeedList(ListSearchCriteria LsCri , Model model) throws Exception {
-//		
-//		logger.info("검색 피드 목록 컨트롤러 지나감");
-//		
-//		ModelAndView mav = new ModelAndView("/board/boardList3");  //넘어갈페이지 생성?
-//		
-//		mav.addObject("searchType" , LsCri.getSearchType()); 
-//		mav.addObject("keyword" , LsCri.getKeyword());
-//	}
 	
+	//프로필 화면에서 팔로잉 / 팔로워 클릭 시 목록 보여주기
 	
 	
 }//END - public class ListController 

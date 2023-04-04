@@ -27,6 +27,12 @@ public class ListServiceImpl implements ListService {
 	}//END - 메인 피드 목록 
 
 	
+	//검색 피드 목록
+	@Override
+	public List<ListDTO> searchfeedList(ListDTO listDTO) throws Exception {
+		logger.info("검색용 서비스 지나감");
+		return listDAO.searchfeedList(listDTO);
+	}//END - 검색 피드 목록
 	
 
 

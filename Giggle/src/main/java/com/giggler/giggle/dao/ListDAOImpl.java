@@ -30,4 +30,11 @@ private static final Logger logger = LoggerFactory.getLogger(ListDAOImpl.class);
 		return allfeedList;
 	}//END - 메인 피드 목록
 
+	//검색 피드 목록
+	@Override
+	public List<ListDTO> searchfeedList(ListDTO listDTO) throws Exception {
+		logger.info("검색용 DAO 지나감");
+		return  sqlSession.selectList( Namespace + ".selectsearchfeedList" ,listDTO);
+	}//END - 검색 피드 목록
+
 }// END - public class ListDAOImpl implements ListDAO
