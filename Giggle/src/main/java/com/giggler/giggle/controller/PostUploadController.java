@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.giggler.giggle.dto.ListDTO;
 //import com.edu.board.controller.VueBoardController;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.service.PostUploadService;
@@ -39,6 +41,16 @@ public class PostUploadController {
 			return "N"; 
 		}
 		
+	}
+	
+	/*
+	 * Vue에서 포스트 상세 화면 표시 요청
+	 */
+	@GetMapping("/postdetail/{post_no}")
+	public ListDTO postDetail(@PathVariable int post_no) throws Exception {
+		logger.info("PostUploadController postDetail() post_no => " + post_no);
+		
+		return postUploadService.postDetail(post_no);
 	}
 	
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.service.PostUploadServiceImpl;
 
@@ -25,6 +26,12 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	public int uploadPost(PostDTO postDTO) throws DataAccessException {
 		
 		return sqlSession.insert(Namespace + ".addPost", postDTO);
+	}
+
+	@Override
+	public ListDTO postDetail(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(Namespace + ".postDetail", post_no);
 	}
 
 }
