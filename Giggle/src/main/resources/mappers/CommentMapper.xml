@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.giggler.giggle.comment">
+
+<!-- 게시글에 해당하는 댓글 갯수 구하기 -->
+	<select id="commentCount" parameterType="Integer" resultType="Integer">
+		<![CDATA[
+			SELECT COUNT(*) FROM comment WHERE post_no = #{post_no}
+		]]>
+	</select>
+	
+	<!-- post_no에 해당하는 댓글 목록 가져오기 -->
+	<select id="commentList" parameterType="Integer" resultType="com.giggler.giggle.dto.CommentDTO">
+		<![CDATA[
+			SELECT * FROM comment WHERE post_no = #{post_no}
+		]]>
+	</select>
+	
+	<!-- 게시글에 해당하는 댓글 등록하기 -->
+	<insert id="commentRegister" parameterType="com.giggler.giggle.dto.CommentDTO">
+		<![CDATA[
+			INSERT INTO t_comment (post_no, comment_no, user_no, comment_content, comment_date)
+			SELECT IFNULL(MAX(comment_no), 0) + 1, #{post_no}, #{user_no} #{comment_content}, now() FROM comment;
+		]]>		
+	</insert>
+	
+	<!-- 게시글에 해당하는 댓글 삭제하기 -->
+	<delete id="commentDelete" parameterType="int">
+		<![CDATA[
+		DELETE FROM comment WHERE comment_no = #{comment_no};
+		]]>
+	</delete>
+	
+	</mapper>
