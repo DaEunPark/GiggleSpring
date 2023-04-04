@@ -31,6 +31,7 @@
 	<bean id="SqlSessionFactory"	class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource"	ref="DataSource"></property>
 		<property name="mapperLocations"	value="classpath:mappers/**/*Mapper.xml"></property>
+		<property name="typeAliasesPackage"	value="com.giggler.giggle.*"></property>
 	</bean>
 
 	<!-- SqlSession 객체 주입 -->

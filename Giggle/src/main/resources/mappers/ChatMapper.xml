@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.giggler.giggle.Chat">
+
+	<insert id = "createRoom" parameterType="com.giggler.giggle.dto.ChatRoomDTO" >
+		insert into chatroom (USER_user_nick) 
+		values(#{USER_user_nick})
+	</insert>
+
+	<select id ="isRoom" parameterType="com.giggler.giggle.dto.ChatRoomDTO" resultType ="ChatRoomDTO">
+		select * from chatroom 
+		WHERE USER_user_nick = #{USER_user_nick} 
+	</select>
+
+	<insert id = "insertMessage" parameterType="com.giggler.giggle.dto.MessageVO" >
+		insert into 	message (message_sender , message_receiver, message_content, 
+						CHATROOM_chatroom_no, USER_user_nick 
+		values 			(#{message_sender}, #{message_receiver}, #{message_content} , #{CHATROOM_chatroom_no} , #{USER_user_nick}
+	</insert>
+	
+	<select id = "getProfile" resultType = "String">
+	select user_profileImage from user WHERE user_nick = #{user_nick}
+	</select>
+	
+	<select id = "getName" resultType = "String">
+	select user_nick from user where user_nick = #{user_nick}
+	</select>
+
+	<select id = "getMessageList" parameterType="com.giggler.giggle.dto.MessageVO" resultType = "MessageVO">
+		select m.* , user_nick, user_profileImage from message m left outer 
+		join USER u on m.message_sender = u.user_nick where CHATROOM_chatroom_no = #{CHATROOM_chatroom_no}
+	</select>
+
+	<select id = "getRoomList" parameterType="com.giggler.giggle.dto.ChatRoomDTO" resultType = "ChatRoomDTO">
+		select * from chatroom where USER_user_nick = #{USER_user_nick}
+	</select>
+
+	<select id = "getRecentMessage" parameterType="com.giggler.giggle.dto.MessageVO" resultType = "MessageVO">
+		select m.* from message m 
+		where CHATROOM_chatroom_no = #{CHATROOM_chatroom_no} order by message_no desc limit 1;
+	</select>
+
+	<update id ="updateReadTime">
+		update message set message_readtime = NOW() 
+		where 
+		AND message_readtime = message_sendTime 
+		and message_sender = USER_user_nick 
+		and USER_user_nick = #{USER_user_nick};
+	</update>
+	
+	<update id ="updateReadTimeTutor">
+		update message set message_readtime = NOW() 
+		where 
+		AND message_readtime = message_sendTime 
+		and message_sender = USER_user_nick 
+		and USER_user_nick = #{USER_user_nick};
+	</update>
+	
+	<select id = "getUnReadCount" resultType = "int">
+		select count(*) from message 
+		where USER_user_nick = #{USER_user_nick} 
+		AND message_readtime = message_sendTime;
+	</select>
+	
+	<select id = "getAllCount" resultType = "int">
+		select count(*) from message WHERE (message_readtime = message_sendTime and message_sender != #{USER_user_nick}) or (USER_user_nick = #{USER_user_nick} and message_readtime = message_sendTime and message_sender != #{USER_user_nick}); 
+	</select>
+</mapper>
