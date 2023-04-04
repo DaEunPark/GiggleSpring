@@ -1,5 +1,6 @@
 package com.giggler.giggle.dao;
 
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,6 +17,7 @@ public class LoginDAOImpl implements LoginDAO {
 	private SqlSession sqlSession;
 
 	Logger logger = LoggerFactory.getLogger(LoginDAOImpl.class);
+	
 	private static final String Namespace = "com.giggler.giggle.user";
 	
 	
@@ -23,12 +25,36 @@ public class LoginDAOImpl implements LoginDAO {
 	// 로그인 정보 가져오기(DB)
 	//----------------------------------------------------------------------------------//
 	@Override
-	public int userCheck(UserDTO userDTO) throws Exception {
+	public UserDTO userCheck(UserDTO userDTO) throws Exception {
 
 		logger.info("LoginDAO에서 userCheck()실행....");
-
+		
 		return sqlSession.selectOne(Namespace + ".userCheck", userDTO);
 
 	}
+
+	//----------------------------------------------------------------------------------//
+	// 아이디찾기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO searchId(UserDTO userDTO) throws Exception {
+		
+		logger.info("LoginDAO에서 searchId()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".searchId", userDTO);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 비밀번호찾기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO searchPwd(UserDTO userDTO) throws Exception {
+		
+		logger.info("LoginDAO에서 searchPwd()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".searchPwd", userDTO);
+	}
+	
+	
 
 }

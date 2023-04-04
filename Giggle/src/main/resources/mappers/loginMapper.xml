@@ -5,13 +5,32 @@
 
 <mapper namespace="com.giggler.giggle.user">
 
- 	<select id="userCheck" parameterType="com.giggler.giggle.dto.UserDTO" resultType="Integer">
+	<!-- 로그인하기 -->
+ 	<select id="userCheck" parameterType="com.giggler.giggle.dto.UserDTO" resultType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
-			SELECT count(user_email)
+			SELECT *
 			FROM   user
 			WHERE  user_email = #{user_email} AND user_pwd = #{user_pwd}
 		]]>
 	</select> 
+	
+	<!-- 아이디 찾기 -->
+	 <select id="searchId" parameterType="com.giggler.giggle.dto.UserDTO" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT *
+			FROM   user
+			WHERE  user_birth = #{user_birth} AND user_phone = #{user_phone}
+		]]>
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	 <select id="searchPwd" parameterType="com.giggler.giggle.dto.UserDTO" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT *
+			FROM   user
+			WHERE  user_email = #{user_email} AND user_birth = #{user_birth} AND user_phone = #{user_phone}
+		]]>
+	</select>
 
 </mapper>
 
