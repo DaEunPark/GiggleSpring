@@ -8,7 +8,7 @@
 	<!-- 이메일 중복 확인하기 -->
 	<select id="emailCheck" parameterType="String" resultType="Integer">
 		<![CDATA[
-		SELECT COUNT(*) FROM user WHERE user_email = 'user01@gmail.com'
+		SELECT COUNT(*) FROM user WHERE user_email = #{user_email}
 		]]>
 	</select>
 
