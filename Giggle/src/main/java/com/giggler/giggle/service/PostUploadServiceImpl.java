@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.giggler.giggle.controller.PostUploadController;
 import com.giggler.giggle.dao.PostUploadDAO;
+import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 
 @Service("postUploadServiece")
@@ -23,6 +24,12 @@ public class PostUploadServiceImpl implements PostUploadService {
 	public int uploadPost(PostDTO postDTO) throws DataAccessException {
 		
 		return postUploadDAO.uploadPost(postDTO);
+	}
+
+	@Override
+	public ListDTO postDetail(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.postDetail(post_no);
 	}
 
 }

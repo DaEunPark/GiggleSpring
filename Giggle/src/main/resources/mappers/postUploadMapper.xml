@@ -12,6 +12,27 @@
 			VALUES	(#{user_no}, #{text_content}, sysdate(), #{post_link}, 0)
 		]]>
 	</insert> 
+	
+	<!-- 포스트 상세조회 -->
+ 	<select id="postDetail" parameterType="int" resultType="com.giggler.giggle.dto.ListDTO">
+	<![CDATA[
+			select		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
+			from 		giggledbaws.user u
+			inner join  giggledbaws.post p 
+			on 			p.user_no = u.user_no
+			WHERE 		post_no = #{post_no}
+		]]>
+	</select>
+	
+<!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
+		<![CDATA[
+			select		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
+			from 		giggledbaws.user u
+			inner join  giggledbaws.post p 
+			on 			p.user_no = u.user_no
+			WHERE 		post_no = #{post_no}
+		]]>
+	</select> -->
 
 <!-- 	<resultMap id="buyerResult" type="com.greener.codegreen.dto.BuyerDTO">
 		<result property="b_id"		   column="b_id"/>
