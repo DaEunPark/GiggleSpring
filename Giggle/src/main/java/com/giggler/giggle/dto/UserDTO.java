@@ -14,12 +14,15 @@ public class UserDTO {
 	private String user_pwd;
 	private String user_nick;
 	private String user_birth;
+	private String user_phone;
 
 	private Timestamp user_joindate;
 	private String open_yn = "Y";	//기본값 Y 세팅
 	private String status_message;
 	private String profile_image;
 	private String back_image;
+	
+	private String naver_token;
 
 	public int getUser_no() {
 		return user_no;
@@ -84,12 +87,24 @@ public class UserDTO {
 	public void setBack_image(String back_image) {
 		this.back_image = back_image;
 	}
+	public String getUser_phone() {
+		return user_phone;
+	}
+	public void setUser_phone(String user_phone) {
+		this.user_phone = user_phone;
+	}
+	public String getNaver_token() {
+		return naver_token;
+	}
+	public void setNaver_token(String naver_token) {
+		this.naver_token = naver_token;
+	}
 	@Override
 	public String toString() {
 		return "UserDTO [user_no=" + user_no + ", user_email=" + user_email + ", user_pwd=" + user_pwd + ", user_nick="
-				+ user_nick + ", user_birth=" + user_birth + ", user_joindate=" + user_joindate + ", open_yn=" + open_yn
-				+ ", status_message=" + status_message + ", profile_image=" + profile_image + ", back_image="
-				+ back_image + "]";
+				+ user_nick + ", user_birth=" + user_birth + ", user_phone=" + user_phone + ", user_joindate="
+				+ user_joindate + ", open_yn=" + open_yn + ", status_message=" + status_message + ", profile_image="
+				+ profile_image + ", back_image=" + back_image + ", naver_token=" + naver_token + "]";
 	}
 	
 }

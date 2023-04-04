@@ -55,6 +55,14 @@ public class MJController {
 		}
 	}
 	
+	//네이버 로그인 토큰 확인
+	@GetMapping("/naverLogin/{naver_token}")
+	public UserDTO naverLogin(@PathVariable String naver_token) throws Exception {
+		System.out.println("MJController의 naverLogin() " + naver_token);
+		
+		return mjService.naverLogin(naver_token);
+	}
+	
 	//회원 번호에 해당하는 알람 리스트 가져오기======================================
 	@GetMapping("/alarmList/{user_no}")
 	public List<AlarmDTO> getAlarmListByUserNo (@PathVariable int user_no) throws Exception {

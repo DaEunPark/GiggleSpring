@@ -22,8 +22,8 @@
 	<!-- 회원 등록하기 -->
 	<insert id="userRegister" parameterType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
-		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, open_yn)
-		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{open_yn})
+		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, user_phone, open_yn)
+		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{user_phone}, #{open_yn})
 		]]>
 	</insert>
 
@@ -34,10 +34,22 @@
 		]]>
 	</select>
 	
+	<!-- 네이버 토큰으로 userDTO 가져오기 -->
+	<select id="naverLogin" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+		SELECT * FROM user WHERE naver_token = #{naver_token}
+		]]>
+	</select>
+	
 	<!-- 회원 번호로 AlarmDTO List 가져오기 -->
 	<select id="getAlarmListByUserNo" parameterType="Integer" resultType="com.giggler.giggle.dto.AlarmDTO">
 		<![CDATA[
-		SELECT * FROM alarm WHERE user_no = #{user_no}
+		SELECT u2.user_nick alarm_user_nick, a.alarm_no, a.user_no, a.alarm_type, a.alarm_date, a.read_yn
+		FROM alarm a, user u1, user u2
+		WHERE a.user_no = u1.user_no
+		AND a.alarm_user = u2.user_no
+		AND a.user_no = #{user_no}
+		ORDER BY a.alarm_date
 		]]>	
 	</select>
 </mapper>   

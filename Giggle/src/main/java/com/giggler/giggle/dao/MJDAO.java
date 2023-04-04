@@ -45,6 +45,12 @@ public class MJDAO {
 		return sqlSession.selectOne(Namespace + ".getUserDTOByEmail", email);
 	}
 	
+	//네이버 로그인 토큰 확인=========================================================
+	public UserDTO naverLogin(String naver_token) throws Exception {
+		System.out.println("MJDAO의 naverLogin()");
+		
+		return sqlSession.selectOne(Namespace + ".naverLogin", naver_token);
+	}	
 	//회원 번호에 해당하는 알람 리스트 가져오기
 	public List<AlarmDTO> getAlarmListByUserNo (int user_no) throws Exception {
 		System.out.println("MJDAO의 getAlarmListByUserNo 시작");

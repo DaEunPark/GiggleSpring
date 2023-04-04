@@ -44,6 +44,13 @@ public class MJService {
 		return mjDAO.getUserDTOByEmail(email);
 	}
 	
+	//네이버 로그인 토큰 확인=========================================================
+	public UserDTO naverLogin(String naver_token) throws Exception {
+		System.out.println("MjService의 naverLogin()");
+		
+		return mjDAO.naverLogin(naver_token);
+	}
+	
 	//회원 번호에 해당하는 알람 리스트 가져오기======================================
 	public List<AlarmDTO> getAlarmListByUserNo (int user_no) throws Exception {
 		System.out.println("MjService의 getAlarmListByUserNo()");

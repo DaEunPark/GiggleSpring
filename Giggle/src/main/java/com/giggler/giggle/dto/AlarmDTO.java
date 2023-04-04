@@ -7,12 +7,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlarmDTO {
 
+	private String alarm_user_nick; //상대방 닉네임
 	private int alarm_no;
 	private int user_no;	//내 회원 번호
-	private int alarm_user; //상대방 회원 번호
 	private String alarm_type;	//알람 종류(1:팔로우, 2:좋아요, 3:댓글)
 	private Timestamp alarm_date;
 	private String read_yn = "N";	//알람 읽었는지 기본값 N
+	private int alarm_user; //상대방 회원 번호
+	
+	public String getAlarm_user_nick() {
+		return alarm_user_nick;
+	}
+	public void setAlarm_user_nick(String alarm_user_nick) {
+		this.alarm_user_nick = alarm_user_nick;
+	}
 	public int getAlarm_no() {
 		return alarm_no;
 	}
@@ -24,12 +32,6 @@ public class AlarmDTO {
 	}
 	public void setUser_no(int user_no) {
 		this.user_no = user_no;
-	}
-	public int getAlarm_user() {
-		return alarm_user;
-	}
-	public void setAlarm_user(int alarm_user) {
-		this.alarm_user = alarm_user;
 	}
 	public String getAlarm_type() {
 		return alarm_type;
@@ -49,11 +51,21 @@ public class AlarmDTO {
 	public void setRead_yn(String read_yn) {
 		this.read_yn = read_yn;
 	}
+	public int getAlarm_user() {
+		return alarm_user;
+	}
+	public void setAlarm_user(int alarm_user) {
+		this.alarm_user = alarm_user;
+	}
 	@Override
 	public String toString() {
-		return "AlarmDTO [alarm_no=" + alarm_no + ", user_no=" + user_no + ", alarm_user=" + alarm_user
-				+ ", alarm_type=" + alarm_type + ", alarm_date=" + alarm_date + ", read_yn=" + read_yn + "]";
+		return "AlarmDTO [alarm_user_nick=" + alarm_user_nick + ", alarm_no=" + alarm_no + ", user_no=" + user_no
+				+ ", alarm_type=" + alarm_type + ", alarm_date=" + alarm_date + ", read_yn=" + read_yn + ", alarm_user="
+				+ alarm_user + "]";
 	}
+	
+	
+	
 	
 	
 }
