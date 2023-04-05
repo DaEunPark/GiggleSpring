@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.giggler.giggle.dto.ProfileDTO;
 import com.giggler.giggle.dto.UserDTO;
 
 @Repository("LoginDAO")
@@ -54,7 +55,26 @@ public class LoginDAOImpl implements LoginDAO {
 		
 		return sqlSession.selectOne(Namespace + ".searchPwd", userDTO);
 	}
+
+	//----------------------------------------------------------------------------------//
+	// 구글로그인
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO getGoogleToken(String google_token) throws Exception {
+		
+		logger.info("loginDAO에서 getGoogleToken()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".getGoogleToken", google_token);
+	}
 	
-	
+	//----------------------------------------------------------------------------------//
+	// 프로필 정보 가져오기
+	//----------------------------------------------------------------------------------//
+	public ProfileDTO getProfile(int user_no) throws Exception {
+		
+		logger.info("loginDAO에서 getProfile()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".getProfile", user_no);
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.giggler.giggle.dao;
 
 
+import com.giggler.giggle.dto.ProfileDTO;
 import com.giggler.giggle.dto.UserDTO;
 
 public interface LoginDAO {
@@ -19,5 +20,16 @@ public interface LoginDAO {
 	// 비밀번호찾기
 	//----------------------------------------------------------------------------------//
 	public UserDTO searchPwd(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// 구글로그인
+	//----------------------------------------------------------------------------------//
+	public UserDTO getGoogleToken(String google_token) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// 프로필 정보 가져오기
+	//----------------------------------------------------------------------------------//
+	public ProfileDTO getProfile(int user_no) throws Exception;
+	
 
 }

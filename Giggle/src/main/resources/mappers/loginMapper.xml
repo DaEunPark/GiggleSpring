@@ -32,5 +32,23 @@
 		]]>
 	</select>
 
+	<!-- 구글로그인하기 -->
+	 <select id="getGoogleToken" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT *
+			FROM   user
+			WHERE  google_token = #{google_token}
+		]]>
+	</select>
+	
+	<!-- 프로필 설정하기 -->
+	 <select id="getProfile" parameterType="Integer" resultType="com.giggler.giggle.dto.ProfileDTO">
+		<![CDATA[
+			SELECT *
+			FROM profile
+			WHERE user_no = #{user_no}
+		]]>
+	</select>
+	
 </mapper>
 

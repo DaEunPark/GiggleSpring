@@ -23,7 +23,15 @@ public class UserDTO {
 	private String back_image;
 	
 	private String naver_token;
+	private String google_token;
 
+
+	public String getGoogle_token() {
+		return google_token;
+	}
+	public void setGoogle_token(String google_token) {
+		this.google_token = google_token;
+	}
 	public int getUser_no() {
 		return user_no;
 	}
@@ -104,7 +112,8 @@ public class UserDTO {
 		return "UserDTO [user_no=" + user_no + ", user_email=" + user_email + ", user_pwd=" + user_pwd + ", user_nick="
 				+ user_nick + ", user_birth=" + user_birth + ", user_phone=" + user_phone + ", user_joindate="
 				+ user_joindate + ", open_yn=" + open_yn + ", status_message=" + status_message + ", profile_image="
-				+ profile_image + ", back_image=" + back_image + ", naver_token=" + naver_token + "]";
+				+ profile_image + ", back_image=" + back_image + ", naver_token=" + naver_token + ", googleToken="
+				+ google_token + "]";
 	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.giggler.giggle.dao.LoginDAO;
+import com.giggler.giggle.dto.ProfileDTO;
 import com.giggler.giggle.dto.UserDTO;
 
 @Service("LoginService")
@@ -48,6 +49,27 @@ public class LoginServiceImpl implements LoginService {
 		logger.info("loginService에서 searchPwd()실행...");
 		
 		return loginDAO.searchPwd(userDTO);
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 구글로그인
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO getGoogleToken(String google_token) throws Exception {
+		
+		logger.info("loginService에서 getGoogleToken()실행...");
+		
+		return loginDAO.getGoogleToken(google_token);
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 프로필 정보 가져오기
+	//----------------------------------------------------------------------------------//
+	public ProfileDTO getProfile(int user_no) throws Exception {
+		
+		logger.info("loginService에서 getProfile()실행...");
+		
+		return loginDAO.getProfile(user_no);
 	}
 
 }
