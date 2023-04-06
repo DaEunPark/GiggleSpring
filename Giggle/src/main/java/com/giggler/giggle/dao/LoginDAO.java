@@ -1,7 +1,6 @@
 package com.giggler.giggle.dao;
 
-
-import com.giggler.giggle.dto.ProfileDTO;
+import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 
 public interface LoginDAO {
@@ -27,9 +26,24 @@ public interface LoginDAO {
 	public UserDTO getGoogleToken(String google_token) throws Exception;
 	
 	//----------------------------------------------------------------------------------//
-	// 프로필 정보 가져오기
+	// 프로필 정보 수정하기
 	//----------------------------------------------------------------------------------//
-	public ProfileDTO getProfile(int user_no) throws Exception;
+	public int updateProfile(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// 수정한 프로필 정보 가져오기
+	//----------------------------------------------------------------------------------//
+	public UserDTO updateCheck(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// mypage / notmypage알아내기
+	//----------------------------------------------------------------------------------//
+	public PostDTO whichProfile(int post_no) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// 다른 사람 프로필 가져오기
+	//----------------------------------------------------------------------------------//
+	public UserDTO otherProfile(UserDTO userDTO) throws Exception;
 	
 
 }

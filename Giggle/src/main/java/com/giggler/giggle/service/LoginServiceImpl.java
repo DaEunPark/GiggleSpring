@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.giggler.giggle.dao.LoginDAO;
-import com.giggler.giggle.dto.ProfileDTO;
+import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 
 @Service("LoginService")
@@ -61,15 +61,48 @@ public class LoginServiceImpl implements LoginService {
 		
 		return loginDAO.getGoogleToken(google_token);
 	}
+
+	//----------------------------------------------------------------------------------//
+	// 프로필 정보 수정하기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int updateProfile(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginService에서 updateProfile()실행...");
+		
+		return loginDAO.updateProfile(userDTO);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 수정한 프로필 정보 가져오기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO updateCheck(UserDTO userDTO) throws Exception {
+
+		logger.info("loginService에서 updateProfile()실행...");
+		
+		return loginDAO.updateCheck(userDTO);
+	}
+	//----------------------------------------------------------------------------------//
+	// mypage / notmypage알아내기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public PostDTO whichProfile(int post_no) throws Exception {
+		
+		logger.info("loginService에서 whichProfile()실행...");
+		
+		return loginDAO.whichProfile(post_no);
+	}
 	
 	//----------------------------------------------------------------------------------//
-	// 프로필 정보 가져오기
+	// 다른 사람 프로필 가져오기
 	//----------------------------------------------------------------------------------//
-	public ProfileDTO getProfile(int user_no) throws Exception {
+	@Override
+	public UserDTO otherProfile(UserDTO userDTO) throws Exception {
 		
-		logger.info("loginService에서 getProfile()실행...");
+		logger.info("loginService에서 otherProfile()실행...");
 		
-		return loginDAO.getProfile(user_no);
+		return loginDAO.otherProfile(userDTO);
 	}
 
 }
