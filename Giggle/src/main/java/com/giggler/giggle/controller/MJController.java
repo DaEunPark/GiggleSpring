@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.giggler.giggle.dto.AlarmDTO;
+import com.giggler.giggle.dto.ChatRoomDTO;
+import com.giggler.giggle.dto.MessageDTO;
 import com.giggler.giggle.dto.UserDTO;
 import com.giggler.giggle.service.MJService;
 
@@ -66,11 +68,51 @@ public class MJController {
 	//회원 번호에 해당하는 알람 리스트 가져오기======================================
 	@GetMapping("/alarmList/{user_no}")
 	public List<AlarmDTO> getAlarmListByUserNo (@PathVariable int user_no) throws Exception {
-		System.out.println("MJController의 getAlarmListByUserNo()" + user_no);
+		System.out.println("MJController의 getAlarmListByUserNo() " + user_no);
 		
 		List<AlarmDTO> alarmList = mjService.getAlarmListByUserNo(user_no);
 		
 		return alarmList;
 	}
+	
+	//회원 번호에 해당하는 채팅방 리스트 가져오기===========================================
+	@GetMapping("/chatRoomList/{user_no}")
+	public List<ChatRoomDTO> getChatRoomListByUserNo (@PathVariable int user_no) throws Exception {
+		System.out.println("MJController의 getAlarmListByUserNo() " + user_no);
+		
+		return mjService.getChatRoomListByUserNo(user_no);
+	}
+	
+	//키워드로 회원 검색하기============================================================
+	@GetMapping("/searchUser/{keyword}")
+	public List<UserDTO> searchUser(@PathVariable String keyword) throws Exception {
+		System.out.println("MJController의 searchUser() " + keyword);
+		
+		return mjService.searchUser(keyword);
+	}
 
+	//두명의 유저번호가 일치하는 채팅방 데이터 가져오기==========================================
+	@PostMapping("/getChatRoom")
+	public ChatRoomDTO getChatRoom(@RequestBody ChatRoomDTO chatRoomDTO) throws Exception {
+		System.out.println("MJController의 getChatRoom() " + chatRoomDTO);
+		
+		return mjService.getChatRoom(chatRoomDTO);
+	}
+	
+	//채팅방번호에 해당하는 메세지 리스트 가져오기=============================================
+	@GetMapping("/getMessageList/{chatroom_no}")
+	public List<MessageDTO> getMessageList(@PathVariable int chatroom_no) throws Exception {
+		System.out.println("MJController의 getMessageList() " + chatroom_no);
+		
+		return mjService.getMessageList(chatroom_no);
+	}
+	
+	//채팅방 번호에 메세지 추가하기===========================================================
+	@PostMapping("/addMessage")
+	public int addMessage(@RequestBody MessageDTO messageDTO) throws Exception {
+		System.out.println("MJController의 addMessage() " + messageDTO);
+		
+		return mjService.addMessage(messageDTO);		
+	}
+	
 }
