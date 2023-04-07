@@ -15,12 +15,21 @@ public class ListDTO {
 	private String post_date;
 	private int like_cnt;
 	private int comment_cnt;
+	private int share_cnt;
 	private String post_link;
 	
 	//검색 
 	private String keyword;
 	
 	
+
+	public int getShare_cnt() {
+		return share_cnt;
+	}
+
+	public void setShare_cnt(int share_cnt) {
+		this.share_cnt = share_cnt;
+	}
 
 	public String getKeyword() {
 		return keyword;
@@ -106,11 +115,10 @@ public class ListDTO {
 	public String toString() {
 		return "ListDTO [post_no=" + post_no + ", user_no=" + user_no + ", user_nick=" + user_nick + ", profile_image="
 				+ profile_image + ", text_content=" + text_content + ", post_date=" + post_date + ", like_cnt="
-				+ like_cnt + ", comment_cnt=" + comment_cnt + ", post_link=" + post_link + ", keyword=" + keyword + "]";
+				+ like_cnt + ", comment_cnt=" + comment_cnt + ", share_cnt=" + share_cnt + ", post_link=" + post_link
+				+ ", keyword=" + keyword + "]";
 	}
 
-
-	
 	
 	
 }//END - public class ListDTO 
