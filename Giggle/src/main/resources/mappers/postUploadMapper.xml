@@ -13,6 +13,15 @@
 		]]>
 	</insert> 
 	
+	<!-- 자신의 최신 포스트 번호 -->
+ 	<select id="currentPost" resultType="int" parameterType="com.giggler.giggle.dto.ListDTO">
+	<![CDATA[
+			SELECT max(post_no)
+			FROM giggledbaws.post
+			WHERE user_no = #{user_no}
+		]]>
+	</select>
+	
 	<!-- 포스트 상세조회 -->
  	<select id="postDetail" parameterType="int" resultType="com.giggler.giggle.dto.ListDTO">
 	<![CDATA[
@@ -23,6 +32,8 @@
 			WHERE 		post_no = #{post_no}
 		]]>
 	</select>
+	
+
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
 		<![CDATA[

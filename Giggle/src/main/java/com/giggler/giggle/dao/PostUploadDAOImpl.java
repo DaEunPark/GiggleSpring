@@ -34,4 +34,10 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 		return sqlSession.selectOne(Namespace + ".postDetail", post_no);
 	}
 
+	@Override
+	public int currentPostNo(PostDTO postDTO) throws DataAccessException {
+		int current = sqlSession.selectOne(Namespace + ".currentPost", postDTO);
+		return current;
+	}
+
 }

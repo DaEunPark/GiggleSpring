@@ -14,9 +14,12 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<bean id="propertyPlaceholderConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations">
-			<value>/WEB-INF/config/jdbc.properties</value>
+			<list>
+				<value>/WEB-INF/config/jdbc.properties</value>
+				<value>/WEB-INF/config/key.properties</value>
+			</list>			
 		</property>
 	</bean>
 
