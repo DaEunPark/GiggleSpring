@@ -130,6 +130,7 @@ public class LoginController {
 		userDTO.setUser_nick(info.get("user_nick"));
 		userDTO.setStatus_message(info.get("status_message"));
 		userDTO.setUser_location(info.get("user_location"));
+		userDTO.setUser_birth(info.get("user_birth"));
 
 		if(loginService.updateProfile(userDTO) == 1) {
 			userDTO.setUser_no(Integer.valueOf(info.get("user_no")));

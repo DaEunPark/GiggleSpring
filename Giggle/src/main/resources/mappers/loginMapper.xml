@@ -56,7 +56,8 @@
 			UPDATE user
 			SET 	user_nick = #{user_nick},
 					status_message = #{status_message},
-					user_location = #{user_location}
+					user_location = #{user_location},
+					user_birth = #{user_birth}
 			WHERE user_no = #{user_no}
 		]]>
 	</select>
