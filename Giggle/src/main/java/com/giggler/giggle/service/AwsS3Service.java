@@ -16,6 +16,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 
 @Service("awsS3Service")
 @PropertySource("/WEB-INF/config/key.properties")
@@ -29,16 +30,17 @@ public class AwsS3Service {
 //	@Value("{aws.bucketname}")
 //	private String bucketName;
 	
-	public String uploadObject(MultipartFile multipartFile, String storedFileName) throws IOException {
+	public boolean uploadObject(MultipartFile multipartFile, String storedFileName) throws IOException {
 		String filePath = "raw/" + storedFileName;
 		String bucket = env.getProperty("aws.bucketname");
 //		FileInputStream inputStream = (FileInputStream) multipartFile.getInputStream();
 		ObjectMetadata metadata = new ObjectMetadata();
 		metadata.setContentLength(multipartFile.getSize());
 		
-		
 		s3Client.putObject(new PutObjectRequest(bucket, filePath, multipartFile.getInputStream(), metadata));
-		return s3Client.getUrl(bucket, filePath).toString();
+		boolean isExist = s3Client.doesObjectExist(bucket, filePath);
+		return isExist;
+//		return s3Client.getUrl(bucket, filePath).toString();
 	}
 	
 	public void deleteObject(String storedFileName) throws AmazonServiceException {

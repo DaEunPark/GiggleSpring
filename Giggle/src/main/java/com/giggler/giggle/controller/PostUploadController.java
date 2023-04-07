@@ -37,6 +37,8 @@ public class PostUploadController {
 	@Autowired
 	private AwsS3Service awsS3Service;
 	
+	private static final String CLOUD_FRONT_URL = "https://d36nj4zto99jeg.cloudfront.net/raw/";
+	
 	
 	/*
 	 * Vue에서 작성한 포스트를 받아서 DB에 저장
@@ -71,8 +73,9 @@ public class PostUploadController {
 	@PostMapping("/uploadimage")
 	public String uploadImage(@RequestParam MultipartFile files) throws IOException {
 		logger.info("PostUploadController uploadImage() files => " + files.getOriginalFilename());
-		String result = awsS3Service.uploadObject(files, files.getOriginalFilename());
-		return result;
+		boolean result = awsS3Service.uploadObject(files, files.getOriginalFilename());
+		logger.info("PostUploadController uploadImage() result => " + result);
+		return CLOUD_FRONT_URL + files.getOriginalFilename();
 	}
 	
 }
