@@ -7,19 +7,17 @@
 <mapper namespace="com.giggler.giggle.List">
 
 
-	<!-- 메인 목록 가져오기 -->
+	<!-- 메인 목록 가져오기 : giggle_post 조회용 -->
 	<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
 		<![CDATA[
-			SELECT		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
-			FROM 		giggledbaws.user u
-			INNER JOIN  giggledbaws.post p  
-			ON 			p.user_no = u.user_no
-			ORDER BY	p.post_no desc;
+			SELECT		post_no, user_no, user_nick, profile_image, text_content,post_date, like_cnt , comment_cnt ,post_link
+			FROM 		giggledbaws.giggle_post
+			ORDER BY post_date DESC;
 		]]>
 	</select>
 	
 	
-	<!-- 검색 목록 가져오기 -->
+	<!-- 검색 목록 가져오기  -->
 	<select id="selectsearchfeedList" parameterType="com.giggler.giggle.dto.ListDTO" resultType="com.giggler.giggle.dto.ListDTO">
 		<![CDATA[
 			SELECT 		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
@@ -32,5 +30,7 @@
 			ORDER BY    p.post_date desc;
 		]]>
 	</select>
+
+	
 
 </mapper>

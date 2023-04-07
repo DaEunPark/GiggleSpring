@@ -39,7 +39,7 @@ public class ListController {
 		
 	}//END - 메인 피드 목록 
 	
-	//검색 피드 목록 
+	//검색 피드 목록 - VueController 
 	
 	//프로필 화면에서 팔로잉 / 팔로워 클릭 시 목록 보여주기
 	
