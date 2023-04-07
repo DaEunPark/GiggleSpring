@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.giggler.giggle.dto.ChatRoomDTO;
-import com.giggler.giggle.dto.MessageVO;
+import com.giggler.giggle.dto.MessageDTO;
 
 @Repository
 public class ChatDAOImpl implements ChatDAO {
@@ -43,7 +43,7 @@ public class ChatDAOImpl implements ChatDAO {
 
 
 	@Override
-	public void insertMessage(MessageVO vo) throws Exception {
+	public void insertMessage(MessageDTO vo) throws Exception {
 		// TODO Auto-generated method stub
 		
 		session.insert(namespace+".insertMessage" , vo);
@@ -68,7 +68,7 @@ public class ChatDAOImpl implements ChatDAO {
 
 
 	@Override
-	public List<MessageVO> getMessageList(String str) throws Exception {
+	public List<MessageDTO> getMessageList(String str) throws Exception {
 		// TODO Auto-generated method stub
 
 			return session.selectList(namespace+".getMessageList" , str);
@@ -87,7 +87,7 @@ public class ChatDAOImpl implements ChatDAO {
 
 
 	@Override
-	public MessageVO getRecentMessage(String str) throws Exception {
+	public MessageDTO getRecentMessage(String str) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace+".getRecentMessage" , str);
 	}
