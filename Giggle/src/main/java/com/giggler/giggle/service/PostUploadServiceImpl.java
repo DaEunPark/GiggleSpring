@@ -32,4 +32,10 @@ public class PostUploadServiceImpl implements PostUploadService {
 		return postUploadDAO.postDetail(post_no);
 	}
 
+	@Override
+	public int currentPostNo(PostDTO postDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.currentPostNo(postDTO);
+	}
+
 }

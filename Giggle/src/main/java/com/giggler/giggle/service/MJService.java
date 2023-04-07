@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.giggler.giggle.dao.MJDAO;
 import com.giggler.giggle.dto.AlarmDTO;
+import com.giggler.giggle.dto.ChatRoomDTO;
+import com.giggler.giggle.dto.MessageDTO;
 import com.giggler.giggle.dto.UserDTO;
 
 @Service("mjService")
@@ -57,4 +59,42 @@ public class MJService {
 		
 		return mjDAO.getAlarmListByUserNo(user_no);
 	}
+	
+	//회원 번호에 해당하는 채팅방 리스트 가져오기===================================
+	public List<ChatRoomDTO> getChatRoomListByUserNo(int user_no) throws Exception {
+		System.out.println("MjService의 getChatRoomListByUserNo()");
+		
+		return mjDAO.getChatRoomListByUserNo(user_no);		
+	}
+	
+	//키워드로 유저 리스트 구하기=================================================
+	public List<UserDTO> searchUser(String keyword) throws Exception {
+		System.out.println("MjService의 searchUser()");
+		
+		//상대방이 나를 차단했거나, 내가 차단한 사람의 정보는 빼준다.
+		
+		return mjDAO.searchUser(keyword);
+	}
+	
+	//두개의 유저 번호로 채팅방 정보 가져오기=======================================
+	public ChatRoomDTO getChatRoom(ChatRoomDTO chatRoomDTO) throws Exception {
+		System.out.println("MjService의 getChatRoom()");
+		
+		return mjDAO.getChatRoom(chatRoomDTO);
+	}
+	
+	//채팅방 번호에 해당하는 메세지 리스트 가져오기==================================
+	public List<MessageDTO> getMessageList(int chatroom_no) throws Exception {
+		System.out.println("MjService의 getMessageList()");
+		
+		return mjDAO.getMessageList(chatroom_no);		
+	}
+	
+	//채팅방에 메세지 추가하기=======================================================
+	public int addMessage(MessageDTO messageDTO) throws Exception {
+		System.out.println("MjService의 addMessage()");
+		
+		return mjDAO.addMessage(messageDTO);		
+	}
+
 }

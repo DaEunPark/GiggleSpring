@@ -14,7 +14,7 @@ local.properties
 .recommenders
 
 # Project Config
-jdbc.properties
+*.properties
 
 # External tool builders
 .externalToolBuilders/

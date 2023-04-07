@@ -15,6 +15,7 @@ public class ListDTO {
 	private String post_date;
 	private int like_cnt;
 	private int comment_cnt;
+	private int share_cnt;
 	private String post_link;
 	
 	//View 전용 giggle_post 추가 컬럼 
@@ -25,6 +26,23 @@ public class ListDTO {
 	
 	//검색 
 	private String keyword;
+
+
+	public int getShare_cnt() {
+		return share_cnt;
+	}
+
+	public void setShare_cnt(int share_cnt) {
+		this.share_cnt = share_cnt;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 
 
 	public int getPost_no() {
@@ -156,19 +174,9 @@ public class ListDTO {
 		this.keyword = keyword;
 	}
 
-
-	@Override
-	public String toString() {
-		return "ListDTO [post_no=" + post_no + ", user_no=" + user_no + ", user_nick=" + user_nick + ", profile_image="
-				+ profile_image + ", text_content=" + text_content + ", post_date=" + post_date + ", like_cnt="
-				+ like_cnt + ", comment_cnt=" + comment_cnt + ", post_link=" + post_link + ", share_cnt=" + share_cnt
-				+ ", read_count=" + read_count + ", tag_no=" + tag_no + ", keyword=" + keyword + "]";
-	}
 	
 	
 
-
-	
 	
 	
 }//END - public class ListDTO 

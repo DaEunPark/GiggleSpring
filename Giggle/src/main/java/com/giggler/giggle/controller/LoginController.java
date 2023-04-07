@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 import com.giggler.giggle.service.LoginServiceImpl;
 
@@ -24,6 +25,8 @@ public class LoginController {
 	UserDTO userDTO;
 	@Autowired
 	LoginServiceImpl loginService;
+	@Autowired
+	PostDTO postDTO;
 
 	private final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
@@ -88,6 +91,87 @@ public class LoginController {
 		System.out.println("userDTOP = " + userDTOP);
 		
 		return userDTOP;
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 구글로그인
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/googleAuth")
+	@ResponseBody
+	public UserDTO googleAuth(@RequestBody Map<String, String> token) throws Exception {
+		
+		logger.info("LoginController에서 googleAuth()실행....");
+		
+		String google_token = token.get("token");
+		System.out.println("********************************************************");
+		System.out.println("google_token = " + google_token);
+		System.out.println("********************************************************");
+
+		UserDTO userDTO = loginService.getGoogleToken(google_token);
+		
+		System.out.println("********************************************************");
+		System.out.println("userDTO = " + userDTO);
+		System.out.println("********************************************************");
+		return userDTO;
+
+	}
+
+	
+	//----------------------------------------------------------------------------------//
+	// 프로필 정보 수정하기
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/updateProfile")
+	@ResponseBody
+	public UserDTO updateProfile(@RequestBody Map<String, String> info) throws Exception {
+		
+		logger.info("LoginController에서 updateProfile()실행....");
+		
+		userDTO.setUser_no(Integer.valueOf(info.get("user_no")));
+		userDTO.setUser_nick(info.get("user_nick"));
+		userDTO.setStatus_message(info.get("status_message"));
+		userDTO.setUser_location(info.get("user_location"));
+		userDTO.setUser_birth(info.get("user_birth"));
+
+		if(loginService.updateProfile(userDTO) == 1) {
+			userDTO.setUser_no(Integer.valueOf(info.get("user_no")));
+			UserDTO userDTOU = loginService.updateCheck(userDTO);
+			return userDTOU;
+		} else {
+			UserDTO userDTOU = loginService.updateCheck(userDTO);
+			return userDTOU;
+		}
+	}
+
+	//----------------------------------------------------------------------------------//
+	// mypage / notmypage알아내기
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/whichProfile")
+	public PostDTO whichProfile(@RequestBody Map<String, String> param) throws Exception {
+		
+		logger.info("LoginController에서 whichProfile()실행....");
+		logger.info("post_no = " + param.get("post_no"));
+		
+		int post_no = Integer.valueOf(param.get("post_no"));
+		
+		PostDTO postDTO = loginService.whichProfile(post_no);
+
+		return postDTO;
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 다른 사람 프로필 가져오기
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/otherProfile")
+	public UserDTO otherProfile(@RequestBody Map<String, String> user_no) throws Exception {
+		
+		logger.info("LoginController에서 otherProfile()실행....");
+
+		userDTO.setUser_no(Integer.valueOf(user_no.get("user_no")));
+		
+		UserDTO userDTOY = loginService.otherProfile(userDTO);
+				
+		return userDTOY;
+		
 	}
 	
 } // End - public class LoginController
