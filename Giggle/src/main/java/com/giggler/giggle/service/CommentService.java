@@ -13,7 +13,7 @@ public interface CommentService {
 	public int commentListCount(int post_no) throws Exception;
 			
 
-	// 게시글 번호에 해당하는 댓글 수 구하기
+	// 게시글 번호에 해당하는 댓글 리스트 가져오기
 	public List<CommentDTO> commentList(int post_no) throws Exception;
 			
 
