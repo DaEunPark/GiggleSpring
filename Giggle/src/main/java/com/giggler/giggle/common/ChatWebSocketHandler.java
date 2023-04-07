@@ -5,24 +5,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
 
 import org.springframework.web.socket.CloseStatus;
-
 import org.springframework.web.socket.TextMessage;
-
 import org.springframework.web.socket.WebSocketSession;
-
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.giggler.giggle.dao.ChatDAO;
 import com.giggler.giggle.dto.ChatRoomDTO;
 import com.giggler.giggle.dto.MessageVO;
 import com.giggler.giggle.dto.UserDTO;
-
 import com.google.gson.Gson;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
