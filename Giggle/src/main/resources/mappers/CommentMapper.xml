@@ -16,22 +16,25 @@
 	<!-- post_no에 해당하는 댓글 목록 가져오기 -->
 	<select id="commentList" parameterType="Integer" resultType="com.giggler.giggle.dto.CommentDTO">
 		<![CDATA[
-			SELECT * FROM comment WHERE post_no = #{post_no}
+			SELECT cmt.post_no post_no,cmt.comment_no comment_no,u.user_nick user_nick,u.profile_image profile_image,cmt.user_no user_no,cmt.comment_content comment_content,cmt.comment_date comment_date
+			FROM comment cmt,user u
+			WHERE cmt.user_no = u.user_no
+			AND cmt.post_no = #{post_no};
 		]]>
 	</select>
 	
 	<!-- 게시글에 해당하는 댓글 등록하기 -->
 	<insert id="commentRegister" parameterType="com.giggler.giggle.dto.CommentDTO">
 		<![CDATA[
-			INSERT INTO t_comment (post_no, comment_no, user_no, comment_content, comment_date)
-			SELECT IFNULL(MAX(comment_no), 0) + 1, #{post_no}, #{user_no} #{comment_content}, now() FROM comment;
+			INSERT INTO comment ( post_no, user_no, comment_content, comment_date)
+			 VALUES  (#{post_no}, #{user_no}, #{comment_content}, now())
 		]]>		
 	</insert>
 	
 	<!-- 게시글에 해당하는 댓글 삭제하기 -->
 	<delete id="commentDelete" parameterType="int">
 		<![CDATA[
-		DELETE FROM comment WHERE comment_no = #{comment_no};
+		DELETE FROM comment WHERE comment_no = #{comment_no}
 		]]>
 	</delete>
 	

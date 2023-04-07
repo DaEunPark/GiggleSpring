@@ -21,7 +21,7 @@ public class CommentDAOImpl implements CommentDAO {
 	private SqlSession sqlSession;
 	
 	@Inject
-	private static String Namespace = "com.giggler.giggle";
+	private static String Namespace = "com.giggler.giggle.comment";
 	
 	// 게시글 번호에 해당하는 댓글 갯수 구하기
 	//-----------------------------------------------------------------------------------------------------------	
@@ -32,7 +32,7 @@ public class CommentDAOImpl implements CommentDAO {
 		return sqlSession.selectOne(Namespace + ".commentCount", post_no);
 	}
 
-	// 게시글 번호에 해당하는 댓글 구하기
+	// 게시글 번호에 해당하는 댓글 리스트 불러오기
 	//-----------------------------------------------------------------------------------------------------------	
 
 	@Override
