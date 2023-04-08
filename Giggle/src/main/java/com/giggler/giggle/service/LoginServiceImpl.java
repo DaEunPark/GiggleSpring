@@ -61,6 +61,17 @@ public class LoginServiceImpl implements LoginService {
 		
 		return loginDAO.getGoogleToken(google_token);
 	}
+	
+	//----------------------------------------------------------------------------------//
+	// 프로필 사진 수정하기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int updatePic(UserDTO userDTO) throws Exception {
+
+		logger.info("loginService에서 updatePic()실행...");
+		
+		return loginDAO.updatePic(userDTO);
+	}
 
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
@@ -104,5 +115,6 @@ public class LoginServiceImpl implements LoginService {
 		
 		return loginDAO.otherProfile(userDTO);
 	}
+
 
 }

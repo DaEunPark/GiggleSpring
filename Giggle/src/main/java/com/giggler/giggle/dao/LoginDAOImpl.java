@@ -76,6 +76,17 @@ public class LoginDAOImpl implements LoginDAO {
 		
 		return sqlSession.selectOne(Namespace + ".getProfile", user_no);
 	}
+	
+	//----------------------------------------------------------------------------------//
+	// 프로필 사진 수정하기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int updatePic(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginDAO에서 updatePic()실행...");
+		
+		return sqlSession.update(Namespace + ".updatePic", userDTO);
+	}
 
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
@@ -120,5 +131,6 @@ public class LoginDAOImpl implements LoginDAO {
 		
 		return sqlSession.selectOne(Namespace + ".otherProfile", userDTO);
 	}
+
 
 }

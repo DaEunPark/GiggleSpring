@@ -26,6 +26,11 @@ public interface LoginService {
 	public UserDTO getGoogleToken(String google_token) throws Exception;
 	
 	//----------------------------------------------------------------------------------//
+	// 프로필 사진 수정하기
+	//----------------------------------------------------------------------------------//
+	public int updatePic(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
 	//----------------------------------------------------------------------------------//
 	public int updateProfile(UserDTO userDTO) throws Exception;
