@@ -116,5 +116,18 @@ public class LoginServiceImpl implements LoginService {
 		return loginDAO.otherProfile(userDTO);
 	}
 
+	//----------------------------------------------------------------------------------//
+	// myPage 게시글 수, 팔로워 수, 팔로잉 수
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO profileCnt(String user_no) throws Exception {
+		
+		logger.info("loginService에서 profileCnt()실행...");
+		
+		return loginDAO.profileCnt(user_no);
+	}
+	
+	
+
 
 }

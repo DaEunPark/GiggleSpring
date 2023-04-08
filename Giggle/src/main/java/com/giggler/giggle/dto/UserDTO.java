@@ -28,6 +28,7 @@ public class UserDTO {
 	private int follow_user;
 	private int follower_user;
 	private int count_post;
+	
 	public int getCount_post() {
 		return count_post;
 	}

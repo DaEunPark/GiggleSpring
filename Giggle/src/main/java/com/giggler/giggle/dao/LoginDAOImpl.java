@@ -132,5 +132,16 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.selectOne(Namespace + ".otherProfile", userDTO);
 	}
 
+	//----------------------------------------------------------------------------------//
+	// myPage 게시글 수, 팔로워 수, 팔로잉 수
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO profileCnt(String user_no) throws Exception {
+
+		logger.info("loginDAO에서 profileCnt()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".profileCnt", user_no);
+	}
+
 
 }

@@ -50,5 +50,10 @@ public interface LoginDAO {
 	//----------------------------------------------------------------------------------//
 	public UserDTO otherProfile(UserDTO userDTO) throws Exception;
 	
+	//----------------------------------------------------------------------------------//
+	// myPage 게시글 수, 팔로워 수, 팔로잉 수
+	//----------------------------------------------------------------------------------//
+	public UserDTO profileCnt(String user_no) throws Exception;
+	
 
 }

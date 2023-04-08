@@ -173,6 +173,24 @@ public class LoginController {
 		
 	}
 	
+	//----------------------------------------------------------------------------------//
+	// myPage 게시글 수, 팔로워 수, 팔로잉 수
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/profileCnt")
+	@ResponseBody
+	public UserDTO profileCnt(@RequestBody Map<String, String> myPage) throws Exception {
+		
+		logger.info("LoginController에서 profileCnt()실행...");
+		
+		String user_no = myPage.get("user_no");
+		
+		UserDTO userDTO = loginService.profileCnt(user_no);
+		
+		return userDTO;
+	}
+	
+	
+	
 } // End - public class LoginController
 
 

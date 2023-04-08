@@ -49,5 +49,10 @@ public interface LoginService {
 	// 다른 사람 프로필 가져오기
 	//----------------------------------------------------------------------------------//
 	public UserDTO otherProfile(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// myPage 게시글 수, 팔로워 수, 팔로잉 수
+	//----------------------------------------------------------------------------------//
+	public UserDTO profileCnt(String user_no) throws Exception;
 
 }

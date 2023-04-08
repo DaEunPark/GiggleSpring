@@ -98,5 +98,14 @@
 		]]>
 	</select>
 	
+	<!-- myPage 게시글 수, 팔로워 수, 팔로잉 수 -->
+	<select id="profileCnt" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT *
+			FROM profileCnt
+			WHERE user_no = #{user_no}
+		]]>
+	</select>
+	
 </mapper>
 
