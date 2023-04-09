@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.giggler.giggle.dto.ListDTO;
+import com.giggler.giggle.dto.UserDTO;
 import com.giggler.giggle.service.ListService;
 
 @CrossOrigin
@@ -31,16 +32,36 @@ public class VueListController {
 			return allfeedList;
 		}
 		
-	//검색 피드 목록 VUE 
+	//검색 피드 목록 - feed용 VUE 
 		@GetMapping("/main/search/{keyword}")
 		public List<ListDTO> searchfeedList(@PathVariable(value="keyword", required=false) String keyword, Model model) throws Exception {
 			
-			System.out.println("검색 피드 목록 VUE");
+			System.out.println("검색 피드 목록 - feed용 VUE");
 			
 			ListDTO listDTO = new ListDTO();
 			model.addAttribute("keyword", keyword);
 			listDTO.setKeyword(keyword);
 			return listService.searchfeedList(listDTO);
+		}
+		
+	//검색 피드 목록 - user용 VUE 	
+//		@GetMapping("/main/searchuser/{keyword}")
+//		public List<ListDTO> searchuserList(@PathVariable(value="keyword", required=false) String keyword, Model model) throws Exception {
+//			
+//			System.out.println("검색 피드 목록 - user용 VUE ");
+//			
+//			ListDTO listDTO = new ListDTO();
+//			model.addAttribute("keyword", keyword);
+//			listDTO.setKeyword(keyword);
+//			return listService.searchuserList(listDTO);
+//		}
+		
+		//검색 피드 목록 - user용 VUE 	
+		@GetMapping("/main/searchuser/{keyword}")
+		public List<UserDTO> searchuserList(@PathVariable String keyword) throws Exception {
+			System.out.println("검색 피드 목록 - user용 VUE" + keyword);
+			
+			return listService.searchuserList(keyword);
 		}
 		
 	//내가 쓴글 목록 VUE
