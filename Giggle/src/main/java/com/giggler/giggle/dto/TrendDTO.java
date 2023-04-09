@@ -10,6 +10,21 @@ public class TrendDTO {
 	private String top3;
 	private String top4;
 	private String top5;
+	public String getTop6() {
+		return top6;
+	}
+	public void setTop6(String top6) {
+		this.top6 = top6;
+	}
+	public String getTop7() {
+		return top7;
+	}
+	public void setTop7(String top7) {
+		this.top7 = top7;
+	}
+	private String top6;
+	private String top7;
+	
 	public String getTop1() {
 		return top1;
 	}
