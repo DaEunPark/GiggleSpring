@@ -1,5 +1,7 @@
 package com.giggler.giggle.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.giggler.giggle.controller.PostUploadController;
 import com.giggler.giggle.dao.PostUploadDAO;
+import com.giggler.giggle.dto.ImageDTO;
 import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 
@@ -36,6 +39,18 @@ public class PostUploadServiceImpl implements PostUploadService {
 	public int currentPostNo(PostDTO postDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return postUploadDAO.currentPostNo(postDTO);
+	}
+
+	@Override
+	public int uploadImage(ImageDTO imageDTO) throws DataAccessException {
+		return postUploadDAO.uploadImage(imageDTO);
+		
+	}
+
+	@Override
+	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.postImages(post_no);
 	}
 
 }

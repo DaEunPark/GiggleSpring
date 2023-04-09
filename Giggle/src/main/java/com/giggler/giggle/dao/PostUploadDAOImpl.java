@@ -1,5 +1,7 @@
 package com.giggler.giggle.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.giggler.giggle.dto.ImageDTO;
 import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.service.PostUploadServiceImpl;
@@ -38,6 +41,18 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	public int currentPostNo(PostDTO postDTO) throws DataAccessException {
 		int current = sqlSession.selectOne(Namespace + ".currentPost", postDTO);
 		return current;
+	}
+
+	@Override
+	public int uploadImage(ImageDTO imageDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(Namespace + ".uploadImage", imageDTO);
+	}
+
+	@Override
+	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(Namespace + ".postImages", post_no);
 	}
 
 }
