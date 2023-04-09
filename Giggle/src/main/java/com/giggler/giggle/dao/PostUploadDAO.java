@@ -1,5 +1,7 @@
 package com.giggler.giggle.dao;
 
+import java.util.List;
+
 import org.springframework.dao.DataAccessException;
 
 import com.giggler.giggle.dto.ImageDTO;
@@ -15,5 +17,7 @@ public interface PostUploadDAO {
 	int currentPostNo(PostDTO postDTO) throws DataAccessException;
 
 	int uploadImage(ImageDTO imageDTO) throws DataAccessException;
+
+	List<ImageDTO> postImages(int post_no) throws DataAccessException;
 
 }

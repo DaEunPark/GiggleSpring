@@ -36,11 +36,19 @@
 	<!-- 포스트 등록하기 -->
  	<insert id="uploadImage" parameterType="com.giggler.giggle.dto.ImageDTO">
 		<![CDATA[
-			INSERT INTO giggledbaws.image ( post_no, imagepath, is_posting)
-			VALUES	(#{post_no}, #{imagepath}, #{is_posting})
+			INSERT INTO giggledbaws.image ( post_no, imagepath, is_posting, user_no)
+			VALUES	(#{post_no}, #{imagepath}, #{is_posting}, #{user_no})
 		]]>
 	</insert> 
 	
+	<!-- 포스트 이미지 불러오기 -->
+	<select id="postImages" parameterType="int" resultType="com.giggler.giggle.dto.ImageDTO">
+		<![CDATA[
+			SELECT *
+			FROM giggledbaws.image
+			WHERE post_no = #{post_no}
+		]]>
+	</select>
 
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">

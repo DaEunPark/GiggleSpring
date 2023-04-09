@@ -1,5 +1,7 @@
 package com.giggler.giggle.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -45,6 +47,12 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	public int uploadImage(ImageDTO imageDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return sqlSession.insert(Namespace + ".uploadImage", imageDTO);
+	}
+
+	@Override
+	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(Namespace + ".postImages", post_no);
 	}
 
 }

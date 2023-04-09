@@ -1,5 +1,7 @@
 package com.giggler.giggle.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -43,6 +45,12 @@ public class PostUploadServiceImpl implements PostUploadService {
 	public int uploadImage(ImageDTO imageDTO) throws DataAccessException {
 		return postUploadDAO.uploadImage(imageDTO);
 		
+	}
+
+	@Override
+	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.postImages(post_no);
 	}
 
 }

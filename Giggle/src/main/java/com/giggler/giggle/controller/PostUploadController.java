@@ -1,6 +1,7 @@
 package com.giggler.giggle.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,6 +43,8 @@ public class PostUploadController {
 	
 	private int currentPostNo = -1;
 	
+	private int currentUserNo = -1;
+	
 	private static final String CLOUD_FRONT_URL = "https://d36nj4zto99jeg.cloudfront.net/raw/";
 	
 	
@@ -54,6 +57,7 @@ public class PostUploadController {
 		
 		if(postUploadService.uploadPost(postDTO) == 1) {
 			currentPostNo = postUploadService.currentPostNo(postDTO);
+			currentUserNo = postDTO.getUser_no();
 			logger.info("PostUploadController currentPostNo => " + currentPostNo);
 			
 			return "Y";
@@ -67,10 +71,13 @@ public class PostUploadController {
 	 * Vue에서 포스트 상세 화면 표시 요청
 	 */
 	@GetMapping("/postdetail/{post_no}")
-	public ListDTO postDetail(@PathVariable int post_no) throws Exception {
+	public HashMap<String, Object> postDetail(@PathVariable int post_no) throws Exception {
 		logger.info("PostUploadController postDetail() post_no => " + post_no);
 		
-		return postUploadService.postDetail(post_no);
+		HashMap<String, Object> postDetail = new HashMap<String, Object>();
+		postDetail.put("post", postUploadService.postDetail(post_no));
+		postDetail.put("postImages", postUploadService.postImages(post_no));
+		return postDetail;
 	}
 	
 	/*
@@ -89,6 +96,9 @@ public class PostUploadController {
 	 */
 	@PostMapping("/uploadimages")
 	public String uploadImages(@RequestParam List<MultipartFile> files) throws IOException {
+		if (files == null)
+			return "N";
+		
 		for (MultipartFile file : files) {
 			logger.info("PostUploadController uploadImages() files => " + file.getOriginalFilename());
 			boolean result = awsS3Service.uploadObject(file, file.getOriginalFilename());
@@ -97,7 +107,7 @@ public class PostUploadController {
 				return "N";
 			}
 			logger.info("PostUploadController uploadImage() result => " + result);
-			ImageDTO imageDTO = new ImageDTO(currentPostNo, CLOUD_FRONT_URL + file.getOriginalFilename(), 1);
+			ImageDTO imageDTO = new ImageDTO(currentPostNo, CLOUD_FRONT_URL + file.getOriginalFilename(), 1, currentUserNo);
 			postUploadService.uploadImage(imageDTO);
 		}
 		
