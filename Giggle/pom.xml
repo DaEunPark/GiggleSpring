@@ -281,6 +281,20 @@
 	   		 <version>1.1.1</version>
 		</dependency>
 	      
+	      
+	   <!-- WebSocket -->
+		<dependency>
+		   	<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+		    <version>1.1</version>
+		</dependency>
+		
 	      <!-- Gson -->
 	      <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
@@ -326,7 +340,13 @@
 		    <version>3.1.0</version>
 		    <scope>provided</scope>
 		</dependency>
-
+		
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk</artifactId>
+		    <version>1.12.440</version>
+		</dependency>
 
 		<!-- *********************************************************** -->
 		<!-- dependency 추가 부분 끝 									 -->

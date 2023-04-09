@@ -14,9 +14,12 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<bean id="propertyPlaceholderConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations">
-			<value>/WEB-INF/config/jdbc.properties</value>
+			<list>
+				<value>/WEB-INF/config/jdbc.properties</value>
+				<value>/WEB-INF/config/key.properties</value>
+			</list>			
 		</property>
 	</bean>
 
@@ -31,6 +34,7 @@
 	<bean id="SqlSessionFactory"	class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource"	ref="DataSource"></property>
 		<property name="mapperLocations"	value="classpath:mappers/**/*Mapper.xml"></property>
+		<property name="typeAliasesPackage"	value="com.giggler.giggle.*"></property>
 	</bean>
 
 	<!-- SqlSession 객체 주입 -->
@@ -48,5 +52,7 @@
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
 	 <property name="maxUploadSize" value="10485760"/>
 	</bean>	
+	
+	
 
 </beans>

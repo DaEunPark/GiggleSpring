@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.giggler.giggle.List">
+
+
+	<!-- 메인 목록 가져오기 : giggle_post 조회용 -->
+	<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
+		<![CDATA[
+
+			SELECT		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt , p.share_cnt, p.post_link
+			FROM 		giggledbaws.user u
+			INNER JOIN  giggledbaws.post p  
+			ON 			p.user_no = u.user_no
+			ORDER BY	p.post_no desc;
+
+		]]>
+	</select>
+	
+	
+	<!-- 검색 목록 가져오기 feed  -->
+	<select id="selectsearchfeedList" parameterType="com.giggler.giggle.dto.ListDTO" resultType="com.giggler.giggle.dto.ListDTO">
+		<![CDATA[
+			SELECT 		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
+			FROM 		giggledbaws.user u      
+			LEFT JOIN   giggledbaws.post p     
+			ON 			u.user_no = p.user_no
+			WHERE    	p.text_content LIKE CONCAT('%' ,#{keyword}, '%')
+			ORDER BY    p.post_date desc;
+		]]>
+	</select>
+	<!-- 검색 목록 가져오기 user -->
+	<select id="selectsearchuserList" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT 		*
+			FROM 		giggledbaws.user    
+			WHERE 		user_nick LIKE CONCAT('%', #{keyword}, '%')
+		]]>
+	</select>
+
+	
+
+</mapper>
