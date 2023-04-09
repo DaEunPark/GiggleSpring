@@ -29,7 +29,16 @@ public class UserDTO {
 	private int block_user;
 	private int follow_user;
 	private int follower_user;
+
+	private int count_post;
 	
+	public int getCount_post() {
+		return count_post;
+	}
+	public void setCount_post(int count_post) {
+		this.count_post = count_post;
+	}
+
 	public int getUser_no() {
 		return user_no;
 	}

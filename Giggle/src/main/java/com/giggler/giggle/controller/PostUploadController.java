@@ -50,6 +50,7 @@ public class PostUploadController {
 		if(postUploadService.uploadPost(postDTO) == 1) {
 			int currentPostNo = postUploadService.currentPostNo(postDTO);
 			logger.info("PostUploadController currentPostNo => " + currentPostNo);
+			
 			return "Y";
 		} else {
 			return "N"; 

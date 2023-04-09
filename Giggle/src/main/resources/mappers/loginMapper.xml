@@ -50,8 +50,17 @@
 		]]>
 	</select>
 	
+	<!-- 프로필 사진 수정하기 -->
+	<update id="updatePic" parameterType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			UPDATE user
+			SET 	profile_image = #{profile_image}
+			WHERE user_no = #{user_no}
+		]]>
+	</update>
+	
 	<!-- 프로필 수정하기 -->
-	<select id="updateProfile" parameterType="com.giggler.giggle.dto.UserDTO">
+	<update id="updateProfile" parameterType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
 			UPDATE user
 			SET 	user_nick = #{user_nick},
@@ -60,7 +69,7 @@
 					user_birth = #{user_birth}
 			WHERE user_no = #{user_no}
 		]]>
-	</select>
+	</update>
 	
 	<!-- 수정한 프로필 가져오기 -->
 	 <select id="updateCheck" parameterType="com.giggler.giggle.dto.UserDTO" resultType="com.giggler.giggle.dto.UserDTO">
@@ -85,6 +94,15 @@
 		<![CDATA[
 			SELECT *
 			FROM giggle
+			WHERE user_no = #{user_no}
+		]]>
+	</select>
+	
+	<!-- myPage 게시글 수, 팔로워 수, 팔로잉 수 -->
+	<select id="profileCnt" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT *
+			FROM profileCnt
 			WHERE user_no = #{user_no}
 		]]>
 	</select>
