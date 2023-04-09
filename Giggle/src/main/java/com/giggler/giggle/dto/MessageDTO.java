@@ -1,7 +1,5 @@
 package com.giggler.giggle.dto;
 
-import java.sql.Timestamp;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +9,7 @@ public class MessageDTO {
 	private int chatroom_no;			//해당 메세지의 채팅방 번호
 	private int user_no;				//보낸 유저 번호
 	private String message_content;		//보낸 메세지 내용
-	private Timestamp message_sendtime;	//보낸 시간
+	private String message_sendtime;	//보낸 시간
 	public int getMessage_no() {
 		return message_no;
 	}
@@ -36,10 +34,10 @@ public class MessageDTO {
 	public void setMessage_content(String message_content) {
 		this.message_content = message_content;
 	}
-	public Timestamp getMessage_sendtime() {
+	public String getMessage_sendtime() {
 		return message_sendtime;
 	}
-	public void setMessage_sendtime(Timestamp message_sendtime) {
+	public void setMessage_sendtime(String message_sendtime) {
 		this.message_sendtime = message_sendtime;
 	}
 	@Override

@@ -83,6 +83,14 @@ public class MJController {
 		return mjService.getChatRoomListByUserNo(user_no);
 	}
 	
+	//회원번호에 해당하는 메세지 유무를 N으로 바꾸기===========================================
+	@GetMapping("/updateUserMessageYN/{user_no}")
+	public int updateUserMessageYN(@PathVariable int user_no) throws Exception {
+		System.out.println("MJController의 updateUserMessageYN() " + user_no);
+		
+		return mjService.updateUserMessageYN(user_no);		
+	}
+	
 	//키워드로 회원 검색하기============================================================
 	@GetMapping("/searchUser/{keyword}")
 	public List<UserDTO> searchUser(@PathVariable String keyword) throws Exception {
@@ -100,11 +108,11 @@ public class MJController {
 	}
 	
 	//채팅방번호에 해당하는 메세지 리스트 가져오기=============================================
-	@GetMapping("/getMessageList/{chatroom_no}")
-	public List<MessageDTO> getMessageList(@PathVariable int chatroom_no) throws Exception {
-		System.out.println("MJController의 getMessageList() " + chatroom_no);
+	@PostMapping("/getMessageList")
+	public List<MessageDTO> getMessageList(@RequestBody MessageDTO messageDTO) throws Exception {
+		System.out.println("MJController의 getMessageList() " + messageDTO);
 		
-		return mjService.getMessageList(chatroom_no);
+		return mjService.getMessageList(messageDTO);
 	}
 	
 	//채팅방 번호에 메세지 추가하기===========================================================
@@ -113,6 +121,14 @@ public class MJController {
 		System.out.println("MJController의 addMessage() " + messageDTO);
 		
 		return mjService.addMessage(messageDTO);		
+	}
+	
+	//채팅방 나가기===========================================================================
+	@PostMapping("/deleteChatRoom")
+	public int deleteChatRoom(@RequestBody ChatRoomDTO chatRoomDTO) throws Exception {
+		System.out.println("MJController의 deleteChatRoom() " + chatRoomDTO);
+		
+		return mjService.deleteChatRoom(chatRoomDTO);
 	}
 	
 }

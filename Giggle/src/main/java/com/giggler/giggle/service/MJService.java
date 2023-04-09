@@ -67,6 +67,13 @@ public class MJService {
 		return mjDAO.getChatRoomListByUserNo(user_no);		
 	}
 	
+	//회원번호에 해당하는 메세지 유무 상태를 바꿔준다.===================================
+	public int updateUserMessageYN(int user_no) throws Exception {
+		System.out.println("MjService의 updateUserMessageYN()");
+		
+		return mjDAO.updateUserMessageYN(user_no);			
+	}
+	
 	//키워드로 유저 리스트 구하기=================================================
 	public List<UserDTO> searchUser(String keyword) throws Exception {
 		System.out.println("MjService의 searchUser()");
@@ -84,10 +91,10 @@ public class MJService {
 	}
 	
 	//채팅방 번호에 해당하는 메세지 리스트 가져오기==================================
-	public List<MessageDTO> getMessageList(int chatroom_no) throws Exception {
+	public List<MessageDTO> getMessageList(MessageDTO messageDTO) throws Exception {
 		System.out.println("MjService의 getMessageList()");
 		
-		return mjDAO.getMessageList(chatroom_no);		
+		return mjDAO.getMessageList(messageDTO);		
 	}
 	
 	//채팅방에 메세지 추가하기=======================================================
@@ -97,4 +104,10 @@ public class MJService {
 		return mjDAO.addMessage(messageDTO);		
 	}
 
+	//채팅방 나가기================================================================
+	public int deleteChatRoom(ChatRoomDTO chatRoomDTO) throws Exception {
+		System.out.println("MjService의 addMessage()");
+		
+		return mjDAO.deleteChatRoom(chatRoomDTO);		
+	}
 }
