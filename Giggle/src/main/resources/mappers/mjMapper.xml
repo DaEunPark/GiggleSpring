@@ -22,8 +22,8 @@
 	<!-- 회원 등록하기 -->
 	<insert id="userRegister" parameterType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
-		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, user_phone, open_yn, naver_token)
-		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{user_phone}, #{open_yn}, #{naver_token})
+		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, user_phone, open_yn, naver_token, alarm_yn, message_yn)
+		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{user_phone}, #{open_yn}, #{naver_token}, #{alarm_yn}, #{message_yn})
 		]]>
 	</insert>
 
@@ -56,7 +56,8 @@
 	<!-- 회원 번호로 채팅방리스트 가져오기 -->
 	<select id="getChatRoomListByUserNo" parameterType="Integer" resultType="com.giggler.giggle.dto.ChatRoomDTO">
 		<![CDATA[
-		SELECT c.chatroom_no chatroom_no, c.user1 user1, c.user2 user2, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message 
+		SELECT c.chatroom_no chatroom_no, IFNULL(c.user1, 0) user1, IFNULL(c.user2, 0) user2,
+		c.user1_yn user1_yn, c.user2_yn user2_yn, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message 
 		FROM chatroom c LEFT OUTER JOIN
 		(SELECT  message_content, chatroom_no FROM  message WHERE message_no IN
 		(SELECT MAX(message_no) FROM message GROUP BY chatroom_no) ORDER BY message_no DESC) 
@@ -65,12 +66,20 @@
 		]]>
 	</select>
 	
+	<!-- 회원번호에 해당하는 메세지유무 상태 업데이트 -->
+	<update id="updateUserMessageYN" parameterType="Integer">
+		<![CDATA[
+		UPDATE user SET message_yn = "N" WHERE user_no = #{user_yn}
+		]]>
+	</update>
+	
 	<!-- 채팅방 상대방 정보 가져오기 -->
 	<select id="getUserForChatRoom" parameterType="Integer" resultType="com.giggler.giggle.dto.ChatRoomDTO">
 		<![CDATA[
 		SELECT user_nick, profile_image FROM user WHERE user_no = #{otherUser}
 		]]>
 	</select>
+	
 	<!-- 키워드로 유저 리스트 구하기 -->
 	<select id="searchUser" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
@@ -82,14 +91,15 @@
 	<!-- 두개의 유저 넘버로 채팅방 데이터 추가하기 -->
 	<insert id="addChatRoom" parameterType="com.giggler.giggle.dto.ChatRoomDTO">
 		<![CDATA[
-		INSERT INTO chatroom (user1, user2) VALUES (#{user1}, #{user2})
+		INSERT INTO chatroom (user1, user2, user1_yn, user2_yn) VALUES (#{user1}, #{user2}, #{user1_yn}, #{user2_yn})
 		]]>
 	</insert>
 	
 	<!-- 두개의 유저 넘버로 채팅방 데이터 가져오기 -->
 	<select id="getChatRoom" parameterType="com.giggler.giggle.dto.ChatRoomDTO" resultType="com.giggler.giggle.dto.ChatRoomDTO">
 		<![CDATA[
-		SELECT c.chatroom_no chatroom_no, c.user1 user1, c.user2 user2, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message 
+		SELECT c.chatroom_no chatroom_no, IFNULL(c.user1, 0) user1, IFNULL(c.user2, 0) user2,
+		c.user1_yn user1_yn, c.user2_yn user2_yn, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message 
 		FROM chatroom c LEFT OUTER JOIN
 		(SELECT  message_content, chatroom_no FROM  message WHERE message_no IN
 		(SELECT MAX(message_no) FROM message GROUP BY chatroom_no) ORDER BY message_no DESC) 
@@ -115,6 +125,48 @@
 		]]>
 	</insert>
 
+	<!-- 채팅방 번호로 채팅방 데이터 가져오기 -->
+	<select id="getChatRoomByRoomNo" parameterType="Integer" resultType="com.giggler.giggle.dto.ChatRoomDTO">
+		<![CDATA[
+		SELECT c.chatroom_no chatroom_no, IFNULL(c.user1, 0) user1,
+		c.user1_yn user1_yn, c.user2_yn user2_yn, IFNULL(c.user2, 0) user2, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message 
+		FROM chatroom c LEFT OUTER JOIN
+		(SELECT  message_content, chatroom_no FROM  message WHERE message_no IN
+		(SELECT MAX(message_no) FROM message GROUP BY chatroom_no) ORDER BY message_no DESC) 
+		AS m ON (c.chatroom_no = m.chatroom_no)
+		WHERE c.chatroom_no = #{chatroom_no}
+		]]>
+	</select>
+	
+	<!-- 채팅방 상대방의 새로운 메세지 유무 업데이트하기 -->
+	<update id="updateChatUserYN" parameterType="com.giggler.giggle.dto.ChatRoomDTO">
+		<![CDATA[
+		UPDATE chatroom SET user1_yn = #{user1_yn}, user2_yn = #{user2_yn}
+		WHERE chatroom_no = #{chatroom_no}
+		]]>
+	</update>
+	
+	<!-- 채팅방 상대의 user데이터에서 메세지 유무 업데이트 하기 -->
+	<update id="updateMessageYn" parameterType="Integer">
+		<![CDATA[
+		UPDATE user SET message_yn = "Y" WHERE user_no = #{otherUser}
+		]]>
+	</update>
+	
+	<!-- 채팅방 번호에 해당하는 데이터 삭제하기 -->
+	<delete id="deleteChatRoom" parameterType="com.giggler.giggle.dto.ChatRoomDTO">
+		<![CDATA[
+		DELETE FROM chatroom WHERE chatroom_no = #{chatroom_no}
+		]]>
+	</delete>
+	
+	<!-- 채팅방 상대방 삭제하기 -->
+	<update id="deleteChatRoomUser" parameterType="com.giggler.giggle.dto.ChatRoomDTO">
+		<![CDATA[
+		UPDATE chatroom SET user1 = IF(#{user1} = 0, null, #{user1}), user2 = IF(#{user2} = 0, null, #{user2})
+		WHERE chatroom_no = #{chatroom_no}
+		]]>
+	</update>
 </mapper>   
 
 

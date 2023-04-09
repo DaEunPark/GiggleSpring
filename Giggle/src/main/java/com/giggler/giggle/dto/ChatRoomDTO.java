@@ -8,6 +8,8 @@ public class ChatRoomDTO {
 	private int chatroom_no;		//채팅방 번호
 	private int user1;				//유저1 번호
 	private int user2;				//유저2 번호
+	private String user1_yn = "N";	//유저1의 새로운 메세지
+	private String user2_yn = "N";	//유저1의 새로운 메세지
 	private String user_nick;		//상대방 닉네임
 	private String profile_image;	//상대방 프로필 사진
 	private String recent_message;	//최근 대화	
@@ -28,6 +30,19 @@ public class ChatRoomDTO {
 	}
 	public void setUser2(int user2) {
 		this.user2 = user2;
+	}
+	
+	public String getUser1_yn() {
+		return user1_yn;
+	}
+	public void setUser1_yn(String user1_yn) {
+		this.user1_yn = user1_yn;
+	}
+	public String getUser2_yn() {
+		return user2_yn;
+	}
+	public void setUser2_yn(String user2_yn) {
+		this.user2_yn = user2_yn;
 	}
 	public String getUser_nick() {
 		return user_nick;
@@ -50,8 +65,10 @@ public class ChatRoomDTO {
 	}
 	@Override
 	public String toString() {
-		return "ChatRoomDTO [chatroom_no=" + chatroom_no + ", user1=" + user1 + ", user2=" + user2 + ", user_nick="
-				+ user_nick + ", profile_image=" + profile_image + ", recent_message=" + recent_message + "]";
+		return "ChatRoomDTO [chatroom_no=" + chatroom_no + ", user1=" + user1 + ", user2=" + user2 + ", user1_yn="
+				+ user1_yn + ", user2_yn=" + user2_yn + ", user_nick=" + user_nick + ", profile_image=" + profile_image
+				+ ", recent_message=" + recent_message + "]";
 	}
+	
 
 }

@@ -23,10 +23,13 @@ public class UserDTO {
 	private String back_image;
 	private String naver_token;
 	private String google_token;
+	private String alarm_yn;
+	private String message_yn;
 	private int alarm_no;
 	private int block_user;
 	private int follow_user;
 	private int follower_user;
+	
 	public int getUser_no() {
 		return user_no;
 	}
@@ -135,6 +138,18 @@ public class UserDTO {
 	public void setFollower_user(int follower_user) {
 		this.follower_user = follower_user;
 	}
+	public String getAlarm_yn() {
+		return alarm_yn;
+	}
+	public void setAlarm_yn(String alarm_yn) {
+		this.alarm_yn = alarm_yn;
+	}
+	public String getMessage_yn() {
+		return message_yn;
+	}
+	public void setMessage_yn(String message_yn) {
+		this.message_yn = message_yn;
+	}
 	@Override
 	public String toString() {
 		return "UserDTO [user_no=" + user_no + ", user_email=" + user_email + ", user_pwd=" + user_pwd + ", user_nick="
@@ -142,7 +157,9 @@ public class UserDTO {
 				+ user_joindate + ", user_location=" + user_location + ", open_yn=" + open_yn + ", status_message="
 				+ status_message + ", profile_image=" + profile_image + ", back_image=" + back_image + ", naver_token="
 				+ naver_token + ", google_token=" + google_token + ", alarm_no=" + alarm_no + ", block_user="
-				+ block_user + ", follow_user=" + follow_user + ", follower_user=" + follower_user + "]";
+				+ block_user + ", follow_user=" + follow_user + ", follower_user=" + follower_user + ", alarm_yn="
+				+ alarm_yn + ", message_yn=" + message_yn + "]";
 	}
+
 	
 }

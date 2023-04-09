@@ -77,14 +77,22 @@ public class MJDAO {
 				//내가 user2면
 				otherUser = chatRoomList.get(i).getUser1();	//user1이 상대방
 			}
+			if(otherUser != 0) {
+				ChatRoomDTO chatRoomDTO = sqlSession.selectOne(Namespace + ".getUserForChatRoom", otherUser);
+				chatRoomList.get(i).setUser_nick(chatRoomDTO.getUser_nick());
+				chatRoomList.get(i).setProfile_image(chatRoomDTO.getProfile_image());
+			}
 			
-			ChatRoomDTO chatRoomDTO = sqlSession.selectOne(Namespace + ".getUserForChatRoom", otherUser);
-			
-			chatRoomList.get(i).setUser_nick(chatRoomDTO.getUser_nick());
-			chatRoomList.get(i).setProfile_image(chatRoomDTO.getProfile_image());
 		}
 		System.out.println("채팅방 리스트: " + chatRoomList);
 		return chatRoomList;		
+	}
+	
+	//회원번호에 해당하는 메세지 유무 업데이트======================================================
+	public int updateUserMessageYN(int user_no) throws Exception {
+		System.out.println("MJDAO의 updateUserMessageYN() 시작");
+		
+		return sqlSession.update(Namespace + ".updateUserMessageYN", user_no);			
 	}
 	
 	//키워드로 유저 리스트 구하기
@@ -123,9 +131,20 @@ public class MJDAO {
 	}
 	
 	//채팅방 번호에 해당하는 메세지 리스트 가져오기
-	public List<MessageDTO> getMessageList(int chatroom_no) throws Exception {
+	public List<MessageDTO> getMessageList(MessageDTO messageDTO) throws Exception {
 		System.out.println("MJDAO의 getMessageList() 시작");
+		int chatroom_no = messageDTO.getChatroom_no();
 		
+		//해당 채팅의 해당 유저의 새로운 메세지 유무를 바꿔준다.
+		ChatRoomDTO chatRoomDTO = sqlSession.selectOne(Namespace + ".getChatRoomByRoomNo" , chatroom_no);
+		if(chatRoomDTO.getUser1() == messageDTO.getUser_no()) {
+			chatRoomDTO.setUser1_yn("N");
+		} else {
+			chatRoomDTO.setUser2_yn("N");
+		}
+		if(sqlSession.update(Namespace + ".updateChatUserYN", chatRoomDTO) == 1) {
+			System.out.println("나의 새로운 메세지 유무 수정함: " + chatRoomDTO);
+		}
 		return sqlSession.selectList(Namespace + ".getMessageList" , chatroom_no);
 	}
 	
@@ -133,8 +152,51 @@ public class MJDAO {
 	public int addMessage(MessageDTO messageDTO) throws Exception {
 		System.out.println("MJDAO의 addMessage() 시작");
 		
-		return sqlSession.insert(Namespace + ".addMessage" , messageDTO);		
+		if(sqlSession.insert(Namespace + ".addMessage" , messageDTO) == 1) {
+			//상대방의 해당 채팅방 새로운 메세지 유무를 바꿔준다.
+			int chatroom_no = messageDTO.getChatroom_no();
+			int otherUser = 0;
+			ChatRoomDTO chatRoomDTO = sqlSession.selectOne(Namespace + ".getChatRoomByRoomNo" , chatroom_no);
+			if(chatRoomDTO.getUser1() == messageDTO.getUser_no()) {
+				chatRoomDTO.setUser2_yn("Y");
+				otherUser = chatRoomDTO.getUser2();
+			} else {
+				chatRoomDTO.setUser1_yn("Y");
+				otherUser = chatRoomDTO.getUser1();
+			}
+			int result = sqlSession.update(Namespace + ".updateChatUserYN", chatRoomDTO);
+			System.out.println("상대방 새로운 메세지 유무 수정함: " + chatRoomDTO);
+			
+			//상대방의 메세지 유무를 바꿔준다.
+			result = sqlSession.update(Namespace + ".updateMessageYn" , otherUser);
+			System.out.println("상대방 user테이블 새로운 메세지 유무 수정함: " + chatRoomDTO);
+		} 
+		
+		return 1;
 	}
 	
-
+	//채팅방 나가기
+	public int deleteChatRoom(ChatRoomDTO chatRoomDTO) throws Exception {
+		System.out.println("MJDAO의 deleteChatRoom() 시작");
+		int result = 0;
+		//채팅방 번호로 채팅방 정보를 가져온다.
+		int chatroom_no = chatRoomDTO.getChatroom_no();
+		ChatRoomDTO imsi = sqlSession.selectOne(Namespace + ".getChatRoomByRoomNo" , chatroom_no);
+		
+		//채팅방에 상대방 번호가 0이면 채팅방을 삭제한다.
+		if(imsi.getUser1() == 0 || imsi.getUser2() == 0) {
+			result = sqlSession.delete(Namespace + ".deleteChatRoom", chatRoomDTO);
+		} else {
+			//임시 채팅방 정보에 유저번호를 0으로 만든다.
+			if(chatRoomDTO.getUser1() == imsi.getUser1()) {
+				imsi.setUser1(0);
+			} else {
+				imsi.setUser2(0);
+			}
+			//임시채팅방 정보로 업데이트 한다.
+			result = sqlSession.update(Namespace + ".deleteChatRoomUser", imsi);
+		}
+		
+		return result;
+	}
 }
