@@ -26,6 +26,11 @@ public interface LoginService {
 	public UserDTO getGoogleToken(String google_token) throws Exception;
 	
 	//----------------------------------------------------------------------------------//
+	// 프로필 사진 수정하기
+	//----------------------------------------------------------------------------------//
+	public int updatePic(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
 	//----------------------------------------------------------------------------------//
 	public int updateProfile(UserDTO userDTO) throws Exception;
@@ -44,5 +49,10 @@ public interface LoginService {
 	// 다른 사람 프로필 가져오기
 	//----------------------------------------------------------------------------------//
 	public UserDTO otherProfile(UserDTO userDTO) throws Exception;
+	
+	//----------------------------------------------------------------------------------//
+	// myPage 게시글 수, 팔로워 수, 팔로잉 수
+	//----------------------------------------------------------------------------------//
+	public UserDTO profileCnt(String user_no) throws Exception;
 
 }
