@@ -45,7 +45,8 @@ public class AwsS3Service {
 	
 	public void deleteObject(String storedFileName) throws AmazonServiceException {
 		String bucket = env.getProperty("aws.bucketname");
-		s3Client.deleteObject(new DeleteObjectRequest(bucket + "/raw/", storedFileName));
+		String filePath = "raw/" + storedFileName;
+		s3Client.deleteObject(new DeleteObjectRequest(bucket, filePath));
 	}
 	
 	/*

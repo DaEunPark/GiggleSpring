@@ -33,6 +33,14 @@
 		]]>
 	</select>
 	
+	<!-- 포스트 등록하기 -->
+ 	<insert id="uploadImage" parameterType="com.giggler.giggle.dto.ImageDTO">
+		<![CDATA[
+			INSERT INTO giggledbaws.image ( post_no, imagepath, is_posting)
+			VALUES	(#{post_no}, #{imagepath}, #{is_posting})
+		]]>
+	</insert> 
+	
 
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
