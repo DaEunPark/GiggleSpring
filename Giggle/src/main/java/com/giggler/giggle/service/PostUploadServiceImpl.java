@@ -65,4 +65,16 @@ public class PostUploadServiceImpl implements PostUploadService {
 		return postUploadDAO.deletePost(post_no);
 	}
 
+	@Override
+	public int deleteImage(String imagepath) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.deleteImage(imagepath);
+	}
+
+	@Override
+	public int updatePost(PostDTO postDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.updatePost(postDTO);
+	}
+
 }

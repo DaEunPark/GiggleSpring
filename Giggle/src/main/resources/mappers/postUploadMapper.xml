@@ -33,7 +33,7 @@
 		]]>
 	</select>
 	
-	<!-- 포스트 등록하기 -->
+	<!-- 포스트 이미지 등록하기 -->
  	<insert id="uploadImage" parameterType="com.giggler.giggle.dto.ImageDTO">
 		<![CDATA[
 			INSERT INTO giggledbaws.image ( post_no, imagepath, is_posting, user_no)
@@ -65,6 +65,23 @@
 			WHERE post_no = #{post_no}
 		]]>
 	</delete>
+	
+	<!--  이미지 삭제 -->
+	<delete id="deleteImage" parameterType="String">
+		<![CDATA[
+			DELETE FROM giggledbaws.image
+			WHERE imagepath = #{imagepath}
+		]]>
+	</delete>
+	
+	<!-- 포스트 수정하기 -->
+	<update id="updatePost" parameterType="com.giggler.giggle.dto.PostDTO">
+		<![CDATA[
+			UPDATE	giggledbaws.post
+			SET		text_content = #{text_content}, post_link = #{post_link}
+			WHERE	post_no = #{post_no}
+		]]>
+	</update>
 
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">

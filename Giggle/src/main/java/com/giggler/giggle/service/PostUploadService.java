@@ -24,4 +24,8 @@ public interface PostUploadService {
 
 	int deletePost(int post_no) throws DataAccessException;
 
+	int deleteImage(String imagepath) throws DataAccessException;
+
+	int updatePost(PostDTO postDTO) throws DataAccessException;
+
 }
