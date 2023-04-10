@@ -49,6 +49,22 @@
 			WHERE post_no = #{post_no}
 		]]>
 	</select>
+	
+	<!-- 포스트 이미지 삭제 -->
+	<delete id="deletePostImages" parameterType="int">
+		<![CDATA[
+			DELETE FROM giggledbaws.image
+			WHERE post_no = #{post_no}
+		]]>
+	</delete>
+	
+	<!-- 포스트 삭제 -->
+	<delete id="deletePost" parameterType="int">
+		<![CDATA[
+			DELETE FROM giggledbaws.post
+			WHERE post_no = #{post_no}
+		]]>
+	</delete>
 
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
