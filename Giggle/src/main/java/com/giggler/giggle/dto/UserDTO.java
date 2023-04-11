@@ -17,7 +17,7 @@ public class UserDTO {
 	private String user_phone;
 	private Timestamp user_joindate;
 	private String user_location;
-	private String open_yn;
+	private String open_yn = "Y";
 	private String status_message;
 	private String profile_image;
 	private String back_image;

@@ -1,6 +1,8 @@
 package com.giggler.giggle.dao;
 
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -33,6 +35,18 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.selectOne(Namespace + ".userCheck", userDTO);
 
 	}
+	
+	//----------------------------------------------------------------------------------//
+	// 구글로그인 정보 가져오기(DB)
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO googleUserCheck(UserDTO userDTO) throws Exception {
+
+		logger.info("LoginDAO에서 googleUserCheck()실행....");
+		
+		return sqlSession.selectOne(Namespace + ".googleUserCheck", userDTO);
+
+	}
 
 	//----------------------------------------------------------------------------------//
 	// 아이디찾기
@@ -56,16 +70,6 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.selectOne(Namespace + ".searchPwd", userDTO);
 	}
 
-	//----------------------------------------------------------------------------------//
-	// 구글로그인
-	//----------------------------------------------------------------------------------//
-	@Override
-	public UserDTO getGoogleToken(String google_token) throws Exception {
-		
-		logger.info("loginDAO에서 getGoogleToken()실행...");
-		
-		return sqlSession.selectOne(Namespace + ".getGoogleToken", google_token);
-	}
 	
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 가져오기
@@ -143,5 +147,38 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.selectOne(Namespace + ".profileCnt", user_no);
 	}
 
+	//----------------------------------------------------------------------------------//
+	// 프로필 사진 업데이트하기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int picUpdate(UserDTO userDTO) throws Exception {
+
+		logger.info("loginDAO에서 picUpdate()실행...");
+		
+		return sqlSession.update(Namespace + ".picUpdate", userDTO);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 팔로우 추천(3명)
+	//----------------------------------------------------------------------------------//
+	@Override
+	public List<UserDTO> recommendFollow(String user_no) throws Exception {
+
+		logger.info("loginDAO에서 recommendFollow()실행...");
+		
+		return sqlSession.selectList(Namespace + ".recommendFollow", user_no);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 팔로우 추천(전부)
+	//----------------------------------------------------------------------------------//
+	@Override
+	public List<UserDTO> recommendFollowAll(String user_no) throws Exception {
+
+		logger.info("loginDAO에서 recommendFollowAll()실행...");
+		
+		return sqlSession.selectList(Namespace + ".recommendFollowAll", user_no);
+	}
+	
 
 }
