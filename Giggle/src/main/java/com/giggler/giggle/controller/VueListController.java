@@ -1,5 +1,6 @@
 package com.giggler.giggle.controller;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -9,7 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.giggler.giggle.dto.ListDTO;
@@ -30,41 +32,60 @@ public class VueListController {
 			
 			List<ListDTO> allfeedList = listService.allfeedList();
 			return allfeedList;
-		}
+			}
 		
 	//검색 피드 목록 - feed용 VUE 
 		@GetMapping("/main/search/{keyword}")
 		public List<ListDTO> searchfeedList(@PathVariable(value="keyword", required=false) String keyword, Model model) throws Exception {
 			
-			System.out.println("검색 피드 목록 - feed용 VUE");
+			logger.info("검색 피드 목록 - feed용 VUE");
 			
 			ListDTO listDTO = new ListDTO();
 			model.addAttribute("keyword", keyword);
 			listDTO.setKeyword(keyword);
 			return listService.searchfeedList(listDTO);
-		}
+			}	
 		
 	//검색 피드 목록 - user용 VUE 	
-//		@GetMapping("/main/searchuser/{keyword}")
-//		public List<ListDTO> searchuserList(@PathVariable(value="keyword", required=false) String keyword, Model model) throws Exception {
-//			
-//			System.out.println("검색 피드 목록 - user용 VUE ");
-//			
-//			ListDTO listDTO = new ListDTO();
-//			model.addAttribute("keyword", keyword);
-//			listDTO.setKeyword(keyword);
-//			return listService.searchuserList(listDTO);
-//		}
-		
-		//검색 피드 목록 - user용 VUE 	
 		@GetMapping("/main/searchuser/{keyword}")
 		public List<UserDTO> searchuserList(@PathVariable String keyword) throws Exception {
-			System.out.println("검색 피드 목록 - user용 VUE" + keyword);
+			logger.info("검색 피드 목록 - user용 VUE" + keyword);
 			
 			return listService.searchuserList(keyword);
-		}
+			}
 		
-	//내가 쓴글 목록 VUE
+		
+	//search - mypage / notmypage 알아내기
+		@PostMapping("/Gouserpage")
+		public UserDTO Gouserpage(@RequestBody Map<String, String> param) throws Exception {
+			
+			logger.info("ListController에서 Gouserpage()실행....");
+			logger.info("user_no = " + param.get("user_no"));
+			
+			int user_no = Integer.valueOf(param.get("user_no"));
+			UserDTO UserDTO = listService.Gouserpage(user_no);
+			return UserDTO;
+			}
+		
+		
+	//내가 쓴글 목록 VUE : user_no으로 알아내기
+		@PostMapping("/myfeedList/{user_no}")
+		public List<ListDTO> myfeedList(@PathVariable int user_no) throws Exception {
+			
+			logger.info("ListController에서 myfeedList()실행....");
+			List<ListDTO> myfeedList = listService.myfeedList(user_no);
+			return myfeedList;
+			}
+	
+	//내가 좋아요한 글 목록 VUE
+		@PostMapping("/mylikefeedList/{user_no}")
+		public List<ListDTO> mylikefeedList(@PathVariable int user_no) throws Exception {
+			
+			logger.info("ListController에서 mylikefeedList()실행....");
+			List<ListDTO> mylikefeedList = listService.mylikefeedList(user_no);
+			return mylikefeedList;
+			}
+		
 		
 		
 	}// END - public class VueListController

@@ -7,7 +7,7 @@
 <mapper namespace="com.giggler.giggle.List">
 
 
-	<!-- 메인 목록 가져오기 : giggle_post 조회용 -->
+	<!-- 메인 목록 가져오기 -->
 	<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">
 		<![CDATA[
 
@@ -41,6 +41,42 @@
 		]]>
 	</select>
 
+	<!-- search - mypage / notmypage 알아내기 -->
+	<select id="Gouserpage" parameterType="Integer" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT 		user_no , user_nick
+			FROM 		giggledbaws.user    
+			WHERE 		user_no = #{user_no}
+		]]>
+	</select>
+	
+	<!-- 	//내가 쓴글 목록 VUE : user_no으로 알아내기 -->
+	<select id="MyFeedlist"  parameterType="com.giggler.giggle.dto.ListDTO" resultType="com.giggler.giggle.dto.ListDTO">
+		<![CDATA[
+			SELECT      p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt , p.share_cnt, p.post_link
+			FROM        giggledbaws.user u
+			LEFT JOIN   giggledbaws.post p 
+			ON          p.user_no = u.user_no
+			WHERE       u.user_no = #{u.user_no}
+			ORDER BY    p.post_no desc;
+		]]>
+	</select>
+	
+	<!--    //내가 좋아요한 글 목록 VUE : user_no으로 알아내기 -->
+	<select id="MyLikeFeedlist"  parameterType="com.giggler.giggle.dto.ListDTO" resultType="com.giggler.giggle.dto.ListDTO">
+		<![CDATA[
+			SELECT       k.user_no , p.post_no , u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.share_cnt,p.post_link
+			FROM         giggledbaws.postlike k
+			INNER JOIN   giggledbaws.post p 
+			INNER JOIN   giggledbaws.user u
+			ON			 p.user_no = u.user_no
+			ON		 	 p.post_no = k.post_no 
+			WHERE        k.user_no = #{k.user_no}
+			ORDER BY     k.post_no desc;
+		]]>
+	</select>
+	
+	
 	
 
 </mapper>
