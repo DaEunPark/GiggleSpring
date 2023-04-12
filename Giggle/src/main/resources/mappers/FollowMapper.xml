@@ -3,27 +3,61 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.giggler.giggle.postUpload">
+<mapper namespace="com.giggler.giggle.follow">
 
-	<!-- 포스트 등록하기 -->
- 	<insert id="addPost" parameterType="com.giggler.giggle.dto.PostDTO">
+	<!-- 팔로잉 등록하기 -->
+ 	<insert id="addfollowing" parameterType="com.giggler.giggle.dto.FollowDTO">
 		<![CDATA[
-			INSERT INTO giggledbaws.post ( user_no, text_content, post_date, post_link, read_count )
-			VALUES	(#{user_no}, #{text_content}, sysdate(), #{post_link}, 0)
+			INSERT INTO giggledbaws.follow ( user_no, follow_user, follow_date )
+			VALUES	(#{user_no}, #{follow_user}, sysdate())
 		]]>
 	</insert> 
 	
+	<!-- 팔로워 등록하기 -->
+ 	<insert id="addfollower" parameterType="com.giggler.giggle.dto.FollowDTO">
+		<![CDATA[
+			INSERT INTO giggledbaws.follower ( user_no, follower_user, follower_date )
+			VALUES	(#{follow_user}, #{user_no}, sysdate())
+		]]>
+	</insert> 
+	
+	<!-- 팔로우 체크하기 -->
+	<select id="isFollowing" parameterType="com.giggler.giggle.dto.FollowDTO" resultType="int">
+		<![CDATA[
+			SELECT count(*)
+			From giggledbaws.follow fing, giggledbaws.follower fed
+			WHERE fing.user_no = fed.follower_user AND fing.follow_user = fed.user_no 
+					AND fing.user_no = #{user_no} AND fing.follow_user = #{follow_user}
+		]]>
+	</select>
+	
+	<!-- 언팔 팔로우 테이블 -->
+	<delete id="deletefollowing" parameterType="com.giggler.giggle.dto.FollowDTO" >
+		<![CDATA[
+			DELETE FROM giggledbaws.follow
+			WHERE user_no = #{user_no} AND follow_user = #{follow_user}
+		]]>
+	</delete>
+	
+	<!-- 언팔 팔로워 테이블 -->
+	<delete id="deletefollower" parameterType="com.giggler.giggle.dto.FollowDTO" >
+		<![CDATA[
+			DELETE FROM giggledbaws.follower
+			WHERE user_no = #{follow_user} AND follower_user = #{user_no}
+		]]>
+	</delete>
+	
 	<!-- 자신의 최신 포스트 번호 -->
- 	<select id="currentPost" resultType="int" parameterType="com.giggler.giggle.dto.ListDTO">
+<!--  	<select id="currentPost" resultType="int" parameterType="com.giggler.giggle.dto.ListDTO">
 	<![CDATA[
 			SELECT max(post_no)
 			FROM giggledbaws.post
 			WHERE user_no = #{user_no}
 		]]>
-	</select>
+	</select> -->
 	
 	<!-- 포스트 상세조회 -->
- 	<select id="postDetail" parameterType="int" resultType="com.giggler.giggle.dto.ListDTO">
+<!--  	<select id="postDetail" parameterType="int" resultType="com.giggler.giggle.dto.ListDTO">
 	<![CDATA[
 			select		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
 			from 		giggledbaws.user u
@@ -31,57 +65,57 @@
 			on 			p.user_no = u.user_no
 			WHERE 		post_no = #{post_no}
 		]]>
-	</select>
+	</select> -->
 	
 	<!-- 포스트 이미지 등록하기 -->
- 	<insert id="uploadImage" parameterType="com.giggler.giggle.dto.ImageDTO">
+<!--  	<insert id="uploadImage" parameterType="com.giggler.giggle.dto.ImageDTO">
 		<![CDATA[
 			INSERT INTO giggledbaws.image ( post_no, imagepath, is_posting, user_no)
 			VALUES	(#{post_no}, #{imagepath}, #{is_posting}, #{user_no})
 		]]>
-	</insert> 
+	</insert>  -->
 	
 	<!-- 포스트 이미지 불러오기 -->
-	<select id="postImages" parameterType="int" resultType="com.giggler.giggle.dto.ImageDTO">
+<!-- 	<select id="postImages" parameterType="int" resultType="com.giggler.giggle.dto.ImageDTO">
 		<![CDATA[
 			SELECT *
 			FROM giggledbaws.image
 			WHERE post_no = #{post_no}
 		]]>
-	</select>
+	</select> -->
 	
 	<!-- 포스트 이미지 삭제 -->
-	<delete id="deletePostImages" parameterType="int">
+<!-- 	<delete id="deletePostImages" parameterType="int">
 		<![CDATA[
 			DELETE FROM giggledbaws.image
 			WHERE post_no = #{post_no}
 		]]>
-	</delete>
+	</delete> -->
 	
 	<!-- 포스트 삭제 -->
-	<delete id="deletePost" parameterType="int">
+<!-- 	<delete id="deletePost" parameterType="int">
 		<![CDATA[
 			DELETE FROM giggledbaws.post
 			WHERE post_no = #{post_no}
 		]]>
-	</delete>
+	</delete> -->
 	
 	<!--  이미지 삭제 -->
-	<delete id="deleteImage" parameterType="String">
+<!-- 	<delete id="deleteImage" parameterType="String">
 		<![CDATA[
 			DELETE FROM giggledbaws.image
 			WHERE imagepath = #{imagepath}
 		]]>
-	</delete>
+	</delete> -->
 	
 	<!-- 포스트 수정하기 -->
-	<update id="updatePost" parameterType="com.giggler.giggle.dto.PostDTO">
+<!-- 	<update id="updatePost" parameterType="com.giggler.giggle.dto.PostDTO">
 		<![CDATA[
 			UPDATE	giggledbaws.post
 			SET		text_content = #{text_content}, post_link = #{post_link}
 			WHERE	post_no = #{post_no}
 		]]>
-	</update>
+	</update> -->
 
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">

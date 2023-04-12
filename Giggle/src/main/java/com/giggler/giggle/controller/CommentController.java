@@ -67,11 +67,14 @@ public class CommentController {
 		//-----------------------------------------------------------------------------------------------------------
 		// 댓글 번호에 해당하는 댓글 삭제하기
 		//-----------------------------------------------------------------------------------------------------------
-		//@ResponseBody
+		@ResponseBody
 		@PostMapping("/commentDelete")
 		//@RequestMapping(value = "/commentDelete", method = RequestMethod.POST)
-		public String commentDelete(@RequestBody int comment_no, int post_no, HttpServletRequest request) throws Exception {
+		public String commentDelete(@RequestBody Map<String, String> info, HttpServletRequest request) throws Exception {
 					
+			System.out.println("댓글삭제 : " + request.getParameter("comment_no"));
+			
+			int comment_no = Integer.valueOf(info.get("comment_no"));
 		
 			System.out.println("CommentController 게시글 번호에 해당하는 댓글 삭제하기 번호: " + comment_no);
 					
@@ -79,6 +82,6 @@ public class CommentController {
 					return "Y";
 				} else {
 					return "N";
-				}
+				}                              
 		}
 }

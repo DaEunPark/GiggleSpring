@@ -55,4 +55,28 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 		return sqlSession.selectList(Namespace + ".postImages", post_no);
 	}
 
+	@Override
+	public int deletePostImages(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.delete(Namespace + ".deletePostImages", post_no);
+	}
+
+	@Override
+	public int deletePost(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.delete(Namespace + ".deletePost", post_no);
+	}
+
+	@Override
+	public int deleteImage(String imagepath) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.delete(Namespace + ".deleteImage", imagepath);
+	}
+
+	@Override
+	public int updatePost(PostDTO postDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return sqlSession.update(Namespace + ".updatePost", postDTO);
+	}
+
 }
