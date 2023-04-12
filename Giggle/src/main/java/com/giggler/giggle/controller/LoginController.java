@@ -1,5 +1,6 @@
 package com.giggler.giggle.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -55,6 +56,29 @@ public class LoginController {
 	} // End - 로그인 정보 가져오기
 	
 	//----------------------------------------------------------------------------------//
+	// 구글로그인 정보 가져오기(DB)
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/googlelogin")
+	@ResponseBody
+	public UserDTO googlelogin(@RequestBody Map<String, String> info) throws Exception {
+		
+		logger.info("LoginController에서 googlelogin() 실행....");
+		
+		userDTO.setGoogle_token(info.get("google_token"));
+
+		UserDTO userDTOS = loginService.googleUserCheck(userDTO);
+
+		System.out.println("userDTOS = " + userDTOS);
+		
+		if(userDTOS == null) {
+			System.out.println("검색 결과가 없습니다.");
+		}
+		
+		return userDTOS; 
+		
+	} // End - 로그인 정보 가져오기
+	
+	//----------------------------------------------------------------------------------//
 	// 아이디찾기
 	//----------------------------------------------------------------------------------//
 	@PostMapping("/searchId")
@@ -93,28 +117,6 @@ public class LoginController {
 		return userDTOP;
 	}
 	
-	//----------------------------------------------------------------------------------//
-	// 구글로그인
-	//----------------------------------------------------------------------------------//
-	@PostMapping("/googleAuth")
-	@ResponseBody
-	public UserDTO googleAuth(@RequestBody Map<String, String> token) throws Exception {
-		
-		logger.info("LoginController에서 googleAuth()실행....");
-		
-		String google_token = token.get("token");
-		System.out.println("********************************************************");
-		System.out.println("google_token = " + google_token);
-		System.out.println("********************************************************");
-
-		UserDTO userDTO = loginService.getGoogleToken(google_token);
-		
-		System.out.println("********************************************************");
-		System.out.println("userDTO = " + userDTO);
-		System.out.println("********************************************************");
-		return userDTO;
-
-	}
 	
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
@@ -130,6 +132,7 @@ public class LoginController {
 		userDTO.setStatus_message(info.get("status_message"));
 		userDTO.setUser_location(info.get("user_location"));
 		userDTO.setUser_birth(info.get("user_birth"));
+		userDTO.setProfile_image(info.get("profile_image"));
 
 		if(loginService.updateProfile(userDTO) == 1) {
 			userDTO.setUser_no(Integer.valueOf(info.get("user_no")));
@@ -188,6 +191,71 @@ public class LoginController {
 		
 		return userDTO;
 	}
+	
+	//----------------------------------------------------------------------------------//
+	// 팔로우 추천(3명)
+	//----------------------------------------------------------------------------------//	
+	@PostMapping("/recommendFollow")
+	@ResponseBody
+	public List<UserDTO> recommendFollow(@RequestBody Map<String, String> userInfo) throws Exception {
+		
+		logger.info("LoginController에서 recommendFollow()실행...");
+		
+		String user_no = userInfo.get("user_no");
+		
+		List<UserDTO> recommendUser = loginService.recommendFollow(user_no);
+		
+		System.out.println("recommendUser = "+recommendUser);
+		
+		return recommendUser;		
+		
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 팔로우 추천(전부)
+	//----------------------------------------------------------------------------------//	
+	@PostMapping("/recommendFollowAll")
+	@ResponseBody
+	public List<UserDTO> recommendFollowAll(@RequestBody Map<String, String> userInfo) throws Exception {
+		
+		logger.info("LoginController에서 recommendFollow()실행...");
+		
+		String user_no = userInfo.get("user_no");
+		
+		List<UserDTO> recommendUser = loginService.recommendFollowAll(user_no);
+		
+		return recommendUser;		
+		
+	}
+
+//	//----------------------------------------------------------------------------------//
+//	// 프로필 사진 업데이트하기
+//	//----------------------------------------------------------------------------------//
+//	@PostMapping("/picUpdate")
+//	@ResponseBody
+//	public UserDTO picUpdate(@RequestBody Map<String, String> picUpdate) throws Exception {
+//
+//		logger.info("LoginController에서 picUpdate()실행...");
+//		
+//		userDTO.setProfile_image(picUpdate.get("profile_image"));
+//		userDTO.setUser_no(Integer.valueOf(picUpdate.get("user_no")));
+//		
+//		System.out.println("************************************");
+//		System.out.println("profile_image = " + picUpdate.get("profile_image"));
+//		System.out.println("************************************");
+//		
+//		int success = loginService.picUpdate(userDTO);
+//		
+//		if(success==1) {
+//			userDTO.setUser_no(Integer.valueOf(picUpdate.get("user_no")));
+//			UserDTO userDTOPP = loginService.updateCheck(userDTO);
+//			return userDTOPP;
+//		} else {
+//			UserDTO userDTOPP = loginService.updateCheck(userDTO);
+//			return userDTOPP;
+//		}
+
+//	}
 	
 	
 	

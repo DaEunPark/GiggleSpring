@@ -1,6 +1,8 @@
 package com.giggler.giggle.service;
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,17 @@ public class LoginServiceImpl implements LoginService {
 		
 		return loginDAO.userCheck(userDTO);
 	}
+	
+	//----------------------------------------------------------------------------------//
+	// 구글로그인 정보 가져오기(DB)
+	//----------------------------------------------------------------------------------//
+	@Override
+	public UserDTO googleUserCheck(UserDTO userDTO) throws Exception {
+		
+		logger.info("LoginService에서 googleUserCheck()실행....");
+		
+		return loginDAO.googleUserCheck(userDTO);
+	}
 
 	//----------------------------------------------------------------------------------//
 	// 아이디찾기
@@ -51,16 +64,6 @@ public class LoginServiceImpl implements LoginService {
 		return loginDAO.searchPwd(userDTO);
 	}
 	
-	//----------------------------------------------------------------------------------//
-	// 구글로그인
-	//----------------------------------------------------------------------------------//
-	@Override
-	public UserDTO getGoogleToken(String google_token) throws Exception {
-		
-		logger.info("loginService에서 getGoogleToken()실행...");
-		
-		return loginDAO.getGoogleToken(google_token);
-	}
 	
 	//----------------------------------------------------------------------------------//
 	// 프로필 사진 수정하기
@@ -126,8 +129,38 @@ public class LoginServiceImpl implements LoginService {
 		
 		return loginDAO.profileCnt(user_no);
 	}
-	
-	
 
+	//----------------------------------------------------------------------------------//
+	// 프로필 사진 업데이트하기
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int picUpdate(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginService에서 picUpdate()실행...");
+		
+		return loginDAO.picUpdate(userDTO);
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 팔로우 추천(3명)
+	//----------------------------------------------------------------------------------//
+	@Override
+	public List<UserDTO> recommendFollow(String user_no) throws Exception {
+		
+		logger.info("loginService에서 recommendFollow()실행...");
+		
+		return loginDAO.recommendFollow(user_no);
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 팔로우 추천(전부)
+	//----------------------------------------------------------------------------------//
+	@Override
+	public List<UserDTO> recommendFollowAll(String user_no) throws Exception {
+		
+		logger.info("loginService에서 recommendFollow()실행...");
+		
+		return loginDAO.recommendFollowAll(user_no);
+	}
 
 }

@@ -22,8 +22,8 @@
 	<!-- 회원 등록하기 -->
 	<insert id="userRegister" parameterType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
-		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, user_phone, open_yn, naver_token, alarm_yn, message_yn, profile_image)
-		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{user_phone}, #{open_yn}, #{naver_token}, #{alarm_yn}, #{message_yn}, #{profile_image})
+		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, user_phone, open_yn, naver_token, alarm_yn, message_yn, profile_image, google_token)
+		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{user_phone}, #{open_yn}, #{naver_token}, #{alarm_yn}, #{message_yn}, #{profile_image}, #{google_token})
 		]]>
 	</insert>
 
@@ -65,8 +65,7 @@
 	<!-- 회원 번호로 AlarmDTO List 가져오기 -->
 	<select id="getAlarmListByUserNo" parameterType="Integer" resultType="com.giggler.giggle.dto.AlarmDTO">
 		<![CDATA[
-
-		SELECT a. alarm_no alarm_no, a.user_no user_no, a.alarm_user alarm_user, u2.user_nick alarm_user_nick,
+		SELECT a.alarm_no alarm_no, a.user_no user_no, a.alarm_user alarm_user, u2.user_nick alarm_user_nick,
 		u2.profile_image alarm_user_profile, a.alarm_type alarm_type, a.alarm_date alarm_date, a.post_no post_no
 		FROM alarm a, user u1, user u2
 		WHERE a.user_no = u1.user_no

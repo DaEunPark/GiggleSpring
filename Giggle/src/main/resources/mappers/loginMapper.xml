@@ -14,6 +14,15 @@
 		]]>
 	</select> 
 	
+	<!-- 구글로그인하기 -->
+ 	<select id="googleUserCheck" parameterType="com.giggler.giggle.dto.UserDTO" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT *
+			FROM   giggle
+			WHERE  google_token = #{google_token}
+		]]>
+	</select> 
+	
 	<!-- 아이디 찾기 -->
 	 <select id="searchId" parameterType="com.giggler.giggle.dto.UserDTO" resultType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
@@ -29,15 +38,6 @@
 			SELECT *
 			FROM   giggle
 			WHERE  user_email = #{user_email} AND user_birth = #{user_birth} AND user_phone = #{user_phone}
-		]]>
-	</select>
-
-	<!-- 구글로그인하기 -->
-	 <select id="getGoogleToken" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
-		<![CDATA[
-			SELECT *
-			FROM   giggle
-			WHERE  google_token = #{google_token}
 		]]>
 	</select>
 	
@@ -66,7 +66,8 @@
 			SET 	user_nick = #{user_nick},
 					status_message = #{status_message},
 					user_location = #{user_location},
-					user_birth = #{user_birth}
+					user_birth = #{user_birth},
+					profile_image = #{profile_image}
 			WHERE user_no = #{user_no}
 		]]>
 	</update>
@@ -104,6 +105,40 @@
 			SELECT *
 			FROM profileCnt
 			WHERE user_no = #{user_no}
+		]]>
+	</select>
+	
+	<!-- 프로필 사진 업데이트하기 -->
+	<update id="picUpdate" parameterType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			UPDATE user
+			SET profile_image = #{profile_image}
+			WHERE user_no = #{user_no}
+		]]>
+	</update>
+	
+	<!-- 팔로우 추천(3명) -->
+	<select id="recommendFollow" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT distinct(user_nick), user_no, user_email, user_pwd, user_birth, user_joindate, 
+					user_location, open_yn, status_message, profile_image, back_image, follow_user, 
+					follower_user, count_post
+			FROM giggle
+			WHERE user_no != #{user_no}
+			ORDER BY rand()
+			LIMIT 3;
+		]]>
+	</select>
+	
+	<!-- 팔로우 추천(전부) -->
+	<select id="recommendFollowAll" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			SELECT distinct(user_nick), user_no, user_email, user_pwd, user_birth, user_joindate, 
+					user_location, open_yn, status_message, profile_image, back_image, follow_user, 
+					follower_user, count_post
+			FROM giggle
+			WHERE user_no != #{user_no}
+			ORDER BY rand()
 		]]>
 	</select>
 	
