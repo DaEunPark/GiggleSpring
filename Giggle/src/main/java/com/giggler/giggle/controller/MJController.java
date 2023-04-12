@@ -65,30 +65,6 @@ public class MJController {
 		return mjService.naverLogin(naver_token);
 	}
 	
-	//비밀번호 일치 여부 확인하기=====================================================
-	@PostMapping("/checkPwd")
-	public int checkPwd(@RequestBody UserDTO userDTO) throws Exception {
-		System.out.println("MJController의 checkPwd() " + userDTO);
-		
-		return mjService.checkPwd(userDTO);		
-	}
-	
-	//비밀번호 변경하기========================================================
-	@PostMapping("/chagePwd")
-	public int chagePwd(@RequestBody UserDTO userDTO) throws Exception {
-		System.out.println("MJController의 chagePwd() " + userDTO);
-		
-		return mjService.chagePwd(userDTO);			
-	}
-	
-	//회원 탈퇴하기========================================================================
-	@GetMapping("/unregister/{user_no}")
-	public int unregister(@PathVariable int user_no) throws Exception {
-		System.out.println("MJController의 unregister() " + user_no);
-		
-		return mjService.unregister(user_no);		
-	}
-	
 	//회원 번호에 해당하는 알람 리스트 가져오기======================================
 	@GetMapping("/alarmList/{user_no}")
 	public List<AlarmDTO> getAlarmListByUserNo (@PathVariable int user_no) throws Exception {
@@ -99,44 +75,12 @@ public class MJController {
 		return alarmList;
 	}
 	
-	//회원번호에 해당하는 알람 유무 상태 가져오기===========================================
-	@GetMapping("/getUserAlarmYN/{user_no}")
-	public String getUserAlarmYN(@PathVariable int user_no) throws Exception {
-		System.out.println("MJController의 getUserAlarmYN() " + user_no);
-		
-		return mjService.getUserAlarmYN(user_no);		
-	}
-	
-	//회원번호에 해당하는 알람 유무를 N으로 바꾸기===========================================
-	@GetMapping("/updateUserAlarmYN/{user_no}")
-	public int updateUserAlarmYN(@PathVariable int user_no) throws Exception {
-		System.out.println("MJController의 updateUserAlarmYN() " + user_no);
-		
-		return mjService.updateUserAlarmYN(user_no);		
-	}
-	
-	//알람 번호에 해당하는 데이터 삭제하기=============================================
-	@GetMapping("/deleteAlarm/{alarm_no}")
-	public int deleteAlarm(@PathVariable int alarm_no) throws Exception {
-		System.out.println("MJController의 deleteAlarm() " + alarm_no);
-		
-		return mjService.deleteAlarm(alarm_no);		
-	}
-	
 	//회원 번호에 해당하는 채팅방 리스트 가져오기===========================================
 	@GetMapping("/chatRoomList/{user_no}")
 	public List<ChatRoomDTO> getChatRoomListByUserNo (@PathVariable int user_no) throws Exception {
 		System.out.println("MJController의 getAlarmListByUserNo() " + user_no);
 		
 		return mjService.getChatRoomListByUserNo(user_no);
-	}
-	
-	//회원번호에 해당하는 메세지 유무 상태 가져오기===========================================
-	@GetMapping("/getUserMessageYN/{user_no}")
-	public String getUserMessageYN(@PathVariable int user_no) throws Exception {
-		System.out.println("MJController의 getUserMessageYN() " + user_no);
-		
-		return mjService.getUserMessageYN(user_no);		
 	}
 	
 	//회원번호에 해당하는 메세지 유무를 N으로 바꾸기===========================================
