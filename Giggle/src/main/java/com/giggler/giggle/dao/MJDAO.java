@@ -53,11 +53,60 @@ public class MJDAO {
 		
 		return sqlSession.selectOne(Namespace + ".naverLogin", naver_token);
 	}	
-	//회원 번호에 해당하는 알람 리스트 가져오기
+	
+	//비밀번호 일치 여부 확인하기=====================================
+	public int checkPwd(UserDTO userDTO) throws Exception {
+		System.out.println("MJDAO의 checkPwd()");
+		
+		//유저 번호에 해당하는 비밀번호를 가져와서 일치하는지 확인한다.
+		String orginPwd = sqlSession.selectOne(Namespace + ".checkPwd", userDTO);	
+		if(orginPwd == userDTO.getUser_pwd()) {
+			return 1;
+		} else {
+			return 0;
+		}		
+	}
+	
+	//비밀번호 변경하기=====================================================
+	public int chagePwd(UserDTO userDTO) throws Exception {
+		System.out.println("MJDAO의 chagePwd()");
+		
+		return sqlSession.update(Namespace + ".chagePwd", userDTO);			
+	}
+	
+	//회원 탈퇴하기==================================================================
+	public int unregister(int user_no) throws Exception {
+		System.out.println("MJDAO의 unregister()");
+		
+		return sqlSession.delete(Namespace + ".unregister", user_no);		
+	}
+	
+	//회원 번호에 해당하는 알람 리스트 가져오기========================================
 	public List<AlarmDTO> getAlarmListByUserNo (int user_no) throws Exception {
 		System.out.println("MJDAO의 getAlarmListByUserNo 시작");
 		
 		return sqlSession.selectList(Namespace + ".getAlarmListByUserNo", user_no);
+	}
+	
+	//회원번호에 해당하는 알람 유무 상태 가져오기===================================================
+	public String getUserAlarmYN(int user_no) throws Exception {
+		System.out.println("MJDAO의 getUserAlarmYN() 시작");
+		
+		return sqlSession.selectOne(Namespace + ".getUserAlarmYN", user_no);			
+	}
+	
+	//회원번호에 해당하는 알람 유무 업데이트======================================================
+	public int updateUserAlarmYN(int user_no) throws Exception {
+		System.out.println("MJDAO의 updateUserAlarmYN() 시작");
+		
+		return sqlSession.update(Namespace + ".updateUserAlarmYN", user_no);			
+	}
+		
+	//알람 번호에 해당하는 데이터 삭제하기===========================================
+	public int deleteAlarm(int alarm_no) throws Exception {
+		System.out.println("MJDAO의 deleteAlarm 시작");
+		
+		return sqlSession.delete(Namespace + ".deleteAlarm", alarm_no);		
 	}
 	
 	//회원번호에 해당하는 채팅방 리스트 가져오기 + 상대방 정보 담기
@@ -86,6 +135,13 @@ public class MJDAO {
 		}
 		System.out.println("채팅방 리스트: " + chatRoomList);
 		return chatRoomList;		
+	}
+	
+	//회원번호에 해당하는 메세지 유무 상태 가져오기===================================================
+	public String getUserMessageYN(int user_no) throws Exception {
+		System.out.println("MJDAO의 getUserMessageYN() 시작");
+		
+		return sqlSession.selectOne(Namespace + ".getUserMessageYN", user_no);			
 	}
 	
 	//회원번호에 해당하는 메세지 유무 업데이트======================================================
