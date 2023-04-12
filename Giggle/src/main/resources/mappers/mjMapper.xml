@@ -65,6 +65,7 @@
 	<!-- 회원 번호로 AlarmDTO List 가져오기 -->
 	<select id="getAlarmListByUserNo" parameterType="Integer" resultType="com.giggler.giggle.dto.AlarmDTO">
 		<![CDATA[
+
 		SELECT a. alarm_no alarm_no, a.user_no user_no, a.alarm_user alarm_user, u2.user_nick alarm_user_nick,
 		u2.profile_image alarm_user_profile, a.alarm_type alarm_type, a.alarm_date alarm_date, a.post_no post_no
 		FROM alarm a, user u1, user u2

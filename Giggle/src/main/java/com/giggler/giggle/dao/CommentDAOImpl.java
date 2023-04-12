@@ -48,7 +48,15 @@ public class CommentDAOImpl implements CommentDAO {
 	public int commentRegister(CommentDTO commentDTO) throws Exception {
 		System.out.println("CommentDAOImpl의 commentRegister() 구하기....");
 			
-		return sqlSession.insert(Namespace + ".commentRegister", commentDTO);
+		int result = sqlSession.insert(Namespace + ".commentRegister", commentDTO);
+		if(result == 1) {
+			//댓글 등록에 성공 하면 해당 게시글의 댓글 수를 1 증가시킨다.
+			int imsi = sqlSession.update(Namespace + ".updateCommentCnt" , commentDTO.getPost_no());
+			int imsisi = sqlSession.insert(Namespace + ".insertAlarmCnt", commentDTO);
+			int imsisisi = sqlSession.update(Namespace + "updateAlarmYn", commentDTO);
+		}
+		
+		return result;
 	}
 
 	// 댓글 번호에 해당하는 댓글 삭제하기
