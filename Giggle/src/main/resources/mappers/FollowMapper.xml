@@ -21,6 +21,21 @@
 		]]>
 	</insert> 
 	
+	<!-- 팔로우 알람 추가하기 -->
+	<insert id="addfollowAlarm" parameterType="com.giggler.giggle.dto.FollowDTO">
+		<![CDATA[
+			INSERT INTO giggledbaws.alarm ( user_no, alarm_user, alarm_type, alarm_date )
+			VALUES	(#{follow_user}, #{user_no}, "1", sysdate())
+		]]>	
+	</insert>
+
+	<!-- 팔로우한 사람의 알람 유무 업데이트 하기 -->	
+	<update id="updateAlarmYn" parameterType="com.giggler.giggle.dto.FollowDTO">	
+		<![CDATA[
+			UPDATE user SET alarm_yn = "Y" WHERE user_no = #{follow_user}
+		]]>
+	</update>
+		
 	<!-- 팔로우 체크하기 -->
 	<select id="isFollowing" parameterType="com.giggler.giggle.dto.FollowDTO" resultType="int">
 		<![CDATA[
