@@ -8,82 +8,96 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.giggler.giggle.dto.ListDTO;
-//import com.edu.board.controller.VueBoardController;
-import com.giggler.giggle.dto.PostDTO;
-import com.giggler.giggle.dto.UserDTO;
+import com.giggler.giggle.dto.CommentDTO;
+import com.giggler.giggle.dto.FollowDTO;
+import com.giggler.giggle.dto.LikeDTO;
 import com.giggler.giggle.service.LikeService;
-import com.giggler.giggle.service.PostUploadService;
 
-@RestController("iLkeController")
-@RequestMapping("/like")
+
+@RestController("likeController")
 @CrossOrigin
 public class LikeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LikeController.class);
 	
 	@Inject
-	private LikeService likeService;
+	LikeService likeService;
 	
+	@Autowired
+	LikeDTO likeDTO;
 	
-
-	//좋아요 실험중======================================//
-
-//	private Map<String, Object> heart(Model model, int user_no) throws Exception {
-//		int user_no = Integer.parseInt(httpRequest.getParameter("like_no"));
-//		User_no u = likeService.findByUser_no(user_no);
-//		
-// 		// 현재 로그인 유저가 좋아요를 눌렀는지 1 = 누름, 0 = 안누름
-//		int like_no = heartService.countByPostIdAndUserId(user_no, u.getId());
-//		// 이 게시물 자체의 좋아요 개수
-//		int post_no = heartService.countByPost_no(post_no);
-//		
-//		// Map으로 만들어준다음 return
-//		Map<String, Object> heartmap = new HashMap<String, Object>();
-//		heartmap.put("like_cnt", like_cnt); // 헷갈리지 않게 이름은 똑같이..설정
-//		heartmap.put("total_cnt", total_cnt);
-//		
-//		return heartmap;
-//	}
-//	
-	 
-	  @ResponseBody
-	    @RequestMapping(value = "/heart", method = RequestMethod.POST, produces = "application/json")
-	    public int like_no(HttpServletRequest httpRequest) throws Exception {
-
-	        int like_no = Integer.parseInt(httpRequest.getParameter("like_no"));
-	        int post_no = Integer.parseInt(httpRequest.getParameter("post_no"));
-	        int user_no = Integer.parseInt(httpRequest.getParameter("user_no"));
-
-	        PostDTO postDTO = new PostDTO();
-
-	        postDTO.setPost_no(post_no);
-	        postDTO.setUser_no(user_no);
-
-	        System.out.println(like_no);
-
-	        if(like_no >= 1) {
-	        	likeService.deleteBoardLike(postDTO);
-	            like_no=0;
-	        } else {
-	        	likeService.insertBoardLike(postDTO);
-	            like_no=1;
-	        }
-
-	        return like_no;
-
-	    }
-	
-	
+	@ResponseBody
+	@PostMapping("/pushLike")
+	public String pushLike(@RequestBody LikeDTO likeDTO, HttpServletRequest request) throws Exception {
+		System.out.println("라d잌");
+		System.out.println("content= " + likeDTO);
+		
+		
+		
+	if(likeService.pushLike(likeDTO) == 1) {
+	//ikeService.pushLike(likeDTO);
+		return "Y";
+	}	 else {
+		// 언팔 기능
+//likeService.unLike(likeDTO);
+		return "N";
+	}
 }
+
+
+	@GetMapping("/likeList/{post_no}")
+	public List<LikeDTO> likeList(@PathVariable int post_no) throws Exception {
+		System.out.println("likeList 구하기....");
+			
+	//	return commentDTO.commentList(post_no);
+		List<LikeDTO> likeList = likeService.likeList(post_no);
+		System.out.println(likeList);
+		return likeList;
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------
+	// 댓글 번호에 해당하는 댓글 삭제하기
+	//-----------------------------------------------------------------------------------------------------------
+/*	@ResponseBody
+	@PostMapping("/likeDelete")
+	//@RequestMapping(value = "/commentDelete", method = RequestMethod.POST)
+	public String unlike(@RequestBody Map<String, String> info, HttpServletRequest request) throws Exception {
+				
+		System.out.println("댓글삭제 : " + request.getParameter("like_no"));
+		
+		int like_no = Integer.valueOf(info.get("like_no"));
+	
+		System.out.println("ㅋ: " + like_no);
+				
+		if(likeService.unLike(like_no) == 1) {
+				return "Y";
+			} else {
+				return "N";
+			}                   }
+	
+	
+	@GetMapping("/likeCount")
+	public String likeCount (@PathVariable int post_no) throws Exception {
+		logger.info("likeCount => " + post_no);
+		
+		int result = likeService.likeCount(post_no);		
+		
+		if (result == 1) {
+			return "Y";		
+		}else {
+			return "N";
+	}
+} */
+}
+
