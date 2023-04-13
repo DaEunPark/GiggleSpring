@@ -257,6 +257,16 @@ public class LoginController {
 			System.out.println("팔로우 안돼있음..");
 		}
 		
+		followDTO.setUser_no(Integer.valueOf(userInfo.get("blockUser_no")));
+		followDTO.setFollow_user(Integer.valueOf(userInfo.get("myUser_no")));
+		if(followcontroller.followCheck(followDTO) == "Y") {
+			System.out.println("팔로우 돼있어서 언팔 진행..");
+			loginService.unfollow(followDTO);
+			loginService.unfollower(followDTO);			
+		} else {
+			System.out.println("팔로우 안돼있음..");
+		}
+		
 		System.out.println("userBlock() 끝....");
 	}
 	

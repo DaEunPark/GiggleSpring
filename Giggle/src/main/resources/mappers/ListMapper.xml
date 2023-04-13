@@ -16,6 +16,7 @@
 			INNER JOIN  giggledbaws.post p  
 			ON 			p.user_no = u.user_no
 			WHERE		p.user_no NOT IN (SELECT block_user FROM block WHERE user_no = #{user_no})
+			AND 		p.user_no NOT IN (SELECT user_no FROM block WHERE block_user = #{user_no})
 			ORDER BY	p.post_no desc;
 
 		]]>
@@ -31,6 +32,7 @@
 			ON 			u.user_no = p.user_no
 			WHERE    	p.text_content LIKE CONCAT('%' ,#{keyword}, '%')
 			AND			p.user_no NOT IN (SELECT block_user FROM block WHERE user_no = #{user_no})
+			AND 		p.user_no NOT IN (SELECT user_no FROM block WHERE block_user = #{user_no})
 			ORDER BY    p.post_date desc;
 		]]>
 	</select>

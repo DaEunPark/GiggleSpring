@@ -39,32 +39,21 @@ public class VueListController {
 			return allfeedList;
 			}
 		
-	//검색 피드 목록 - feed용 VUE 
-		@GetMapping("/main/search/{keyword}")
-		public List<ListDTO> searchfeedList(@PathVariable(value="keyword", required=false) String keyword, Model model) throws Exception {
+		//검색 피드 목록 - feed용 VUE 
+		@GetMapping("/main/search/{keyword}/userno/{user_no}")
+		public List<ListDTO> searchfeedList(@PathVariable(value="keyword", required=false) String keyword, @PathVariable String user_no, Model model) throws Exception {
 			
 			logger.info("검색 피드 목록 - feed용 VUE");
 			
 			ListDTO listDTO = new ListDTO();
 			model.addAttribute("keyword", keyword);
 			listDTO.setKeyword(keyword);
+			listDTO.setUser_no(Integer.valueOf(user_no));
+			
+			System.out.println("listDTO.getKeyword() = " + listDTO.getKeyword());
+			System.out.println("listDTO.getUser_no() = " + listDTO.getUser_no());
 			return listService.searchfeedList(listDTO);
-			}	
-	
-//		@PostMapping("/main/search")
-//		@ResponseBody
-//		public List<ListDTO> searchfeedList(@RequestBody Map<String, String> userInfo) throws Exception {
-//
-//			logger.info("검색 피드 목록 - feed용 VUE");
-//			
-//			ListDTO listDTO = new ListDTO();
-//			listDTO.setUser_no(Integer.valueOf((userInfo.get("user_no"))));
-//			listDTO.setKeyword(userInfo.get("keyword"));
-//			
-//			return listService.searchfeedList(listDTO);
-//			
-//		}
-		
+			}		
 		
 	//검색 피드 목록 - user용 VUE 	-- post로 변경
 		@PostMapping("/main/searchuser/{keyword}")

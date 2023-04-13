@@ -117,6 +117,7 @@
 			FROM giggle
 			WHERE user_no != #{user_no} AND user_no NOT IN (SELECT follow_user FROM follow WHERE user_no = #{user_no})
 			AND user_no NOT IN (SELECT block_user FROM block WHERE user_no = #{user_no})
+			AND user_no NOT IN (SELECT user_no FROM block WHERE block_user = #{user_no})
 			ORDER BY rand()
 			LIMIT 3
 		]]>
@@ -131,6 +132,7 @@
 			FROM giggle
 			WHERE user_no != #{user_no} AND user_no NOT IN (SELECT follow_user FROM follow WHERE user_no = #{user_no})
 			AND user_no NOT IN (SELECT block_user FROM block WHERE user_no = #{user_no})
+			AND user_no NOT IN (SELECT user_no FROM block WHERE block_user = #{user_no})
 			ORDER BY rand()
 		]]>
 	</select>
