@@ -66,8 +66,8 @@ public class VueListController {
 //		}
 		
 		
-	//검색 피드 목록 - user용 VUE 	
-		@GetMapping("/main/searchuser/{keyword}")
+	//검색 피드 목록 - user용 VUE 	-- post로 변경
+		@PostMapping("/main/searchuser/{keyword}")
 		public List<UserDTO> searchuserList(@PathVariable String keyword) throws Exception {
 			logger.info("검색 피드 목록 - user용 VUE" + keyword);
 			
