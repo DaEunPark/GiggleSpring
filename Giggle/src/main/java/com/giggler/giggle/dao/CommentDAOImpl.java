@@ -53,7 +53,7 @@ public class CommentDAOImpl implements CommentDAO {
 			//댓글 등록에 성공 하면 해당 게시글의 댓글 수를 1 증가시킨다.
 			int imsi = sqlSession.update(Namespace + ".updateCommentCnt" , commentDTO.getPost_no());
 			int imsisi = sqlSession.insert(Namespace + ".insertAlarmCnt", commentDTO);
-			int imsisisi = sqlSession.update(Namespace + "updateAlarmYn", commentDTO);
+			int imsisisi = sqlSession.update(Namespace + ".updateAlarmYn", commentDTO);
 		}
 		
 		return result;
@@ -61,11 +61,23 @@ public class CommentDAOImpl implements CommentDAO {
 
 	// 댓글 번호에 해당하는 댓글 삭제하기
 	@Override
-	public int commentDelete(int comment_no) throws Exception {
+	public int commentDelete(CommentDTO commentDTO) throws Exception {
 		// logger.info("CommentDAOImpl 댓글 번호에 해당하는 댓글 삭제하기() 시작");
 		System.out.println("CommentDAOImpl 댓글 번호에 해당하는 댓글 삭제하기() 시작");	
-		return sqlSession.delete(Namespace + ".commentDelete", comment_no);
+		
+		int result = sqlSession.delete(Namespace + ".commentDelete", commentDTO);
+		System.out.println("result 1 = " + result);	
+		if(result == 1) {
+			
+			System.out.println("result 2 = " + result);	
+			System.out.println("commentDTO ==> " + commentDTO);	
+			int cntminus = sqlSession.update(Namespace + ".deleteCommentCnt", commentDTO);
+			System.out.println("cntminus 1 = " + cntminus);	
+			
+		}
+		return result;
 	}
+	
 
 
 }

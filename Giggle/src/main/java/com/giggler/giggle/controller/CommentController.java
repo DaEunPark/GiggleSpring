@@ -70,15 +70,16 @@ public class CommentController {
 		@ResponseBody
 		@PostMapping("/commentDelete")
 		//@RequestMapping(value = "/commentDelete", method = RequestMethod.POST)
-		public String commentDelete(@RequestBody Map<String, String> info, HttpServletRequest request) throws Exception {
+		public String commentDelete(@RequestBody CommentDTO commentDTO, HttpServletRequest request) throws Exception {
 					
-			System.out.println("댓글삭제 : " + request.getParameter("comment_no"));
+			// System.out.println("댓글삭제 : " + request.getParameter("commentDTO"));
+			System.out.println("댓글삭제 : " + commentDTO);
 			
-			int comment_no = Integer.valueOf(info.get("comment_no"));
+		//	int commentDTO = Integer.valueOf(info.get("commentDTO"));
 		
-			System.out.println("CommentController 게시글 번호에 해당하는 댓글 삭제하기 번호: " + comment_no);
+			System.out.println("CommentController 게시글 번호에 해당하는 댓글 삭제하기 번호: " + commentDTO);
 					
-			if(commentService.commentDelete(comment_no) == 1) {
+			if(commentService.commentDelete(commentDTO) == 1) {
 					return "Y";
 				} else {
 					return "N";
