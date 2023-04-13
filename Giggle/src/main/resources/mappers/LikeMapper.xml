@@ -5,22 +5,37 @@
 
 <mapper namespace="com.giggler.giggle.like">
 
-	
-	
-<!--  insert id="createBoardLike" parameterType="com.giggler.giggle.dto.PostDTO">
+	<!-- 게시글에 해당하는 댓글 갯수 구하기 -->
+	<select id="likeCount" parameterType="Integer" resultType="Integer">
 		<![CDATA[
-            INSERT INTO post (post_no, user_no)
-            VALUES (#{post_no}, #{user_no})
+			SELECT COUNT(*) FROM postlike WHERE post_no = #{post_no} 
+		
+		]]>
+	</select>	
+	
+<!-- post_no에 해당하는 댓글 목록 가져오기 -->
+	<select id="likeList" parameterType="Integer" resultType="com.giggler.giggle.dto.LikeDTO">
+		<![CDATA[
+			 SELECT postlike.post_no,			       
+			       postlike.user_no,
+			       postlike.like_no	
+                   FROM postlike 
+			WHERE post_no = #{post_no};
+			
+		]]>
+	</select>
+	
+	
+	
+<insert id="pushLike" parameterType="com.giggler.giggle.dto.LikeDTO">
+		<![CDATA[
+            INSERT INTO postlike (post_no, user_no, like_no)
+            VALUES (#{post_no}, #{user_no}, #{like_no})
             ]]>
-</insert-->
+</insert>
 
-<delete id="deleteBoardLike" parameterType="com.giggler.giggle.dto.PostDTO">
-		<![CDATA[
-    DELETE FROM post
-    WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
-</delete>
 
-<select id="updateBoardLike" parameterType="com.giggler.giggle.dto.PostDTO">
+<!-- select id="Liked" parameterType="com.giggler.giggle.dto.LikeDTO">
 		<![CDATA[
     UPDATE post
     SET
@@ -28,15 +43,37 @@
     FROM post
     WHERE post_no = #{post_no})
     WHERE user_no = #{user_no}]]>
-</select>
+</select-->
 
-<select id="getBoardLike" resultType="int" parameterType="com.giggler.giggle.dto.PostDTO">
+<!-- select id="Liked" resultType="int" parameterType="com.giggler.giggle.dto.LikeDTO">
 		<![CDATA[
-    SELECT COUNT(like_no) 
-    FROM post
+    SELECT COUNT(*) 
+    From postlike 
     WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
-</select>
+</select-->
 
+<delete id="unLike" parameterType="com.giggler.giggle.dto.LikeDTO">
+		<![CDATA[
+    DELETE FROM postlike
+    WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
+</delete>
+
+
+
+	<!-- 게시글 번호에 해당하는 게시글의 댓글 수 증가 -->
+	<update id="upLikeCnt" parameterType="Integer">
+	<![CDATA[
+	UPDATE post SET like_cnt = like_cnt + 1
+	WHERE post_no = #{post_no}
+	]]>
+	</update>
+		<!-- 게시글 번호에 해당하는 게시글의 댓글 수 증가 -->
+	<update id="unLikeCnt" parameterType="Integer">
+	<![CDATA[
+	UPDATE post SET like_cnt = like_cnt - 1
+	WHERE post_no = #{post_no}
+	]]>
+	</update>
 
 </mapper>
 

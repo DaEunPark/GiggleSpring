@@ -1,5 +1,7 @@
 package com.giggler.giggle.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,11 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.giggler.giggle.dto.CommentDTO;
+import com.giggler.giggle.dto.FollowDTO;
+import com.giggler.giggle.dto.LikeDTO;
 import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.service.PostUploadServiceImpl;
 
-@Repository("LikeDAO")
+@Repository("likeDAO")
 public class LikeDAOImpl implements LikeDAO {
 	private static final Logger logger = LoggerFactory.getLogger(LikeDAOImpl.class);
 	
@@ -20,28 +25,62 @@ public class LikeDAOImpl implements LikeDAO {
 	private SqlSession sqlSession;
 	
 	// Namespace 조심하자 : xml의 namespace와 동일해야 한다.(대소문자 주의할 것)
+	@Inject
 	private static String Namespace = "com.giggler.giggle.like";
 
 
+	@Override
+	public int likeCount(int post_no) throws DataAccessException {
+		System.out.println("CommentDAOImpl의 commentListCount() 구하기....");
+			
+		return sqlSession.selectOne(Namespace + ".likeCount", post_no);
+	}
+
+	// 게시글 번호에 해당하는 댓글 리스트 불러오기
+	//-----------------------------------------------------------------------------------------------------------	
+
+	@Override
+	public List<LikeDTO> likeList(int post_no) throws DataAccessException {
+		System.out.println("CommentDAOImpl의 commentList() 구하기....");
+			
+		return sqlSession.selectList(Namespace + ".likeList", post_no);
+	}
+
+	
+	
+	
 	 @Override
-	    public int getBoardLike(PostDTO postDTO) throws DataAccessException {
-	        return sqlSession.selectOne(Namespace+".getBoardLike",postDTO);
-	    }
+	 public int pushLike(LikeDTO likeDTO) throws DataAccessException {
+		int result= sqlSession.insert(Namespace + ".pushLike", likeDTO);
+		 
+		 if(result == 1) {
+		int like_cnt = sqlSession.update(Namespace + ".upLikeCnt", likeDTO.getPost_no());
+		
+		 }
+	     return result;
+		 
+	 }
 
 	    @Override
-	    public void insertBoardLike(PostDTO postDTO) throws DataAccessException {
-	    	sqlSession.insert(Namespace+".createBoardLike",postDTO);
+ public int unLike(LikeDTO likeDTO) throws DataAccessException {
+	    	int result = sqlSession.delete(Namespace + ".unlike", likeDTO);
+		 if(result == 1) {
+			int like_cnt = sqlSession.update(Namespace + ".unLikeCnt", likeDTO.getPost_no());
+		
+		 }
+	    	return result;
 	    }
 
-	    @Override
-	    public void deleteBoardLike(PostDTO postDTO) throws DataAccessException {
-	    	sqlSession.delete(Namespace+".deleteBoardLike",postDTO);
-	    }
+//    @Override
+//	public int liked(LikeDTO likeDTO) throws DataAccessException  {
+//    	return sqlSession.selectOne(Namespace+".Liked",likeDTO);
+//	    }
 
-	    @Override
-	    public void updateBoardLike(int post_no) throws DataAccessException {
-	    	sqlSession.update(Namespace+".updateBoardLike",post_no);
-	    }
+//	    @Override
+//    public void deleteBoardLike(PostDTO postDTO) throws DataAccessException {
+//	    	sqlSession.delete(Namespace+".deleteBoardLike",postDTO);
+//	    }
+
 
 	
 	
