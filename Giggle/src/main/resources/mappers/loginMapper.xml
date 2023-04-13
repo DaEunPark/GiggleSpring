@@ -125,8 +125,9 @@
 					follower_user, count_post
 			FROM giggle
 			WHERE user_no != #{user_no}
+			AND user_no NOT IN ( SELECT follow_user FROM follow WHERE user_no =  #{user_no}) 
 			ORDER BY rand()
-			LIMIT 3;
+			LIMIT 3
 		]]>
 	</select>
 	
@@ -138,6 +139,7 @@
 					follower_user, count_post
 			FROM giggle
 			WHERE user_no != #{user_no}
+			AND user_no NOT IN ( SELECT follow_user FROM follow WHERE user_no =  #{user_no}) 
 			ORDER BY rand()
 		]]>
 	</select>
