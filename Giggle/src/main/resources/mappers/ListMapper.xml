@@ -53,11 +53,9 @@
 	<!-- 	//내가 쓴글 목록 VUE : user_no으로 알아내기 -->
 	<select id="MyFeedlist"  parameterType="com.giggler.giggle.dto.ListDTO" resultType="com.giggler.giggle.dto.ListDTO">
 		<![CDATA[
-			SELECT      p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt , p.share_cnt, p.post_link
-			FROM        giggledbaws.user u
-			LEFT JOIN   giggledbaws.post p 
-			ON          p.user_no = u.user_no
-			WHERE       u.user_no = #{u.user_no}
+			SELECT  p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt , p.share_cnt, p.post_link
+			FROM   giggledbaws.post p ,  giggledbaws.user u 
+			WHERE  p.user_no = u.user_no and p.user_no =#{p.user_no}
 			ORDER BY    p.post_no desc;
 		]]>
 	</select>
