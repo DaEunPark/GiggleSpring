@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.giggler.giggle.dao.LoginDAO;
+import com.giggler.giggle.dto.FollowDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 
@@ -64,18 +65,6 @@ public class LoginServiceImpl implements LoginService {
 		return loginDAO.searchPwd(userDTO);
 	}
 	
-	
-	//----------------------------------------------------------------------------------//
-	// 프로필 사진 수정하기
-	//----------------------------------------------------------------------------------//
-	@Override
-	public int updatePic(UserDTO userDTO) throws Exception {
-
-		logger.info("loginService에서 updatePic()실행...");
-		
-		return loginDAO.updatePic(userDTO);
-	}
-
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
 	//----------------------------------------------------------------------------------//
@@ -161,6 +150,63 @@ public class LoginServiceImpl implements LoginService {
 		logger.info("loginService에서 recommendFollow()실행...");
 		
 		return loginDAO.recommendFollowAll(user_no);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저 블락
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int userBlock(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginService에서 userBlock()실행...");
+		
+		return loginDAO.userBlock(userDTO);
+		
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저 블락 체크
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int userBlockCheck(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginService에서 userBlockCheck()실행...");
+		
+		return loginDAO.userBlockCheck(userDTO);
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 유저 블락 취소
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int userBlockCancle(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginService에서 userBlockCancle()실행...");
+		
+		return loginDAO.userBlockCancle(userDTO);
+		
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저블락시 => 언팔로우
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int unfollow(FollowDTO followDTO) throws Exception {
+		
+		logger.info("loginService에서 unfollow()실행...");
+		
+		return loginDAO.unfollow(followDTO);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저블락시 => 언팔로워
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int unfollower(FollowDTO followDTO) throws Exception {
+		
+		logger.info("loginService에서 unfollower()실행...");
+		
+		return loginDAO.unfollower(followDTO);
 	}
 
 }

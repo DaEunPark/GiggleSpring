@@ -22,9 +22,9 @@ public class ListServiceImpl implements ListService {
 	
 	//메인 피드 목록
 			@Override
-			public List<ListDTO> allfeedList() throws Exception {
+			public List<ListDTO> allfeedList(String user_no) throws Exception {
 			logger.info("메인 피드 목록 서비스 지나감");
-			return listDAO.allfeedList();
+			return listDAO.allfeedList(user_no);
 			}	
 
 	

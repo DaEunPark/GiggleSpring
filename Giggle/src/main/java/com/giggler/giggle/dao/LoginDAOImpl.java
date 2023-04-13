@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.giggler.giggle.dto.FollowDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 
@@ -81,17 +82,6 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.selectOne(Namespace + ".getProfile", user_no);
 	}
 	
-	//----------------------------------------------------------------------------------//
-	// 프로필 사진 수정하기
-	//----------------------------------------------------------------------------------//
-	@Override
-	public int updatePic(UserDTO userDTO) throws Exception {
-		
-		logger.info("loginDAO에서 updatePic()실행...");
-		
-		return sqlSession.update(Namespace + ".updatePic", userDTO);
-	}
-
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
 	//----------------------------------------------------------------------------------//
@@ -178,6 +168,63 @@ public class LoginDAOImpl implements LoginDAO {
 		logger.info("loginDAO에서 recommendFollowAll()실행...");
 		
 		return sqlSession.selectList(Namespace + ".recommendFollowAll", user_no);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저 블락
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int userBlock(UserDTO userDTO) throws Exception {
+
+		logger.info("loginDAO에서 userBlock()실행...");
+		
+		return sqlSession.insert(Namespace + ".userBlock", userDTO);
+		
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저 블락 체크
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int userBlockCheck(UserDTO userDTO) throws Exception {
+
+		logger.info("loginDAO에서 userBlockCheck()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".userBlockCheck", userDTO);
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 유저 블락 취소
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int userBlockCancle(UserDTO userDTO) throws Exception {
+
+		logger.info("loginDAO에서 userBlockCancle()실행...");
+		
+		return sqlSession.delete(Namespace + ".userBlockCancle", userDTO);
+		
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저블락시 => 언팔로우
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int unfollow(FollowDTO followDTO) throws Exception {
+
+		logger.info("loginDAO에서 unfollow()실행...");
+		
+		return sqlSession.delete(Namespace + ".unfollow", followDTO);
+	}
+
+	//----------------------------------------------------------------------------------//
+	// 유저블락시 => 언팔로워
+	//----------------------------------------------------------------------------------//
+	@Override
+	public int unfollower(FollowDTO followDTO) throws Exception {
+
+		logger.info("loginDAO에서 unfollower()실행...");
+		
+		return sqlSession.delete(Namespace + ".unfollower", followDTO);
 	}
 	
 

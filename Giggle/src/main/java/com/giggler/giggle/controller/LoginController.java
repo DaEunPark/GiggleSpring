@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.giggler.giggle.dto.FollowDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 import com.giggler.giggle.service.LoginServiceImpl;
@@ -28,6 +29,10 @@ public class LoginController {
 	LoginServiceImpl loginService;
 	@Autowired
 	PostDTO postDTO;
+	@Autowired
+	FollowDTO followDTO;
+	@Autowired
+	FollowController followcontroller;
 
 	private final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
@@ -227,35 +232,72 @@ public class LoginController {
 		return recommendUser;		
 		
 	}
-
-//	//----------------------------------------------------------------------------------//
-//	// 프로필 사진 업데이트하기
-//	//----------------------------------------------------------------------------------//
-//	@PostMapping("/picUpdate")
-//	@ResponseBody
-//	public UserDTO picUpdate(@RequestBody Map<String, String> picUpdate) throws Exception {
-//
-//		logger.info("LoginController에서 picUpdate()실행...");
-//		
-//		userDTO.setProfile_image(picUpdate.get("profile_image"));
-//		userDTO.setUser_no(Integer.valueOf(picUpdate.get("user_no")));
-//		
-//		System.out.println("************************************");
-//		System.out.println("profile_image = " + picUpdate.get("profile_image"));
-//		System.out.println("************************************");
-//		
-//		int success = loginService.picUpdate(userDTO);
-//		
-//		if(success==1) {
-//			userDTO.setUser_no(Integer.valueOf(picUpdate.get("user_no")));
-//			UserDTO userDTOPP = loginService.updateCheck(userDTO);
-//			return userDTOPP;
-//		} else {
-//			UserDTO userDTOPP = loginService.updateCheck(userDTO);
-//			return userDTOPP;
-//		}
-
-//	}
+	
+	//----------------------------------------------------------------------------------//
+	// 유저 블락
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/userBlock")
+	@ResponseBody
+	public void userBlock(@RequestBody Map<String, String> userInfo) throws Exception {
+		
+		logger.info("LoginController에서 userBlock()실행...");
+		
+		userDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
+		userDTO.setBlock_user(Integer.valueOf(userInfo.get("blockUser_no")));
+		
+		loginService.userBlock(userDTO);
+		
+		followDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
+		followDTO.setFollow_user(Integer.valueOf(userInfo.get("blockUser_no")));
+		if(followcontroller.followCheck(followDTO) == "Y") {
+			System.out.println("팔로우 돼있어서 언팔 진행..");
+			loginService.unfollow(followDTO);
+			loginService.unfollower(followDTO);			
+		} else {
+			System.out.println("팔로우 안돼있음..");
+		}
+		
+		System.out.println("userBlock() 끝....");
+	}
+	
+	//----------------------------------------------------------------------------------//
+	// 유저 블락 체크
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/userBlockCheck")
+	@ResponseBody
+	public String userBlockCheck(@RequestBody Map<String, String> userInfo) throws Exception {
+		
+		logger.info("LoginController에서 userBlockCheck()실행...");
+		
+		userDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
+		userDTO.setBlock_user(Integer.valueOf(userInfo.get("blockUser_no")));
+		
+		if(loginService.userBlockCheck(userDTO) == 0) {
+			System.out.println("block아님");
+			return "N";
+		} else {
+			System.out.println("block유저");
+			return "Y";
+		}
+	}
+		
+	//----------------------------------------------------------------------------------//
+	// 유저 블락 취소
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/userBlockCancle")
+	@ResponseBody
+	public void userBlockCancle(@RequestBody Map<String, String> userInfo) throws Exception {
+			
+		logger.info("LoginController에서 userBlockCancle()실행...");
+			
+		userDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
+		userDTO.setBlock_user(Integer.valueOf(userInfo.get("blockUser_no")));
+			
+		loginService.userBlockCancle(userDTO);
+			
+		System.out.println("userBlockCancle() 끝....");
+	}
+	
 	
 	
 	

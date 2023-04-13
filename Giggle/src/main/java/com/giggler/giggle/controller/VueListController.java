@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.giggler.giggle.dto.ListDTO;
@@ -27,10 +28,14 @@ public class VueListController {
 	private ListService listService;
 	
 	//메인 피드 목록 VUE 
-		@GetMapping("/main/mainhome")
-		public List<ListDTO> allfeedList() throws Exception {
+		@GetMapping("/main/mainhome/{user_no}")
+		public List<ListDTO> allfeedList(@PathVariable String user_no) throws Exception {
 			
-			List<ListDTO> allfeedList = listService.allfeedList();
+			logger.info("allfeedList에서 user_no = " + user_no);
+			
+			System.out.println("user_no = " + user_no);
+			
+			List<ListDTO> allfeedList = listService.allfeedList(user_no);
 			return allfeedList;
 			}
 		
@@ -45,6 +50,21 @@ public class VueListController {
 			listDTO.setKeyword(keyword);
 			return listService.searchfeedList(listDTO);
 			}	
+	
+//		@PostMapping("/main/search")
+//		@ResponseBody
+//		public List<ListDTO> searchfeedList(@RequestBody Map<String, String> userInfo) throws Exception {
+//
+//			logger.info("검색 피드 목록 - feed용 VUE");
+//			
+//			ListDTO listDTO = new ListDTO();
+//			listDTO.setUser_no(Integer.valueOf((userInfo.get("user_no"))));
+//			listDTO.setKeyword(userInfo.get("keyword"));
+//			
+//			return listService.searchfeedList(listDTO);
+//			
+//		}
+		
 		
 	//검색 피드 목록 - user용 VUE 	
 		@GetMapping("/main/searchuser/{keyword}")
