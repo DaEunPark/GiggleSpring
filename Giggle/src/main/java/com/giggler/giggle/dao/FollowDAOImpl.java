@@ -22,9 +22,16 @@ private static final Logger logger = LoggerFactory.getLogger(FollowDAOImpl.class
 
 	@Override
 	public int follow(FollowDTO followDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
+		System.out.println("FollowDAOImpl의 follow(): " + followDTO);
 		int following = sqlSession.insert(Namespace + ".addfollowing", followDTO);
 		int follower = sqlSession.insert(Namespace + ".addfollower", followDTO);
+		
+		//팔로우 알람 추가
+		int alarm = sqlSession.insert(Namespace + ".addfollowAlarm", followDTO);
+		System.out.println("팔로우 알람 추가 결과: " + alarm);
+		
+		//팔로우한 사람의 알람 유무를 바꿔준다.
+		int alarmYn = sqlSession.update(Namespace + ".updateAlarmYn", followDTO);
 		return following + follower;
 	}
 
