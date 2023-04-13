@@ -1,5 +1,7 @@
 package com.giggler.giggle.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.giggler.giggle.controller.PostUploadController;
 import com.giggler.giggle.dao.LikeDAO;
 import com.giggler.giggle.dao.PostUploadDAO;
+import com.giggler.giggle.dto.LikeDTO;
 import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 
