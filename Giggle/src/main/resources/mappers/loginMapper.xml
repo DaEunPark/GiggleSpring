@@ -50,15 +50,6 @@
 		]]>
 	</select>
 	
-	<!-- 프로필 사진 수정하기 -->
-	<update id="updatePic" parameterType="com.giggler.giggle.dto.UserDTO">
-		<![CDATA[
-			UPDATE user
-			SET 	profile_image = #{profile_image}
-			WHERE user_no = #{user_no}
-		]]>
-	</update>
-	
 	<!-- 프로필 수정하기 -->
 	<update id="updateProfile" parameterType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
@@ -124,7 +115,8 @@
 					user_location, open_yn, status_message, profile_image, back_image, follow_user, 
 					follower_user, count_post
 			FROM giggle
-			WHERE user_no != #{user_no}
+			WHERE user_no != #{user_no} AND user_no NOT IN (SELECT follow_user FROM follow WHERE user_no = #{user_no})
+			AND user_no NOT IN (SELECT block_user FROM block WHERE user_no = #{user_no})
 			ORDER BY rand()
 			LIMIT 3;
 		]]>
@@ -137,10 +129,52 @@
 					user_location, open_yn, status_message, profile_image, back_image, follow_user, 
 					follower_user, count_post
 			FROM giggle
-			WHERE user_no != #{user_no}
-			ORDER BY rand()
+			WHERE user_no != #{user_no} AND user_no NOT IN (SELECT follow_user FROM follow WHERE user_no = #{user_no})
+			AND user_no NOT IN (SELECT block_user FROM block WHERE user_no = #{user_no})
+			ORDER BY rand();
 		]]>
 	</select>
+	
+	<!-- 유저 블락 -->
+	<insert id="userBlock" parameterType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			INSERT INTO block(user_no, block_user, block_date)
+			VALUES (#{user_no}, #{block_user}, sysdate())
+		]]>
+	</insert>
+	
+	<!-- 유저 블락 체크 -->
+	<select id="userBlockCheck" parameterType="com.giggler.giggle.dto.UserDTO" resultType="Integer">
+		<![CDATA[
+			SELECT count(user_no)
+			FROM block
+			WHERE user_no = #{user_no} AND block_user = #{block_user}
+		]]>
+	</select>
+	
+	<!-- 유저 블락 취소-->
+	<delete id="userBlockCancle" parameterType="com.giggler.giggle.dto.UserDTO">
+		<![CDATA[
+			DELETE FROM block
+			WHERE user_no = #{user_no} AND block_user = #{block_user}
+		]]>
+	</delete>
+	
+	<!-- 유저블락시 => 언팔로우 -->
+	<delete id="unfollow" parameterType="com.giggler.giggle.dto.FollowDTO">
+		<![CDATA[
+			DELETE FROM follow
+			WHERE user_no = #{user_no} AND follow_user = #{follow_user}
+		]]>
+	</delete>
+	
+	<!-- 유저블락시 => 언팔로워 -->
+	<delete id="unfollower" parameterType="com.giggler.giggle.dto.FollowDTO">
+		<![CDATA[
+			DELETE FROM follower
+			WHERE user_no = #{follow_user} AND follower_user = #{user_no}
+		]]>
+	</delete>		
 	
 </mapper>
 

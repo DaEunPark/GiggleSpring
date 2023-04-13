@@ -8,7 +8,7 @@ import com.giggler.giggle.dto.UserDTO;
 public interface ListDAO {
 
 	// 메인 피드 목록 
-	public List<ListDTO> allfeedList() throws Exception;
+	public List<ListDTO> allfeedList(String user_no) throws Exception;
 	//검색 피드 목록 - feed용 VUE 
 	public List<ListDTO> searchfeedList(ListDTO listDTO) throws Exception;
 	//검색 피드 목록 - user용 VUE 	

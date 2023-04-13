@@ -24,10 +24,10 @@ private static final Logger logger = LoggerFactory.getLogger(ListDAOImpl.class);
 	
 	//메인 피드 목록
 			@Override
-			public List<ListDTO> allfeedList() throws Exception {
+			public List<ListDTO> allfeedList(String user_no) throws Exception {
 			logger.info("메인 피드 목록 DAO 지나감");
 			
-			List<ListDTO> allfeedList = sqlSession.selectList( Namespace + ".AllFeedList");
+			List<ListDTO> allfeedList = sqlSession.selectList( Namespace + ".AllFeedList", user_no);
 			return allfeedList;
 			}//END - 메인 피드 목록
 
