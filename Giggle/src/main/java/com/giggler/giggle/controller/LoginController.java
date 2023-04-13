@@ -204,7 +204,7 @@ public class LoginController {
 	@ResponseBody
 	public List<UserDTO> recommendFollow(@RequestBody Map<String, String> userInfo) throws Exception {
 		
-		logger.info("LoginController에서 recommendFollow()실행...");
+		logger.info("LoginController에서 recommendFollow()실행..." + userInfo);
 		
 		String user_no = userInfo.get("user_no");
 		
