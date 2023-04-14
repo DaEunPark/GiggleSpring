@@ -208,5 +208,15 @@ public class LoginServiceImpl implements LoginService {
 		
 		return loginDAO.unfollower(followDTO);
 	}
+	
+	//----------------------------------------------------------------------------------//
+	// 내가 해당 유저에게 블락돼 있는지 체크
+	//----------------------------------------------------------------------------------//
+	public int amIBlockCheck(UserDTO userDTO) throws Exception {
+		
+		logger.info("loginService에서 amIBlockCheck()실행...");
+		
+		return loginDAO.amIBlockCheck(userDTO);		
+	}
 
 }
