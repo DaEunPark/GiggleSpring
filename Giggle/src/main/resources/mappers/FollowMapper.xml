@@ -33,6 +33,7 @@
 	<update id="updateAlarmYn" parameterType="com.giggler.giggle.dto.FollowDTO">	
 		<![CDATA[
 			UPDATE user SET alarm_yn = "Y" WHERE user_no = #{follow_user}
+			AND user_no NOT IN (select block_user from block where user_no = #{follow_user});
 		]]>
 	</update>
 		

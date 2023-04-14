@@ -1,6 +1,7 @@
 package com.giggler.giggle.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -152,10 +153,10 @@ public class MJDAO {
 	}
 	
 	//키워드로 유저 리스트 구하기
-	public List<UserDTO> searchUser(String keyword) throws Exception {
+	public List<UserDTO> searchUser(Map<String, Object> map) throws Exception {
 		System.out.println("MJDAO의 searchUser() 시작");
 		
-		return sqlSession.selectList(Namespace + ".searchUser", keyword);		
+		return sqlSession.selectList(Namespace + ".searchUser", map);		
 	}
 	
 	//두개 유저번호로 채팅방을 찾고 없으면 만든다.

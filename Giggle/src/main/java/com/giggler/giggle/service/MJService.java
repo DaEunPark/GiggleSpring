@@ -1,6 +1,7 @@
 package com.giggler.giggle.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -124,12 +125,12 @@ public class MJService {
 	}
 	
 	//키워드로 유저 리스트 구하기=================================================
-	public List<UserDTO> searchUser(String keyword) throws Exception {
+	public List<UserDTO> searchUser(Map<String, Object> map) throws Exception {
 		System.out.println("MjService의 searchUser()");
 		
 		//상대방이 나를 차단했거나, 내가 차단한 사람의 정보는 빼준다.
 		
-		return mjDAO.searchUser(keyword);
+		return mjDAO.searchUser(map);
 	}
 	
 	//두개의 유저 번호로 채팅방 정보 가져오기=======================================
