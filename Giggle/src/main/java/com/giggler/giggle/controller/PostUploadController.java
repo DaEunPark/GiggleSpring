@@ -78,7 +78,11 @@ public class PostUploadController {
 		
 		HashMap<String, Object> postDetail = new HashMap<String, Object>();
 		postDetail.put("post", postUploadService.postDetail(post_no));
-		List<ImageDTO> imageDTOs = postUploadService.postImages(post_no);
+		
+		ImageDTO imgDTO = new ImageDTO();
+		imgDTO.setPost_no(post_no);
+		imgDTO.setIs_posting(1);
+		List<ImageDTO> imageDTOs = postUploadService.postImages(imgDTO);
 		logger.info("PostUploadController postDetail() imageDTOs.size() => " + imageDTOs.size());
 		postDetail.put("postImages", imageDTOs);
 		return postDetail;
@@ -125,18 +129,7 @@ public class PostUploadController {
 	public String deletePost(@PathVariable int post_no) throws Exception {
 		logger.info("PostUploadController deletePost() post_no => " + post_no);
 		
-		// post_no로 먼저 이미지 파일 이름 가져오기
-		List<ImageDTO> imageDTOs = postUploadService.postImages(post_no);
-		
-		// 이미지 파일 이름 가져온 걸로 서버에서 이미지 삭제
-		for (ImageDTO imageDTO : imageDTOs) {
-			logger.info("PostUploadController deletePost() imageDTO => " + imageDTO.getImagepath());
-			awsS3Service.deleteObject(imageDTO.getImagepath());
-		}
-		
-		// post_no로 이미지 테이블에서 데이터 삭제
-		postUploadService.deletePostImages(post_no);
-		
+		deleteImages(currentPostNo, 1);
 		// post_no로 포스트 삭제
 		int delete = postUploadService.deletePost(post_no);
 		if (delete < 1)
@@ -153,12 +146,54 @@ public class PostUploadController {
 		logger.info("PostUploadController updatePost() => " + postDTO);
 		currentPostNo = postDTO.getPost_no();
 		currentUserNo = postDTO.getUser_no();
+		
+		deleteImages(currentPostNo, 0);
 
 		if(postUploadService.updatePost(postDTO) == 1) {	
 			return "Y";
 		} else {
 			return "N"; 
 		}		
+	}
+	
+	private void deleteImages(int post_no, int is_posting) throws IOException {
+		ImageDTO imgDTO = new ImageDTO();
+		imgDTO.setPost_no(post_no);
+		imgDTO.setIs_posting(is_posting);		
+		// post_no로 먼저 이미지 파일 이름 가져오기
+		List<ImageDTO> imageDTOs = postUploadService.postImages(imgDTO);
+		
+		// 이미지 파일 이름 가져온 걸로 서버에서 이미지 삭제
+		for (ImageDTO imageDTO : imageDTOs) {
+			logger.info("PostUploadController deletePost() imageDTO => " + imageDTO.getImagepath());
+			awsS3Service.deleteObject(imageDTO.getImagepath());
+		}
+		
+		// post_no로 이미지 테이블에서 데이터 삭제
+		postUploadService.deletePostImages(post_no);
+	}
+	
+	/*
+	 *  삭제 예정 image 표시
+	 */
+	@PostMapping("/beforedeleteimage")
+	@CrossOrigin
+	public @ResponseBody String beforeDeleteImage(@RequestBody ImageDTO imageDTO) throws IOException {
+		logger.info("PostUploadController beforeDeleteImage() files => " + imageDTO.getImagepath());
+		postUploadService.beforeDeleteImage(imageDTO.getImagepath());
+		return "Y";
+	}
+	
+	/*
+	 * 수정 취소
+	 */
+	@PostMapping("/cancelupdate")
+	@CrossOrigin
+	public @ResponseBody String cancelUpdate(@RequestBody ImageDTO imageDTO) throws IOException {
+		logger.info("PostUploadController beforeDeleteImage() files => " + imageDTO.getImagepath());
+		postUploadService.cancelUpdate(imageDTO.getPost_no());
+
+		return "Y";
 	}
 	
 	/*
@@ -168,7 +203,7 @@ public class PostUploadController {
 	@CrossOrigin
 	public @ResponseBody String deleteImage(@RequestBody ImageDTO imageDTO) throws IOException {
 		logger.info("PostUploadController deleteImage() files => " + imageDTO.getImagepath());
-		awsS3Service.deleteObject(imageDTO.getImagepath().replaceAll("https://d36nj4zto99jeg.cloudfront.net/raw/", ""));
+		awsS3Service.deleteObject(imageDTO.getImagepath());
 		
 		if (postUploadService.deleteImage(imageDTO.getImagepath()) < 1)
 			return "N";
