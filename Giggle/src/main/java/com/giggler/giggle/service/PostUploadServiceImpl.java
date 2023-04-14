@@ -48,9 +48,9 @@ public class PostUploadServiceImpl implements PostUploadService {
 	}
 
 	@Override
-	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
+	public List<ImageDTO> postImages(ImageDTO imageDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return postUploadDAO.postImages(post_no);
+		return postUploadDAO.postImages(imageDTO);
 	}
 
 	@Override
@@ -75,6 +75,18 @@ public class PostUploadServiceImpl implements PostUploadService {
 	public int updatePost(PostDTO postDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return postUploadDAO.updatePost(postDTO);
+	}
+
+	@Override
+	public int beforeDeleteImage(String imagepath) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.beforeDeleteImage(imagepath);
+	}
+
+	@Override
+	public int cancelUpdate(int post_no) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return postUploadDAO.cancelUpdate(post_no);
 	}
 
 }

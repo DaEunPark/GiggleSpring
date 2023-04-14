@@ -133,11 +133,13 @@
 		]]>
 	</select>
 	
-	<!-- 키워드로 유저 리스트 구하기 -->
-	<select id="searchUser" parameterType="String" resultType="com.giggler.giggle.dto.UserDTO">
+	<!-- 키워드로 유저 리스트 구하기(내가 차단한 유저, 나를 차단한 유저는x) -->
+	<select id="searchUser" parameterType="hashmap" resultType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
 		SELECT * FROM user
 		WHERE user_nick LIKE CONCAT('%', #{keyword}, '%')
+		AND user_no NOT IN (select block_user from block where user_no = #{user_no})
+		AND user_no NOT IN (select user_no from block where block_user = #{user_no})
 		]]>
 	</select>
 	

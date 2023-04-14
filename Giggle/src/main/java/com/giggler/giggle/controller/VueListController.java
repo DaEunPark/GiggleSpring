@@ -64,7 +64,7 @@ public class VueListController {
 			}
 		
 		
-	//search - mypage / notmypage 알아내기
+	//search - MyPage / NotMyPage 알아내기
 		@PostMapping("/Gouserpage")
 		public UserDTO Gouserpage(@RequestBody Map<String, String> param) throws Exception {
 			

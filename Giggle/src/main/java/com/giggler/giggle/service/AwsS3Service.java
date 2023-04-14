@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -17,15 +19,19 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.giggler.giggle.controller.PostUploadController;
 
 @Service("awsS3Service")
 @PropertySource("/WEB-INF/config/key.properties")
 public class AwsS3Service {
+	private static final Logger logger = LoggerFactory.getLogger(AwsS3Service.class);
 	@Autowired
 	private AmazonS3 s3Client;
 	
 	@Autowired
 	private Environment env;
+	
+	private static final String CLOUD_FRONT_URL = "https://d36nj4zto99jeg.cloudfront.net/raw/";
 	
 //	@Value("{aws.bucketname}")
 //	private String bucketName;
@@ -45,8 +51,11 @@ public class AwsS3Service {
 	
 	public void deleteObject(String storedFileName) throws AmazonServiceException {
 		String bucket = env.getProperty("aws.bucketname");
-		String filePath = "raw/" + storedFileName;
-		s3Client.deleteObject(new DeleteObjectRequest(bucket, filePath));
+		String filePath = storedFileName.replace(CLOUD_FRONT_URL, "raw/");
+		boolean isExist = s3Client.doesObjectExist(bucket, filePath);
+		logger.info("AwsS3Service deleteObject()  filePath " + isExist);
+		if (isExist)
+			s3Client.deleteObject(new DeleteObjectRequest(bucket, filePath));
 	}
 	
 	/*

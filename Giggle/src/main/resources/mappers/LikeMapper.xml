@@ -6,21 +6,23 @@
 <mapper namespace="com.giggler.giggle.like">
 
 	<!-- 게시글에 해당하는 댓글 갯수 구하기 -->
-	<select id="likeCount" parameterType="Integer" resultType="Integer">
+	<select id="likeCount" parameterType="com.giggler.giggle.dto.FollowDTO"  resultType="Integer">
 		<![CDATA[
-			SELECT COUNT(*) FROM postlike WHERE post_no = #{post_no} 
+			SELECT COUNT(*) 
+			FROM postlike 
+			WHERE post_no = #{post_no} 
 		
 		]]>
 	</select>	
 	
 <!-- post_no에 해당하는 댓글 목록 가져오기 -->
-	<select id="likeList" parameterType="Integer" resultType="com.giggler.giggle.dto.LikeDTO">
+	<select id="likeList" parameterType="Integer" resultType="com.giggler.giggle.dto.LikeDTO" >
 		<![CDATA[
 			 SELECT postlike.post_no,			       
 			       postlike.user_no,
 			       postlike.like_no	
-                   FROM postlike 
-			WHERE post_no = #{post_no};
+             FROM postlike 
+			WHERE user_no= #{user_no}
 			
 		]]>
 	</select>
@@ -29,8 +31,8 @@
 	
 <insert id="pushLike" parameterType="com.giggler.giggle.dto.LikeDTO">
 		<![CDATA[
-            INSERT INTO postlike (post_no, user_no, like_no)
-            VALUES (#{post_no}, #{user_no}, #{like_no})
+            INSERT INTO postlike (post_no, user_no)
+            VALUES (#{post_no}, #{user_no})
             ]]>
 </insert>
 
@@ -45,12 +47,13 @@
     WHERE user_no = #{user_no}]]>
 </select-->
 
-<!-- select id="Liked" resultType="int" parameterType="com.giggler.giggle.dto.LikeDTO">
+<select id="isLike" resultType="Integer" parameterType="com.giggler.giggle.dto.LikeDTO">
 		<![CDATA[
     SELECT COUNT(*) 
     From postlike 
     WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
-</select-->
+</select>
+
 
 <delete id="unLike" parameterType="com.giggler.giggle.dto.LikeDTO">
 		<![CDATA[

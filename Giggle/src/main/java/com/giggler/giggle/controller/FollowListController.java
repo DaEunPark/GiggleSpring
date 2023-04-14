@@ -8,6 +8,10 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,25 +28,19 @@ public class FollowListController {
 	private FollowListService followlistService;
 	
 	// 내가 팔로우한 유저 목록
-	@PostMapping("/followingList")
-	public List<FollowListDTO> followingList(@RequestBody Map<String, String> userInfo) throws Exception{
-		
-		logger.info("FollowListController에서 followingList()실행...");
-		int user_no = Integer.valueOf(userInfo.get("user_no"));
-		logger.info("user_no = " + user_no);
+	@GetMapping("/followingList/{user_no}")
+	public List<FollowListDTO> followingList(@PathVariable int user_no) throws Exception{
 		
 		List<FollowListDTO> followingList = followlistService.followingList(user_no);
-		logger.info("followingList = " + followingList);
-		
+		logger.info("followingList = " + followingList);		
 		
 		return followingList;
 	}
 	
-	// 나를 팔로우한 유저 목록
-	@PostMapping("/followerList")
-	public List<FollowListDTO> followerList(@RequestBody Map<String, String> userInfo) throws Exception{
+	@PostMapping("/followingList")
+	public List<FollowListDTO> followingList(@RequestBody Map<String, String> userInfo) throws Exception{
 		
-		logger.info("FollowListController에서 followerList()실행...");
+		logger.info("FollowListController에서 followingList()실행...");
 		int user_no = Integer.valueOf(userInfo.get("user_no"));
 		logger.info("user_no = " + user_no);
 		
