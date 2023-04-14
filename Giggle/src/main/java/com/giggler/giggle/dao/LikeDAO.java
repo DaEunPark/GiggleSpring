@@ -11,13 +11,13 @@ import com.giggler.giggle.dto.PostDTO;
 
 public interface LikeDAO {
 	
-	public int likeCount(int post_no) throws DataAccessException;
-	public List<LikeDTO> likeList(int post_no) throws DataAccessException;
+	public int likeCount(LikeDTO likeDTO) throws DataAccessException;
+	public List<LikeDTO> likeList(int user_no) throws DataAccessException;
 	public int pushLike(LikeDTO likeDTO) throws DataAccessException ;
 
 	public int unLike(LikeDTO likeDTO) throws DataAccessException;
 	
-	
+	public int isLike(LikeDTO likeDTO) throws DataAccessException ;
 
 	
 

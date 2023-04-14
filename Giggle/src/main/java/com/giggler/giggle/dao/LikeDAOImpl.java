@@ -30,20 +30,20 @@ public class LikeDAOImpl implements LikeDAO {
 
 
 	@Override
-	public int likeCount(int post_no) throws DataAccessException {
+	public int likeCount(LikeDTO likeDTO) throws DataAccessException {
 		System.out.println("CommentDAOImpl의 commentListCount() 구하기....");
 			
-		return sqlSession.selectOne(Namespace + ".likeCount", post_no);
+		return sqlSession.selectOne(Namespace + ".likeCount", likeDTO);
 	}
 
 	// 게시글 번호에 해당하는 댓글 리스트 불러오기
 	//-----------------------------------------------------------------------------------------------------------	
 
 	@Override
-	public List<LikeDTO> likeList(int post_no) throws DataAccessException {
+	public List<LikeDTO> likeList(int user_no) throws DataAccessException {
 		System.out.println("CommentDAOImpl의 commentList() 구하기....");
 			
-		return sqlSession.selectList(Namespace + ".likeList", post_no);
+		return sqlSession.selectList(Namespace + ".likeList", user_no);
 	}
 
 	
@@ -71,15 +71,12 @@ public class LikeDAOImpl implements LikeDAO {
 	    	return result;
 	    }
 
-//    @Override
-//	public int liked(LikeDTO likeDTO) throws DataAccessException  {
-//    	return sqlSession.selectOne(Namespace+".Liked",likeDTO);
-//	    }
+    @Override
+	public int isLike(LikeDTO likeDTO) throws DataAccessException  {
+    	return sqlSession.selectOne(Namespace+".isLike",likeDTO);
+	    }
 
-//	    @Override
-//    public void deleteBoardLike(PostDTO postDTO) throws DataAccessException {
-//	    	sqlSession.delete(Namespace+".deleteBoardLike",postDTO);
-//	    }
+	
 
 
 	
