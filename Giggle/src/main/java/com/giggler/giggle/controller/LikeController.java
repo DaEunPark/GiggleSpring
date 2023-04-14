@@ -44,25 +44,25 @@ public class LikeController {
 		System.out.println("라d잌");
 		System.out.println("content= " + likeDTO);
 		
+		int result = likeService.likeCount(likeDTO);
 		
-		
-	if(likeService.pushLike(likeDTO) == 1) {
-	//ikeService.pushLike(likeDTO);
+	if(result==0 ) {
+	likeService.pushLike(likeDTO);
 		return "Y";
 	}	 else {
 		// 언팔 기능
-//likeService.unLike(likeDTO);
+likeService.unLike(likeDTO);
 		return "N";
 	}
 }
 
 
-	@GetMapping("/likeList/{post_no}")
-	public List<LikeDTO> likeList(@PathVariable int post_no) throws Exception {
+	@GetMapping("/likeList/{user_no}")
+	public List<LikeDTO> likeList(@PathVariable int user_no) throws Exception {
 		System.out.println("likeList 구하기....");
 			
 	//	return commentDTO.commentList(post_no);
-		List<LikeDTO> likeList = likeService.likeList(post_no);
+		List<LikeDTO> likeList = likeService.likeList(user_no);
 		System.out.println(likeList);
 		return likeList;
 	}
@@ -86,19 +86,29 @@ public class LikeController {
 			} else {
 				return "N";
 			}                   }
-	
+	*/
 	
 	@GetMapping("/likeCount")
-	public String likeCount (@PathVariable int post_no) throws Exception {
-		logger.info("likeCount => " + post_no);
+	public String likeCount (@ModelAttribute LikeDTO likeDTO) throws Exception {
+		logger.info("likeCount => " + likeDTO);
 		
-		int result = likeService.likeCount(post_no);		
+		int result = likeService.likeCount(likeDTO);		
 		
 		if (result == 1) {
 			return "Y";		
 		}else {
 			return "N";
 	}
-} */
+} 
+	
+	@PostMapping("/isLike")
+	public int isLike(@RequestBody LikeDTO likeDTO) throws Exception {
+	   
+	 
+	 return likeService.isLike(likeDTO);
+	}
+	
+	
+	
 }
 

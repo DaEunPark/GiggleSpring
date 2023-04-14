@@ -26,10 +26,10 @@ public class LikeServiceImpl implements LikeService {
 
 	//게시글 번호에 해당하는 댓글 갯수 구하기
 	@Override
-	public int likeCount(int post_no) throws DataAccessException {
+	public int likeCount(LikeDTO likeDTO) throws DataAccessException {
 		System.out.println("CommentServiceImpl commentListCount() 구하기....");
 			
-		return likeDAO.likeCount(post_no);
+		return likeDAO.likeCount(likeDTO);
 
 	}
 	
@@ -37,10 +37,10 @@ public class LikeServiceImpl implements LikeService {
 		
 	//게시글 번호에 해당하는 댓글 리스트 불러오기
 	@Override
-	public List<LikeDTO> likeList(int post_no) throws DataAccessException {
+	public List<LikeDTO> likeList(int user_no) throws DataAccessException {
 		System.out.println("CommentServiceImpl commentList() 구하기....");
 			
-		return likeDAO.likeList(post_no);
+		return likeDAO.likeList(user_no);
 	}
 		
 
@@ -62,16 +62,19 @@ public class LikeServiceImpl implements LikeService {
 //		 
 //	    }
 //
-//	    @Override
-//	    public int liked(LikeDTO likeDTO) throws DataAccessException {
-//	    	return likeDAO.liked(likeDTO);
-//	    	
-//	    }
+
 	    
 	    @Override
 	    public  int unLike(LikeDTO likeDTO) throws DataAccessException {
 	            return likeDAO.unLike(likeDTO);
 	    }
+
+	    @Override
+	    public int isLike(LikeDTO likeDTO) throws Exception {
+	    	return likeDAO.isLike(likeDTO);
+	    	
+	    }
+
 
 
 
