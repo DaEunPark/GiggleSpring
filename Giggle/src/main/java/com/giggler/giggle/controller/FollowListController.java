@@ -1,14 +1,15 @@
 package com.giggler.giggle.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.giggler.giggle.dto.FollowListDTO;
@@ -23,11 +24,48 @@ public class FollowListController {
 	private FollowListService followlistService;
 	
 	// 내가 팔로우한 유저 목록
-	@PostMapping("/followingList/{uer_no}")
-	public List<FollowListDTO> followingList(@PathVariable int user_no) throws Exception{
+	@PostMapping("/followingList")
+	public List<FollowListDTO> followingList(@RequestBody Map<String, String> userInfo) throws Exception{
 		
-		logger.info("FollowListController에서 following()실행...");
+		logger.info("FollowListController에서 followingList()실행...");
+		int user_no = Integer.valueOf(userInfo.get("user_no"));
+		logger.info("user_no = " + user_no);
+		
 		List<FollowListDTO> followingList = followlistService.followingList(user_no);
+		logger.info("followingList = " + followingList);
+		
+		
 		return followingList;
 	}
+	
+	// 나를 팔로우한 유저 목록
+	@PostMapping("/followerList")
+	public List<FollowListDTO> followerList(@RequestBody Map<String, String> userInfo) throws Exception{
+		
+		logger.info("FollowListController에서 followerList()실행...");
+		int user_no = Integer.valueOf(userInfo.get("user_no"));
+		logger.info("user_no = " + user_no);
+		
+		List<FollowListDTO> followerList = followlistService.followerList(user_no);
+		logger.info("followerList = " + followerList);
+		
+		
+		return followerList;
+	}
+	
+	// 내가 블락한 유저 목록
+	@PostMapping("/blockList")
+	public List<FollowListDTO> blockList(@RequestBody Map<String, String> userInfo) throws Exception{
+		
+		logger.info("FollowListController에서 blockList()실행...");
+		int user_no = Integer.valueOf(userInfo.get("user_no"));
+		logger.info("user_no = " + user_no);
+		
+		List<FollowListDTO> blockList = followlistService.blockList(user_no);
+		logger.info("blockList = " + blockList);
+		
+		
+		return blockList;
+	}
+	
 }

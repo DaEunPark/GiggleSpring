@@ -308,6 +308,31 @@ public class LoginController {
 		System.out.println("userBlockCancle() 끝....");
 	}
 	
+	//----------------------------------------------------------------------------------//
+	// 내가 해당 유저에게 블락돼 있는지 체크
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/amIBlockCheck")
+	@ResponseBody
+	public String amIBlockCheck(@RequestBody Map<String, String> userInfo) throws Exception {
+		
+		logger.info("LoginController에서 amIBlockCheck()실행...");
+		
+		userDTO.setUser_no(Integer.valueOf(userInfo.get("blockUser_no")));
+		userDTO.setBlock_user(Integer.valueOf(userInfo.get("myUser_no")));
+		
+		int res = loginService.amIBlockCheck(userDTO);
+		
+		if( res == 0) {
+			System.out.println("block아님");
+			return "N";
+		} else if (res > 0 ) {
+			System.out.println("block유저");
+			return "Y";
+		} else {
+			return "N";
+		}
+	}
+	
 	
 	
 	

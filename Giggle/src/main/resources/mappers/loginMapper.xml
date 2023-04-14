@@ -176,7 +176,16 @@
 			DELETE FROM follower
 			WHERE user_no = #{follow_user} AND follower_user = #{user_no}
 		]]>
-	</delete>		
+	</delete>
+	
+	<!-- 내가 해당 유저에게 블락돼 있는지 체크 -->
+		<select id="amIBlockCheck" parameterType="com.giggler.giggle.dto.UserDTO" resultType="Integer">
+		<![CDATA[
+			SELECT count(user_no)
+			FROM block
+			WHERE user_no = #{user_no} AND block_user = #{block_user}
+		]]>
+	</select>
 	
 </mapper>
 
