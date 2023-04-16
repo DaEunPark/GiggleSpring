@@ -30,6 +30,7 @@
 			        from	follower
 			        where	user_no = #{user_no});
 		]]>
+	</select>
 
 <!-- 팔로워 리스트 불러오기 -->
 <!--	<select id="followerList" parameterType="Integer" resultType="com.giggler.giggle.dto.FollowListDTO">
@@ -42,12 +43,13 @@
 	
 <!-- 블락 리스트 불러오기 -->
 	<select id="blockList" parameterType="Integer" resultType="com.giggler.giggle.dto.FollowListDTO">
+	<![CDATA[
 		select *
         from  user
         where user_no IN (select block_user
 							from block
 							where user_no = #{user_no})
-
+		]]>
 	</select>
 </mapper>
 	
