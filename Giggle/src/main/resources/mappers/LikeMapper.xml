@@ -55,11 +55,12 @@
 </select>
 
 
-<delete id="unLike" parameterType="com.giggler.giggle.dto.LikeDTO">
+	<delete id="unLike" parameterType="com.giggler.giggle.dto.LikeDTO">
 		<![CDATA[
-    DELETE FROM postlike
-    WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
-</delete>
+		    DELETE FROM postlike
+		    WHERE post_no = #{post_no} AND user_no = #{user_no}
+		   ]]>
+	</delete>
 
 
 

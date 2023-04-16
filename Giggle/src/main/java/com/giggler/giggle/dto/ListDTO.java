@@ -16,6 +16,7 @@ public class ListDTO {
 	private int like_cnt;
 	private int comment_cnt;
 	private String post_link;
+	private String isLike;
 	
 	//View 전용 giggle_post 추가 컬럼 
 	private int share_cnt;
@@ -157,12 +158,25 @@ public class ListDTO {
 	}
 
 
+	public String getIsLike() {
+		return isLike;
+	}
+
+
+	public void setIsLike(String isLike) {
+		this.isLike = isLike;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ListDTO [post_no=" + post_no + ", user_no=" + user_no + ", user_nick=" + user_nick + ", profile_image="
 				+ profile_image + ", text_content=" + text_content + ", post_date=" + post_date + ", like_cnt="
-				+ like_cnt + ", comment_cnt=" + comment_cnt + ", post_link=" + post_link + ", share_cnt=" + share_cnt
-				+ ", read_count=" + read_count + ", tag_no=" + tag_no + ", keyword=" + keyword + "]";
+				+ like_cnt + ", comment_cnt=" + comment_cnt + ", post_link=" + post_link + ", isLike=" + isLike
+				+ ", share_cnt=" + share_cnt + ", read_count=" + read_count + ", tag_no=" + tag_no + ", keyword="
+				+ keyword + "]";
 	}
+
+
 	
 }//END - public class ListDTO 

@@ -54,7 +54,7 @@ public class LikeDAOImpl implements LikeDAO {
 		int result= sqlSession.insert(Namespace + ".pushLike", likeDTO);
 		 
 		 if(result == 1) {
-		int like_cnt = sqlSession.update(Namespace + ".upLikeCnt", likeDTO.getPost_no());
+			 int like_cnt = sqlSession.update(Namespace + ".upLikeCnt", likeDTO.getPost_no());
 		
 		 }
 	     return result;
@@ -62,12 +62,13 @@ public class LikeDAOImpl implements LikeDAO {
 	 }
 
 	    @Override
- public int unLike(LikeDTO likeDTO) throws DataAccessException {
-	    	int result = sqlSession.delete(Namespace + ".unlike", likeDTO);
-		 if(result == 1) {
-			int like_cnt = sqlSession.update(Namespace + ".unLikeCnt", likeDTO.getPost_no());
-		
-		 }
+	    public int unLike(LikeDTO likeDTO) throws DataAccessException {
+	    	int result = sqlSession.delete(Namespace + ".unLike", likeDTO);
+	    	
+			 if(result == 1) {
+				int like_cnt = sqlSession.update(Namespace + ".unLikeCnt", likeDTO);
+			
+			 }
 	    	return result;
 	    }
 
