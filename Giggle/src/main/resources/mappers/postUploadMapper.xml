@@ -59,12 +59,16 @@
 	</select> 
 	
 	<!-- 포스트 이미지 삭제 -->
-	<delete id="deletePostImages" parameterType="int">
+	<delete id="deletePostImages" parameterType="com.giggler.giggle.dto.ImageDTO">
 		<![CDATA[
 			DELETE FROM giggledbaws.image
 			WHERE post_no = #{post_no}
 		]]>
+		<include refid="deleteImg"/>
 	</delete>
+	<sql id="deleteImg">
+		<if test="is_posting == 0">AND is_posting = 0</if>
+	</sql>
 	
 	<!-- 포스트 삭제 -->
 	<delete id="deletePost" parameterType="int">
@@ -72,7 +76,10 @@
 			DELETE FROM giggledbaws.post
 			WHERE post_no = #{post_no}
 		]]>
+		
 	</delete>
+
+
 	
 	<!--  이미지 삭제 -->
 	<delete id="deleteImage" parameterType="String">
@@ -81,6 +88,8 @@
 			WHERE imagepath = #{imagepath} AND is_posting = 0
 		]]>
 	</delete>
+	
+
 	
 	<!-- 포스트 수정하기 -->
 	<update id="updatePost" parameterType="com.giggler.giggle.dto.PostDTO">

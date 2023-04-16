@@ -56,9 +56,9 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	}
 
 	@Override
-	public int deletePostImages(int post_no) throws DataAccessException {
+	public int deletePostImages(ImageDTO imageDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return sqlSession.delete(Namespace + ".deletePostImages", post_no);
+		return sqlSession.delete(Namespace + ".deletePostImages", imageDTO);
 	}
 
 	@Override
