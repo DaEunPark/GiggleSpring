@@ -96,6 +96,7 @@ public class VueListController {
 			return mylikefeedList;
 			}
 		
+		
 		//최근 검색어
 		@PostMapping("/main/recentSearch")
 		@ResponseBody
@@ -106,7 +107,6 @@ public class VueListController {
 			
 			Queue<String> recentSearch = new LinkedList<String>();
 			
-			System.out.println("****************************");
 			String[] str = new String[5];
 			
 			for(int i=0; i<keyword.size(); i++) {
@@ -117,10 +117,9 @@ public class VueListController {
 					recentSearch.offer(str[i]);
 				}
 			}
-
-
-			System.out.println("****************************");
 			
+
+
 			if(recentSearch.size() > 5) {
 				recentSearch.remove();
 			} else {
@@ -130,6 +129,49 @@ public class VueListController {
 			System.out.println("(LinkedList<String>) recentSearch = " + (LinkedList<String>) recentSearch);
 			
 			return (LinkedList<String>) recentSearch;
+		}
+		
+		// 특정 검색어 삭제하기
+		@PostMapping("/deleteThisSearchWord")
+		@ResponseBody
+		public LinkedList<String> deleteThisSearchWord(@RequestBody Map<String, String> recentSearchList) throws Exception {
+			
+			
+			logger.info("ListController에서 recentSearch()실행....");
+			logger.info("삭제할 keyword = " + recentSearchList.get("num"));
+			
+			Queue<String> recentSearch = new LinkedList<String>();
+			
+			String[] str = new String[5];
+			
+			for(int i=0; i<recentSearchList.size(); i++) {
+				str[i] = recentSearchList.get("keyword"+i);
+				if(str[i] == recentSearchList.get("num")) {
+					recentSearch.remove(str[i]);
+				} else if(str[i] != recentSearchList.get("num") && str[i] != ""){					
+					recentSearch.offer(str[i]);
+				}
+			}
+
+			if(recentSearch.size() > 5) {
+				recentSearch.remove();
+			} else {
+				System.out.println("검색어 저장");
+			}
+			
+			for(int i=0; i<recentSearch.size(); i++) {
+				str[i] = recentSearch.poll();
+				if(str[i] == null || str[i] == "") {
+					recentSearch.remove(str[i]);
+				} else {
+					recentSearch.offer(str[i]);
+				}
+			}
+			
+			System.out.println("(LinkedList<String>) recentSearch = " + (LinkedList<String>) recentSearch);
+			
+			return (LinkedList<String>) recentSearch;			
+			
 		}
 
 		
