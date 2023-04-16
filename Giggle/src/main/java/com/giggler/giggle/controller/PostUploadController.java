@@ -170,7 +170,7 @@ public class PostUploadController {
 		}
 		
 		// post_no로 이미지 테이블에서 데이터 삭제
-		postUploadService.deletePostImages(post_no);
+		postUploadService.deletePostImages(imgDTO);
 	}
 	
 	/*

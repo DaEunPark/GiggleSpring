@@ -20,7 +20,7 @@ public interface PostUploadDAO {
 
 	List<ImageDTO> postImages(ImageDTO imageDTO) throws DataAccessException;
 
-	int deletePostImages(int post_no) throws DataAccessException;
+	int deletePostImages(ImageDTO imageDTO) throws DataAccessException;
 
 	int deletePost(int post_no) throws DataAccessException;
 
