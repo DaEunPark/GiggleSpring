@@ -26,4 +26,11 @@ public class FollowListServiceImpl implements FollowListService {
 		return followlistDAO.followingList(user_no);
 	}
 
+	// 나를 팔로우한 사람 목록
+	@Override
+	public List<FollowListDTO> followerList(int user_no) throws Exception {
+		logger.info("FollowListServiceImpl 내가 팔로우한 사람 목록");
+		return followlistDAO.followerList(user_no);
+	}
+
 }

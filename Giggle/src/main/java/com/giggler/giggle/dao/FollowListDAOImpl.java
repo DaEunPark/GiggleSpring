@@ -26,4 +26,10 @@ public class FollowListDAOImpl implements FollowListDAO {
 		return sqlSession.selectList(Namespace+".followingList", user_no);
 	}
 
+	// 나를 팔로우한 목록
+	@Override
+	public List<FollowListDTO> followerList(int user_no) throws Exception {
+		return sqlSession.selectList(Namespace+".followerList", user_no);
+	}
+
 }

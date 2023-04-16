@@ -31,4 +31,13 @@ public class FollowListController {
 		List<FollowListDTO> followingList = followlistService.followingList(user_no);
 		return followingList;
 	}
+	
+	// 나를 팔로우한 유저 목록
+	@GetMapping("/followerList/{user_no}")
+	public List<FollowListDTO> followerList(@PathVariable int user_no) throws Exception{
+		
+		logger.info("FollowListController에서 follower()실행...");
+		List<FollowListDTO> followerList = followlistService.followerList(user_no);
+		return followerList;
+	}
 }
