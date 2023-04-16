@@ -227,5 +227,14 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.delete(Namespace + ".unfollower", followDTO);
 	}
 	
+	//----------------------------------------------------------------------------------//
+	// 내가 해당 유저에게 블락돼 있는지 체크
+	//----------------------------------------------------------------------------------//
+	public int amIBlockCheck(UserDTO userDTO) throws Exception {
+
+		logger.info("loginDAO에서 amIBlockCheck()실행...");
+		
+		return sqlSession.selectOne(Namespace + ".amIBlockCheck", userDTO);		
+	}
 
 }

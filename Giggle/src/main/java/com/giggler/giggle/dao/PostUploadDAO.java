@@ -18,7 +18,7 @@ public interface PostUploadDAO {
 
 	int uploadImage(ImageDTO imageDTO) throws DataAccessException;
 
-	List<ImageDTO> postImages(int post_no) throws DataAccessException;
+	List<ImageDTO> postImages(ImageDTO imageDTO) throws DataAccessException;
 
 	int deletePostImages(int post_no) throws DataAccessException;
 
@@ -27,5 +27,9 @@ public interface PostUploadDAO {
 	int deleteImage(String imagepath) throws DataAccessException;
 
 	int updatePost(PostDTO postDTO) throws DataAccessException;
+
+	int beforeDeleteImage(String imagepath) throws DataAccessException;
+
+	int cancelUpdate(int post_no) throws DataAccessException;
 
 }

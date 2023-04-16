@@ -41,14 +41,22 @@
 		]]>
 	</insert> 
 	
-	<!-- 포스트 이미지 불러오기 -->
-	<select id="postImages" parameterType="int" resultType="com.giggler.giggle.dto.ImageDTO">
+	
+<!-- 	<select id="postImages" parameterType="int" resultType="com.giggler.giggle.dto.ImageDTO">
 		<![CDATA[
 			SELECT *
 			FROM giggledbaws.image
 			WHERE post_no = #{post_no}
 		]]>
-	</select>
+	</select> -->
+	<!-- 포스트 이미지 불러오기 -->
+ 	<select id="postImages" parameterType="com.giggler.giggle.dto.ImageDTO" resultType="com.giggler.giggle.dto.ImageDTO">
+		<![CDATA[
+			SELECT *
+			FROM giggledbaws.image
+			WHERE post_no = #{post_no} AND is_posting = #{is_posting}
+		]]>
+	</select> 
 	
 	<!-- 포스트 이미지 삭제 -->
 	<delete id="deletePostImages" parameterType="int">
@@ -70,7 +78,7 @@
 	<delete id="deleteImage" parameterType="String">
 		<![CDATA[
 			DELETE FROM giggledbaws.image
-			WHERE imagepath = #{imagepath}
+			WHERE imagepath = #{imagepath} AND is_posting = 0
 		]]>
 	</delete>
 	
@@ -82,6 +90,24 @@
 			WHERE	post_no = #{post_no}
 		]]>
 	</update>
+	
+	<!-- 삭제 예정 Image 표시하기 -->
+ 	<update id="beforeDeleteImage" parameterType="String">
+		<![CDATA[
+			UPDATE	giggledbaws.image
+			SET		is_posting = 0
+			WHERE imagepath = #{imagepath}
+		]]>
+	</update> 
+
+		<!-- 삭제 예정 Image 표시 취소하기 -->
+  	<update id="cancelDeleteImage" parameterType="int">
+		<![CDATA[
+			UPDATE	giggledbaws.image
+			SET		is_posting = 1
+			WHERE post_no = #{post_no}
+		]]>
+	</update>  
 
 	
 <!-- 		<select id="AllFeedList"  resultType="com.giggler.giggle.dto.ListDTO">

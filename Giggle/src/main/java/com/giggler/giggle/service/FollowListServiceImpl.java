@@ -25,6 +25,20 @@ public class FollowListServiceImpl implements FollowListService {
 		logger.info("FollowListServiceImpl 내가 팔로우한 사람 목록");
 		return followlistDAO.followingList(user_no);
 	}
+	
+	// 나를 팔로우한 사람 목록
+	@Override
+	public List<FollowListDTO> followerList(int user_no) throws Exception {
+		logger.info("FollowListServiceImpl 나를 팔로우한 사람 목록");
+		return followlistDAO.followerList(user_no);
+	}
+	
+	// 나를 블락한 사람 목록
+	@Override
+	public List<FollowListDTO> blockList(int user_no) throws Exception {
+		logger.info("FollowListServiceImpl 내가 블락한 사람 목록");
+		return followlistDAO.blockList(user_no);
+	}
 
 	// 나를 팔로우한 사람 목록
 	@Override
