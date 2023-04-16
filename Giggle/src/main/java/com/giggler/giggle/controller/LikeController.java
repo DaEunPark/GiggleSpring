@@ -46,14 +46,14 @@ public class LikeController {
 		
 		int result = likeService.likeCount(likeDTO);
 		
-	if(result==0 ) {
-	likeService.pushLike(likeDTO);
-		return "Y";
-	}	 else {
-		// 언팔 기능
-likeService.unLike(likeDTO);
-		return "N";
-	}
+		if(result==0 ) {
+			likeService.pushLike(likeDTO);
+			return "Y";
+		} else {
+			// 언팔 기능
+			likeService.unLike(likeDTO);
+			return "N";
+		}
 }
 
 

@@ -192,11 +192,15 @@ public class MJDAO {
 		System.out.println("MJDAO의 getMessageList() 시작");
 		int chatroom_no = messageDTO.getChatroom_no();
 		
-		//해당 채팅의 해당 유저의 새로운 메세지 유무를 바꿔준다.
+		//메세지를 불러올 때(채팅방을 클릭 했을 때) 나의 새로운 메세지 유무를 바꿔준다.
 		ChatRoomDTO chatRoomDTO = sqlSession.selectOne(Namespace + ".getChatRoomByRoomNo" , chatroom_no);
+		
+		//해당 채팅방의 user1이 나면
 		if(chatRoomDTO.getUser1() == messageDTO.getUser_no()) {
+			//user1의 메세지 유무를 바꿔준다.
 			chatRoomDTO.setUser1_yn("N");
-		} else {
+		} else {//해당 채팅방의 user2가 나면
+			//user2의 메세지 유무를 바꿔준다.
 			chatRoomDTO.setUser2_yn("N");
 		}
 		if(sqlSession.update(Namespace + ".updateChatUserYN", chatRoomDTO) == 1) {
