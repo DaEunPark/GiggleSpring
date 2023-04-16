@@ -1,6 +1,9 @@
 package com.giggler.giggle.controller;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import javax.inject.Inject;
 
@@ -49,9 +52,7 @@ public class VueListController {
 			model.addAttribute("keyword", keyword);
 			listDTO.setKeyword(keyword);
 			listDTO.setUser_no(Integer.valueOf(user_no));
-			
-			System.out.println("listDTO.getKeyword() = " + listDTO.getKeyword());
-			System.out.println("listDTO.getUser_no() = " + listDTO.getUser_no());
+
 			return listService.searchfeedList(listDTO);
 			}		
 		
@@ -95,7 +96,42 @@ public class VueListController {
 			return mylikefeedList;
 			}
 		
-		
+		//최근 검색어
+		@PostMapping("/main/recentSearch")
+		@ResponseBody
+		public LinkedList<String> recentSearch(@RequestBody Map<String, String> keyword) throws Exception {
+			
+			logger.info("ListController에서 recentSearch()실행....");
+			logger.info("keyword = " + keyword);
+			
+			Queue<String> recentSearch = new LinkedList<String>();
+			
+			System.out.println("****************************");
+			String[] str = new String[5];
+			
+			for(int i=0; i<keyword.size(); i++) {
+				str[i] = keyword.get("keyword"+i);
+				if(str[i] == "") {
+					recentSearch.remove(str[i]);
+				} else {					
+					recentSearch.offer(str[i]);
+				}
+			}
+
+
+			System.out.println("****************************");
+			
+			if(recentSearch.size() > 5) {
+				recentSearch.remove();
+			} else {
+				System.out.println("검색어 저장");
+			}
+			
+			System.out.println("(LinkedList<String>) recentSearch = " + (LinkedList<String>) recentSearch);
+			
+			return (LinkedList<String>) recentSearch;
+		}
+
 		
 	}// END - public class VueListController
 

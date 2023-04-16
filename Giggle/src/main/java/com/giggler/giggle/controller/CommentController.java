@@ -25,7 +25,6 @@ import com.giggler.giggle.service.CommentService;
 @CrossOrigin
 @RestController
 @RequestMapping("/comment")
-
 public class CommentController {
 	@Inject
 	CommentService commentService;
