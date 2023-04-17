@@ -32,9 +32,9 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	}
 
 	@Override
-	public ListDTO postDetail(int post_no) throws DataAccessException {
+	public ListDTO postDetail(PostDTO postDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(Namespace + ".postDetail", post_no);
+		return sqlSession.selectOne(Namespace + ".postDetail", postDTO);
 	}
 
 	@Override

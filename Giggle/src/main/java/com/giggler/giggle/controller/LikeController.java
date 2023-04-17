@@ -41,53 +41,23 @@ public class LikeController {
 	@ResponseBody
 	@PostMapping("/pushLike")
 	public String pushLike(@RequestBody LikeDTO likeDTO, HttpServletRequest request) throws Exception {
-		System.out.println("라d잌");
-		System.out.println("content= " + likeDTO);
+		System.out.println("LikeController 좋아요 누름: " + likeDTO);
 		
 		int result = likeService.likeCount(likeDTO);
 		
-		if(result==0 ) {
+		if(result == 0 ) {
+			System.out.println("좋아요 데이터 추가");
 			likeService.pushLike(likeDTO);
 			return "Y";
 		} else {
-			// 언팔 기능
+			// 좋아요 취소
+			System.out.println("좋아요 데이터 삭제");
 			likeService.unLike(likeDTO);
 			return "N";
 		}
-}
-
-
-	@GetMapping("/likeList/{user_no}")
-	public List<LikeDTO> likeList(@PathVariable int user_no) throws Exception {
-		System.out.println("likeList 구하기....");
-			
-	//	return commentDTO.commentList(post_no);
-		List<LikeDTO> likeList = likeService.likeList(user_no);
-		System.out.println(likeList);
-		return likeList;
 	}
-	
-	//-----------------------------------------------------------------------------------------------------------
-	// 댓글 번호에 해당하는 댓글 삭제하기
-	//-----------------------------------------------------------------------------------------------------------
-/*	@ResponseBody
-	@PostMapping("/likeDelete")
-	//@RequestMapping(value = "/commentDelete", method = RequestMethod.POST)
-	public String unlike(@RequestBody Map<String, String> info, HttpServletRequest request) throws Exception {
-				
-		System.out.println("댓글삭제 : " + request.getParameter("like_no"));
-		
-		int like_no = Integer.valueOf(info.get("like_no"));
-	
-		System.out.println("ㅋ: " + like_no);
-				
-		if(likeService.unLike(like_no) == 1) {
-				return "Y";
-			} else {
-				return "N";
-			}                   }
-	*/
-	
+
+
 	@GetMapping("/likeCount")
 	public String likeCount (@ModelAttribute LikeDTO likeDTO) throws Exception {
 		logger.info("likeCount => " + likeDTO);
@@ -100,15 +70,5 @@ public class LikeController {
 			return "N";
 	}
 } 
-	
-	@PostMapping("/isLike")
-	public int isLike(@RequestBody LikeDTO likeDTO) throws Exception {
-	   
-	 
-	 return likeService.isLike(likeDTO);
-	}
-	
-	
-	
 }
 

@@ -12,7 +12,7 @@ public interface PostUploadService {
 
 	int uploadPost(PostDTO postDTO) throws DataAccessException;
 
-	ListDTO postDetail(int post_no) throws DataAccessException;
+	ListDTO postDetail(PostDTO postDTO) throws DataAccessException;
 
 	int currentPostNo(PostDTO postDTO) throws DataAccessException;
 
