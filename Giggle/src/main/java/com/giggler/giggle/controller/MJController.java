@@ -1,12 +1,14 @@
 package com.giggler.giggle.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -92,11 +94,12 @@ public class MJController {
 	}
 	
 	//키워드로 회원 검색하기============================================================
-	@GetMapping("/searchUser/{keyword}")
-	public List<UserDTO> searchUser(@PathVariable String keyword) throws Exception {
-		System.out.println("MJController의 searchUser() " + keyword);
+	@PostMapping("/searchUser")
+	public List<UserDTO> searchUser(@RequestBody Map<String, Object> map) throws Exception {
+		//System.out.println("MJController의 searchUser() " + keyword + " user_no:" + user_no);
+		System.out.println("키워드: " + map.get("keyword") + " 횐번: " + map.get("user_no"));
 		
-		return mjService.searchUser(keyword);
+		return mjService.searchUser(map);
 	}
 
 	//두명의 유저번호가 일치하는 채팅방 데이터 가져오기==========================================

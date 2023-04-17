@@ -5,38 +5,68 @@
 
 <mapper namespace="com.giggler.giggle.like">
 
+	<!-- 좋아요 데이터 갯수 구하기 -->
+	<select id="likeCount" parameterType="com.giggler.giggle.dto.FollowDTO"  resultType="Integer">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM postlike 
+			WHERE post_no = #{post_no} AND user_no = #{user_no}
+		
+		]]>
+	</select>	
 	
 	
-<!--  insert id="createBoardLike" parameterType="com.giggler.giggle.dto.PostDTO">
-		<![CDATA[
-            INSERT INTO post (post_no, user_no)
-            VALUES (#{post_no}, #{user_no})
-            ]]>
-</insert-->
+	
+	
+	<insert id="pushLike" parameterType="com.giggler.giggle.dto.LikeDTO">
+			<![CDATA[
+	            INSERT INTO postlike (post_no, user_no)
+	            VALUES (#{post_no}, #{user_no})
+	            ]]>
+	</insert>
 
-<delete id="deleteBoardLike" parameterType="com.giggler.giggle.dto.PostDTO">
-		<![CDATA[
-    DELETE FROM post
-    WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
-</delete>
+	<!-- 게시글 번호로 게시글정보 가져오기 -->
+	<select id="getPostDTO" parameterType="Integer" resultType="com.giggler.giggle.dto.PostDTO">
+		Select * FROM post
+		WHERE post_no = #{post_no}
+	</select>
+	
+	<!-- 좋아요에 해당하는 알람 등록하기 -->
+	<insert id="insertAlarmCnt" parameterType="com.giggler.giggle.dto.LikeDTO">
+	<![CDATA[
+	INSERT INTO alarm (user_no, alarm_user, alarm_type, alarm_date, post_no)
+	VALUES ((SELECT user_no FROM post WHERE post_no = #{post_no}), #{user_no},"2",now(),#{post_no})	
+	]]>
+	</insert>
+	
+	<update id="updateAlarmYn" parameterType="com.giggler.giggle.dto.LikeDTO">	
+	<![CDATA[
+	UPDATE user set alarm_yn = "Y" WHERE user_no = (SELECT user_no from post WHERE post_no = #{post_no})
+	]]>
+	</update>
 
-<select id="updateBoardLike" parameterType="com.giggler.giggle.dto.PostDTO">
-		<![CDATA[
-    UPDATE post
-    SET
-    like_no = (SELECT COUNT(*)
-    FROM post
-    WHERE post_no = #{post_no})
-    WHERE user_no = #{user_no}]]>
-</select>
+	<delete id="unLike" parameterType="com.giggler.giggle.dto.LikeDTO">
+			<![CDATA[
+	    DELETE FROM postlike
+	    WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
+	</delete>
 
-<select id="getBoardLike" resultType="int" parameterType="com.giggler.giggle.dto.PostDTO">
-		<![CDATA[
-    SELECT COUNT(like_no) 
-    FROM post
-    WHERE post_no = #{post_no} AND user_no = #{user_no}]]>
-</select>
 
+
+	<!-- 게시글 번호에 해당하는 게시글의 좋아요 수 증가 -->
+	<update id="upLikeCnt" parameterType="Integer">
+	<![CDATA[
+	UPDATE post SET like_cnt = like_cnt + 1
+	WHERE post_no = #{post_no}
+	]]>
+	</update>
+		<!-- 게시글 번호에 해당하는 게시글의 좋아요 수 감소 -->
+	<update id="unLikeCnt" parameterType="Integer">
+	<![CDATA[
+	UPDATE post SET like_cnt = like_cnt - 1
+	WHERE post_no = #{post_no}
+	]]>
+	</update>
 
 </mapper>
 

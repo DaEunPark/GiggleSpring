@@ -25,7 +25,6 @@ import com.giggler.giggle.service.CommentService;
 @CrossOrigin
 @RestController
 @RequestMapping("/comment")
-
 public class CommentController {
 	@Inject
 	CommentService commentService;
@@ -67,18 +66,22 @@ public class CommentController {
 		//-----------------------------------------------------------------------------------------------------------
 		// 댓글 번호에 해당하는 댓글 삭제하기
 		//-----------------------------------------------------------------------------------------------------------
-		//@ResponseBody
+		@ResponseBody
 		@PostMapping("/commentDelete")
 		//@RequestMapping(value = "/commentDelete", method = RequestMethod.POST)
-		public String commentDelete(@RequestBody int comment_no, int post_no, HttpServletRequest request) throws Exception {
+		public String commentDelete(@RequestBody CommentDTO commentDTO, HttpServletRequest request) throws Exception {
 					
+			// System.out.println("댓글삭제 : " + request.getParameter("commentDTO"));
+			System.out.println("댓글삭제 : " + commentDTO);
+			
+		//	int commentDTO = Integer.valueOf(info.get("commentDTO"));
 		
-			System.out.println("CommentController 게시글 번호에 해당하는 댓글 삭제하기 번호: " + comment_no);
+			System.out.println("CommentController 게시글 번호에 해당하는 댓글 삭제하기 번호: " + commentDTO);
 					
-			if(commentService.commentDelete(comment_no) == 1) {
+			if(commentService.commentDelete(commentDTO) == 1) {
 					return "Y";
 				} else {
 					return "N";
-				}
+				}                              
 		}
 }

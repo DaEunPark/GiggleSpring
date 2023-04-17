@@ -13,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,13 +73,19 @@ public class PostUploadController {
 	/*
 	 * Vue에서 포스트 상세 화면 표시 요청
 	 */
-	@GetMapping("/postdetail/{post_no}")
-	public HashMap<String, Object> postDetail(@PathVariable int post_no) throws Exception {
-		logger.info("PostUploadController postDetail() post_no => " + post_no);
+	@GetMapping("/postdetail")
+	public @ResponseBody HashMap<String, Object> postDetail(@ModelAttribute PostDTO postDTO) throws Exception {
+		logger.info("PostUploadController postDetail() post_no => " + postDTO);
 		
 		HashMap<String, Object> postDetail = new HashMap<String, Object>();
-		postDetail.put("post", postUploadService.postDetail(post_no));
-		postDetail.put("postImages", postUploadService.postImages(post_no));
+		postDetail.put("post", postUploadService.postDetail(postDTO));
+		
+		ImageDTO imgDTO = new ImageDTO();
+		imgDTO.setPost_no(postDTO.getPost_no());
+		imgDTO.setIs_posting(1);
+		List<ImageDTO> imageDTOs = postUploadService.postImages(imgDTO);
+		logger.info("PostUploadController postDetail() imageDTOs.size() => " + imageDTOs.size());
+		postDetail.put("postImages", imageDTOs);
 		return postDetail;
 	}
 	
@@ -110,18 +119,97 @@ public class PostUploadController {
 			ImageDTO imageDTO = new ImageDTO(currentPostNo, CLOUD_FRONT_URL + file.getOriginalFilename(), 1, currentUserNo);
 			postUploadService.uploadImage(imageDTO);
 		}
+		currentPostNo = -1;
+		currentUserNo = -1;
+		return "Y";
+	}
+	
+	/*
+	 * 포스트 삭제
+	 */
+	@DeleteMapping("/deletepost/{post_no}")
+	public String deletePost(@PathVariable int post_no) throws Exception {
+		logger.info("PostUploadController deletePost() post_no => " + post_no);
 		
+		deleteImages(post_no, 1);
+		// post_no로 포스트 삭제
+		int delete = postUploadService.deletePost(post_no);
+		if (delete < 1)
+			return "N";
+		
+		return "Y";
+	}
+	
+	/*
+	 * 포스트 수정
+	 */
+	@PatchMapping("/upadtepost")
+	public String updatePost(@RequestBody PostDTO postDTO) throws Exception {
+		logger.info("PostUploadController updatePost() => " + postDTO);
+		currentPostNo = postDTO.getPost_no();
+		currentUserNo = postDTO.getUser_no();
+		
+		deleteImages(postDTO.getPost_no(), 0);
+
+		if(postUploadService.updatePost(postDTO) == 1) {	
+			return "Y";
+		} else {
+			return "N"; 
+		}		
+	}
+	
+	private void deleteImages(int post_no, int is_posting) throws IOException {
+		logger.info("PostUploadController deleteImages() imageDTO => " + post_no);
+		ImageDTO imgDTO = new ImageDTO();
+		imgDTO.setPost_no(post_no);
+		imgDTO.setIs_posting(is_posting);		
+		// post_no로 먼저 이미지 파일 이름 가져오기
+		List<ImageDTO> imageDTOs = postUploadService.postImages(imgDTO);
+		
+		// 이미지 파일 이름 가져온 걸로 서버에서 이미지 삭제
+		for (ImageDTO imageDTO : imageDTOs) {
+			logger.info("PostUploadController deletePost() imageDTO => " + imageDTO.getImagepath());
+			awsS3Service.deleteObject(imageDTO.getImagepath());
+		}
+		
+		// post_no로 이미지 테이블에서 데이터 삭제
+		postUploadService.deletePostImages(imgDTO);
+	}
+	
+	/*
+	 *  삭제 예정 image 표시
+	 */
+	@PostMapping("/beforedeleteimage")
+	@CrossOrigin
+	public @ResponseBody String beforeDeleteImage(@RequestBody ImageDTO imageDTO) throws IOException {
+		logger.info("PostUploadController beforeDeleteImage() files => " + imageDTO.getImagepath());
+		postUploadService.beforeDeleteImage(imageDTO.getImagepath());
+		return "Y";
+	}
+	
+	/*
+	 * 수정 취소
+	 */
+	@PostMapping("/cancelupdate")
+	@CrossOrigin
+	public @ResponseBody String cancelUpdate(@RequestBody ImageDTO imageDTO) throws IOException {
+		logger.info("PostUploadController beforeDeleteImage() files => " + imageDTO.getImagepath());
+		postUploadService.cancelUpdate(imageDTO.getPost_no());
+
 		return "Y";
 	}
 	
 	/*
 	 * s3 이미지 삭제 
 	 */
-	@DeleteMapping("/deleteimage/{filename}")
-	@CrossOrigin("http://localhost:8080/")
-	public String deleteImage(@PathVariable String filename) throws IOException {
-		logger.info("PostUploadController deleteImage() files => " + filename);
-		awsS3Service.deleteObject(filename);
+	@PostMapping("/deleteimage")
+	@CrossOrigin
+	public @ResponseBody String deleteImage(@RequestBody ImageDTO imageDTO) throws IOException {
+		logger.info("PostUploadController deleteImage() files => " + imageDTO.getImagepath());
+		awsS3Service.deleteObject(imageDTO.getImagepath());
+		
+		if (postUploadService.deleteImage(imageDTO.getImagepath()) < 1)
+			return "N";
 
 		return "Y";
 	}
