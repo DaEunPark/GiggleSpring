@@ -1,6 +1,5 @@
 package com.giggler.giggle.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.giggler.giggle.dto.FollowDTO;
 import com.giggler.giggle.dto.PostDTO;
 import com.giggler.giggle.dto.UserDTO;
 import com.giggler.giggle.service.LoginServiceImpl;
@@ -29,10 +27,6 @@ public class LoginController {
 	LoginServiceImpl loginService;
 	@Autowired
 	PostDTO postDTO;
-	@Autowired
-	FollowDTO followDTO;
-	@Autowired
-	FollowController followcontroller;
 
 	private final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
@@ -57,32 +51,6 @@ public class LoginController {
 		}
 		
 		return userDTOS; 
-		
-	} // End - 로그인 정보 가져오기
-	
-	//----------------------------------------------------------------------------------//
-	// 구글로그인 정보 가져오기(DB)
-	//----------------------------------------------------------------------------------//
-	@PostMapping("/googlelogin")
-	@ResponseBody
-	public UserDTO googlelogin(@RequestBody Map<String, String> info) throws Exception {
-		
-		logger.info("LoginController에서 googlelogin() 실행....");
-		
-		userDTO.setGoogle_token(info.get("google_token"));
-
-		UserDTO userDTOS = loginService.googleUserCheck(userDTO);
-
-		System.out.println("userDTOS = " + userDTOS);
-		
-		if(userDTOS == null) {
-			System.out.println("검색 결과가 없습니다.");
-			return userDTOS;
-		} else {
-			return userDTOS; 
-		}
-		
-
 		
 	} // End - 로그인 정보 가져오기
 	
@@ -125,6 +93,28 @@ public class LoginController {
 		return userDTOP;
 	}
 	
+	//----------------------------------------------------------------------------------//
+	// 구글로그인
+	//----------------------------------------------------------------------------------//
+	@PostMapping("/googleAuth")
+	@ResponseBody
+	public UserDTO googleAuth(@RequestBody Map<String, String> token) throws Exception {
+		
+		logger.info("LoginController에서 googleAuth()실행....");
+		
+		String google_token = token.get("token");
+		System.out.println("********************************************************");
+		System.out.println("google_token = " + google_token);
+		System.out.println("********************************************************");
+
+		UserDTO userDTO = loginService.getGoogleToken(google_token);
+		
+		System.out.println("********************************************************");
+		System.out.println("userDTO = " + userDTO);
+		System.out.println("********************************************************");
+		return userDTO;
+
+	}
 	
 	//----------------------------------------------------------------------------------//
 	// 프로필 정보 수정하기
@@ -140,7 +130,6 @@ public class LoginController {
 		userDTO.setStatus_message(info.get("status_message"));
 		userDTO.setUser_location(info.get("user_location"));
 		userDTO.setUser_birth(info.get("user_birth"));
-		userDTO.setProfile_image(info.get("profile_image"));
 
 		if(loginService.updateProfile(userDTO) == 1) {
 			userDTO.setUser_no(Integer.valueOf(info.get("user_no")));
@@ -199,143 +188,6 @@ public class LoginController {
 		
 		return userDTO;
 	}
-	
-	//----------------------------------------------------------------------------------//
-	// 팔로우 추천(3명)
-	//----------------------------------------------------------------------------------//	
-	@PostMapping("/recommendFollow")
-	@ResponseBody
-	public List<UserDTO> recommendFollow(@RequestBody Map<String, String> userInfo) throws Exception {
-		
-		logger.info("LoginController에서 recommendFollow()실행..." + userInfo);
-		
-		String user_no = userInfo.get("user_no");
-		
-		List<UserDTO> recommendUser = loginService.recommendFollow(user_no);
-		
-		System.out.println("recommendUser = "+recommendUser);
-		
-		return recommendUser;		
-		
-	}
-	
-	//----------------------------------------------------------------------------------//
-	// 팔로우 추천(전부)
-	//----------------------------------------------------------------------------------//	
-	@PostMapping("/recommendFollowAll")
-	@ResponseBody
-	public List<UserDTO> recommendFollowAll(@RequestBody Map<String, String> userInfo) throws Exception {
-		
-		logger.info("LoginController에서 recommendFollow()실행...");
-		
-		String user_no = userInfo.get("user_no");
-		
-		List<UserDTO> recommendUser = loginService.recommendFollowAll(user_no);
-		
-		return recommendUser;		
-		
-	}
-	
-	//----------------------------------------------------------------------------------//
-	// 유저 블락
-	//----------------------------------------------------------------------------------//
-	@PostMapping("/userBlock")
-	@ResponseBody
-	public void userBlock(@RequestBody Map<String, String> userInfo) throws Exception {
-		
-		logger.info("LoginController에서 userBlock()실행...");
-		
-		userDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
-		userDTO.setBlock_user(Integer.valueOf(userInfo.get("blockUser_no")));
-		
-		loginService.userBlock(userDTO);
-		
-		followDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
-		followDTO.setFollow_user(Integer.valueOf(userInfo.get("blockUser_no")));
-		if(followcontroller.followCheck(followDTO) == "Y") {
-			System.out.println("팔로우 돼있어서 언팔 진행..");
-			loginService.unfollow(followDTO);
-			loginService.unfollower(followDTO);			
-		} else {
-			System.out.println("팔로우 안돼있음..");
-		}
-		
-		followDTO.setUser_no(Integer.valueOf(userInfo.get("blockUser_no")));
-		followDTO.setFollow_user(Integer.valueOf(userInfo.get("myUser_no")));
-		if(followcontroller.followCheck(followDTO) == "Y") {
-			System.out.println("팔로우 돼있어서 언팔 진행..");
-			loginService.unfollow(followDTO);
-			loginService.unfollower(followDTO);			
-		} else {
-			System.out.println("팔로우 안돼있음..");
-		}
-		
-		System.out.println("userBlock() 끝....");
-	}
-	
-	//----------------------------------------------------------------------------------//
-	// 유저 블락 체크
-	//----------------------------------------------------------------------------------//
-	@PostMapping("/userBlockCheck")
-	@ResponseBody
-	public String userBlockCheck(@RequestBody Map<String, String> userInfo) throws Exception {
-		
-		logger.info("LoginController에서 userBlockCheck()실행...");
-		
-		userDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
-		userDTO.setBlock_user(Integer.valueOf(userInfo.get("blockUser_no")));
-		
-		if(loginService.userBlockCheck(userDTO) == 0) {
-			System.out.println("block아님");
-			return "N";
-		} else {
-			System.out.println("block유저");
-			return "Y";
-		}
-	}
-		
-	//----------------------------------------------------------------------------------//
-	// 유저 블락 취소
-	//----------------------------------------------------------------------------------//
-	@PostMapping("/userBlockCancle")
-	@ResponseBody
-	public void userBlockCancle(@RequestBody Map<String, String> userInfo) throws Exception {
-			
-		logger.info("LoginController에서 userBlockCancle()실행...");
-			
-		userDTO.setUser_no(Integer.valueOf(userInfo.get("myUser_no")));
-		userDTO.setBlock_user(Integer.valueOf(userInfo.get("blockUser_no")));
-			
-		loginService.userBlockCancle(userDTO);
-			
-		System.out.println("userBlockCancle() 끝....");
-	}
-	
-	//----------------------------------------------------------------------------------//
-	// 내가 해당 유저에게 블락돼 있는지 체크
-	//----------------------------------------------------------------------------------//
-	@PostMapping("/amIBlockCheck")
-	@ResponseBody
-	public String amIBlockCheck(@RequestBody Map<String, String> userInfo) throws Exception {
-		
-		logger.info("LoginController에서 amIBlockCheck()실행...");
-		
-		userDTO.setUser_no(Integer.valueOf(userInfo.get("blockUser_no")));
-		userDTO.setBlock_user(Integer.valueOf(userInfo.get("myUser_no")));
-		
-		int res = loginService.amIBlockCheck(userDTO);
-		
-		if( res == 0) {
-			System.out.println("block아님");
-			return "N";
-		} else if (res > 0 ) {
-			System.out.println("block유저");
-			return "Y";
-		} else {
-			return "N";
-		}
-	}
-	
 	
 	
 	

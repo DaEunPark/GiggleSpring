@@ -30,9 +30,9 @@ public class PostUploadServiceImpl implements PostUploadService {
 	}
 
 	@Override
-	public ListDTO postDetail(PostDTO postDTO) throws DataAccessException {
+	public ListDTO postDetail(int post_no) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return postUploadDAO.postDetail(postDTO);
+		return postUploadDAO.postDetail(post_no);
 	}
 
 	@Override
@@ -48,45 +48,9 @@ public class PostUploadServiceImpl implements PostUploadService {
 	}
 
 	@Override
-	public List<ImageDTO> postImages(ImageDTO imageDTO) throws DataAccessException {
+	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return postUploadDAO.postImages(imageDTO);
-	}
-
-	@Override
-	public int deletePostImages(ImageDTO imageDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return postUploadDAO.deletePostImages(imageDTO);
-	}
-
-	@Override
-	public int deletePost(int post_no) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return postUploadDAO.deletePost(post_no);
-	}
-
-	@Override
-	public int deleteImage(String imagepath) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return postUploadDAO.deleteImage(imagepath);
-	}
-
-	@Override
-	public int updatePost(PostDTO postDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return postUploadDAO.updatePost(postDTO);
-	}
-
-	@Override
-	public int beforeDeleteImage(String imagepath) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return postUploadDAO.beforeDeleteImage(imagepath);
-	}
-
-	@Override
-	public int cancelUpdate(int post_no) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return postUploadDAO.cancelUpdate(post_no);
+		return postUploadDAO.postImages(post_no);
 	}
 
 }

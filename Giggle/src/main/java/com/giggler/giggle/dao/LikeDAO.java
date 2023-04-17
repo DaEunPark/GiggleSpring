@@ -1,20 +1,18 @@
 package com.giggler.giggle.dao;
 
-import java.util.List;
-
 import org.springframework.dao.DataAccessException;
 
-import com.giggler.giggle.dto.FollowDTO;
-import com.giggler.giggle.dto.LikeDTO;
 import com.giggler.giggle.dto.ListDTO;
 import com.giggler.giggle.dto.PostDTO;
 
 public interface LikeDAO {
-	
-	public int likeCount(LikeDTO likeDTO) throws DataAccessException;
-	public int pushLike(LikeDTO likeDTO) throws DataAccessException ;
-	public int unLike(LikeDTO likeDTO) throws DataAccessException;
 
 	
+	
+	
+	public int getBoardLike(PostDTO postDTO) throws DataAccessException;
+	public void insertBoardLike(PostDTO postDTO) throws DataAccessException ;
+	public void deleteBoardLike(PostDTO postDTO) throws DataAccessException ;
+	public void updateBoardLike(int post_no) throws DataAccessException;
 
 }

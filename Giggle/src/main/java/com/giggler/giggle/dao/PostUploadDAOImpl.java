@@ -32,9 +32,9 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	}
 
 	@Override
-	public ListDTO postDetail(PostDTO postDTO) throws DataAccessException {
+	public ListDTO postDetail(int post_no) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(Namespace + ".postDetail", postDTO);
+		return sqlSession.selectOne(Namespace + ".postDetail", post_no);
 	}
 
 	@Override
@@ -50,45 +50,9 @@ public class PostUploadDAOImpl implements PostUploadDAO {
 	}
 
 	@Override
-	public List<ImageDTO> postImages(ImageDTO imageDTO) throws DataAccessException {
+	public List<ImageDTO> postImages(int post_no) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(Namespace + ".postImages", imageDTO);
-	}
-
-	@Override
-	public int deletePostImages(ImageDTO imageDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return sqlSession.delete(Namespace + ".deletePostImages", imageDTO);
-	}
-
-	@Override
-	public int deletePost(int post_no) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return sqlSession.delete(Namespace + ".deletePost", post_no);
-	}
-
-	@Override
-	public int deleteImage(String imagepath) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return sqlSession.delete(Namespace + ".deleteImage", imagepath);
-	}
-
-	@Override
-	public int updatePost(PostDTO postDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return sqlSession.update(Namespace + ".updatePost", postDTO);
-	}
-
-	@Override
-	public int beforeDeleteImage(String imagepath) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return sqlSession.update(Namespace + ".beforeDeleteImage", imagepath);
-	}
-
-	@Override
-	public int cancelUpdate(int post_no) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return sqlSession.update(Namespace + ".cancelDeleteImage", post_no);
+		return sqlSession.selectList(Namespace + ".postImages", post_no);
 	}
 
 }

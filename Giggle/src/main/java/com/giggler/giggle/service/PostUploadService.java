@@ -12,24 +12,12 @@ public interface PostUploadService {
 
 	int uploadPost(PostDTO postDTO) throws DataAccessException;
 
-	ListDTO postDetail(PostDTO postDTO) throws DataAccessException;
+	ListDTO postDetail(int post_no) throws DataAccessException;
 
 	int currentPostNo(PostDTO postDTO) throws DataAccessException;
 
 	int uploadImage(ImageDTO imageDTO) throws DataAccessException;
 
-	List<ImageDTO> postImages(ImageDTO imgDTO) throws DataAccessException;
-
-	int deletePostImages(ImageDTO imageDTO) throws DataAccessException;
-
-	int deletePost(int post_no) throws DataAccessException;
-
-	int deleteImage(String imagepath) throws DataAccessException;
-
-	int updatePost(PostDTO postDTO) throws DataAccessException;
-
-	int beforeDeleteImage(String imagepath) throws DataAccessException;
-
-	int cancelUpdate(int post_no) throws DataAccessException;
+	List<ImageDTO> postImages(int post_no) throws DataAccessException;
 
 }

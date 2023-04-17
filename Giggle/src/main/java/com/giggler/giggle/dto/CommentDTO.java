@@ -1,5 +1,6 @@
 package com.giggler.giggle.dto;
 
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -67,4 +68,3 @@ public class CommentDTO {
 	
 
 } // End - public class CommentDTO
-
