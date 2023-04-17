@@ -109,6 +109,8 @@ public class VueListController {
 			
 			String[] str = new String[5];
 			
+			
+			// 검색 단어가 공백이면 저장하지 않음
 			for(int i=0; i<keyword.size(); i++) {
 				str[i] = keyword.get("keyword"+i);
 				if(str[i] == "") {
@@ -117,9 +119,8 @@ public class VueListController {
 					recentSearch.offer(str[i]);
 				}
 			}
-			
 
-
+			// 검색단어가 5개 이상이면 하나씩 지워준다.
 			if(recentSearch.size() > 5) {
 				recentSearch.remove();
 			} else {
@@ -144,6 +145,7 @@ public class VueListController {
 			
 			String[] str = new String[5];
 			
+			//클릭했을 때 넘어온 값과 같으면 삭제해준다.
 			for(int i=0; i<recentSearchList.size(); i++) {
 				str[i] = recentSearchList.get("keyword"+i);
 				if(str[i] == recentSearchList.get("num")) {
@@ -159,6 +161,7 @@ public class VueListController {
 				System.out.println("검색어 저장");
 			}
 			
+			// 값을 삭제해 준 후 리스트를 훑어 null값인 것은 삭제해주고 반환한다.
 			for(int i=0; i<recentSearch.size(); i++) {
 				str[i] = recentSearch.poll();
 				if(str[i] == null || str[i] == "") {
