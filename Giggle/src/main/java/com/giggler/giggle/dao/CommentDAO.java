@@ -20,7 +20,7 @@ public interface CommentDAO {
 	public int commentRegister(CommentDTO commentDTO) throws Exception;
 		
 	// 댓글 번호에 해당하는 댓글 삭제하기
-	public int commentDelete(CommentDTO commentDTO) throws Exception;	
+	public int commentDelete(int comment_no) throws Exception;	
 	
 	
 	

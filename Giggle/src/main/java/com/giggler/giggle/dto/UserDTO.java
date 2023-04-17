@@ -1,5 +1,8 @@
 package com.giggler.giggle.dto;
 
+
+import java.sql.Timestamp;
+
 import org.springframework.stereotype.Component;
 
 @Component("userDTO")

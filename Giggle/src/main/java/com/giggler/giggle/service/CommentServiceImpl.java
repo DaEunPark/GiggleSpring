@@ -47,9 +47,9 @@ public int commentRegister(CommentDTO commentDTO) throws Exception {
 	
 //게시글 번호에 해당하는 댓글 삭제하기
 @Override
-public int commentDelete(CommentDTO commentDTO) throws Exception {
+public int commentDelete(int comment_no) throws Exception {
 
 	System.out.println ("CommentServiceImpl 댓글 번호에 해당하는 댓글 삭제하기() 시작");
-	return commentDAO.commentDelete(commentDTO);
+	return commentDAO.commentDelete(comment_no);
 }
 }

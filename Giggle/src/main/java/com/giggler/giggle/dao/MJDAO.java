@@ -1,7 +1,6 @@
 package com.giggler.giggle.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -97,10 +96,10 @@ public class MJDAO {
 	}
 	
 	//키워드로 유저 리스트 구하기
-	public List<UserDTO> searchUser(Map<String, Object> map) throws Exception {
+	public List<UserDTO> searchUser(String keyword) throws Exception {
 		System.out.println("MJDAO의 searchUser() 시작");
 		
-		return sqlSession.selectList(Namespace + ".searchUser", map);		
+		return sqlSession.selectList(Namespace + ".searchUser", keyword);		
 	}
 	
 	//두개 유저번호로 채팅방을 찾고 없으면 만든다.
@@ -136,15 +135,11 @@ public class MJDAO {
 		System.out.println("MJDAO의 getMessageList() 시작");
 		int chatroom_no = messageDTO.getChatroom_no();
 		
-		//메세지를 불러올 때(채팅방을 클릭 했을 때) 나의 새로운 메세지 유무를 바꿔준다.
+		//해당 채팅의 해당 유저의 새로운 메세지 유무를 바꿔준다.
 		ChatRoomDTO chatRoomDTO = sqlSession.selectOne(Namespace + ".getChatRoomByRoomNo" , chatroom_no);
-		
-		//해당 채팅방의 user1이 나면
 		if(chatRoomDTO.getUser1() == messageDTO.getUser_no()) {
-			//user1의 메세지 유무를 바꿔준다.
 			chatRoomDTO.setUser1_yn("N");
-		} else {//해당 채팅방의 user2가 나면
-			//user2의 메세지 유무를 바꿔준다.
+		} else {
 			chatRoomDTO.setUser2_yn("N");
 		}
 		if(sqlSession.update(Namespace + ".updateChatUserYN", chatRoomDTO) == 1) {
