@@ -62,11 +62,13 @@ public class FollowListController {
 	}
 	
 	// 내가 블락한 유저 목록
-	@PostMapping("/blockList")
-	public List<FollowListDTO> blockList(@RequestBody Map<String, String> userInfo) throws Exception{
+//	@PostMapping("/blockList")
+	@GetMapping("/blockList/{user_no}")
+//	public List<FollowListDTO> blockList(@RequestBody Map<String, String> userInfo) throws Exception{
+	public List<FollowListDTO> blockList(@PathVariable int user_no) throws Exception{
 		
 		logger.info("FollowListController에서 blockList()실행...");
-		int user_no = Integer.valueOf(userInfo.get("user_no"));
+//		int user_no = Integer.valueOf(userInfo.get("user_no"));
 		logger.info("user_no = " + user_no);
 		
 		List<FollowListDTO> blockList = followlistService.blockList(user_no);
