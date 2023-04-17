@@ -146,8 +146,8 @@ public class PostUploadController {
 	@PatchMapping("/upadtepost")
 	public String updatePost(@RequestBody PostDTO postDTO) throws Exception {
 		logger.info("PostUploadController updatePost() => " + postDTO);
-//		currentPostNo = postDTO.getPost_no();
-//		currentUserNo = postDTO.getUser_no();
+		currentPostNo = postDTO.getPost_no();
+		currentUserNo = postDTO.getUser_no();
 		
 		deleteImages(postDTO.getPost_no(), 0);
 
