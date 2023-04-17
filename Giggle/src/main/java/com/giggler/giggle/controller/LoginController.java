@@ -77,9 +77,12 @@ public class LoginController {
 		
 		if(userDTOS == null) {
 			System.out.println("검색 결과가 없습니다.");
+			return userDTOS;
+		} else {
+			return userDTOS; 
 		}
 		
-		return userDTOS; 
+
 		
 	} // End - 로그인 정보 가져오기
 	
