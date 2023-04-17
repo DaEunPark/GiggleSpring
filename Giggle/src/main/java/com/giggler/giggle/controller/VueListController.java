@@ -60,7 +60,6 @@ public class VueListController {
 		@PostMapping("/main/searchuser/{keyword}")
 		public List<UserDTO> searchuserList(@PathVariable String keyword) throws Exception {
 			logger.info("검색 피드 목록 - user용 VUE" + keyword);
-			
 			return listService.searchuserList(keyword);
 			}
 		
