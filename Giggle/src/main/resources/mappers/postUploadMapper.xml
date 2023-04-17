@@ -23,9 +23,10 @@
 	</select>
 	
 	<!-- 포스트 상세조회 -->
- 	<select id="postDetail" parameterType="int" resultType="com.giggler.giggle.dto.ListDTO">
+ 	<select id="postDetail" parameterType="com.giggler.giggle.dto.PostDTO" resultType="com.giggler.giggle.dto.ListDTO">
 	<![CDATA[
-			select		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link
+			select		p.post_no, u.user_no, u.user_nick, u.profile_image, p.text_content, p.post_date, p.like_cnt , p.comment_cnt ,p.post_link,
+						IF(p.post_no IN (SELECT post_no FROM postlike WHERE user_no = #{user_no}), "Y", "N") isLike
 			from 		giggledbaws.user u
 			inner join  giggledbaws.post p 
 			on 			p.user_no = u.user_no

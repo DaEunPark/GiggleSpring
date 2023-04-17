@@ -24,56 +24,29 @@ public class LikeServiceImpl implements LikeService {
 	@Inject
 	private LikeDAO likeDAO;
 
-	//게시글 번호에 해당하는 댓글 갯수 구하기
+	//좋아요 데이터에 해당 데이터가 있는지 확인하기
 	@Override
 	public int likeCount(LikeDTO likeDTO) throws DataAccessException {
-		System.out.println("CommentServiceImpl commentListCount() 구하기....");
+		System.out.println("LikeServiceImpl likeCount() 구하기....");
 			
 		return likeDAO.likeCount(likeDTO);
 
 	}
 	
-	
-		
-	//게시글 번호에 해당하는 댓글 리스트 불러오기
-	@Override
-	public List<LikeDTO> likeList(int user_no) throws DataAccessException {
-		System.out.println("CommentServiceImpl commentList() 구하기....");
-			
-		return likeDAO.likeList(user_no);
-	}
-		
-
-	
 	//=========게시글 번호에 해당하는 좋아요 등록===================================//
 	@Override
 	public int pushLike(LikeDTO likeDTO) throws DataAccessException {
-		System.out.println("CommentServiceImpl commentRegister() 구하기....");
+		System.out.println("CommentServiceImpl pushLike() 처리....");
 			
 		return likeDAO.pushLike(likeDTO);
 	} 
 	
-	
-	
-	
-//	@Override 
-//	    public int pushLike(LikeDTO likeDTO) throws DataAccessException {
-//		 return likeDAO.pushLike(likeDTO);
-//		 
-//	    }
-//
-
-	    
-	    @Override
-	    public  int unLike(LikeDTO likeDTO) throws DataAccessException {
-	            return likeDAO.unLike(likeDTO);
-	    }
-
-	    @Override
-	    public int isLike(LikeDTO likeDTO) throws Exception {
-	    	return likeDAO.isLike(likeDTO);
-	    	
-	    }
+    
+    @Override
+    public  int unLike(LikeDTO likeDTO) throws DataAccessException {
+    	System.out.println("CommentServiceImpl unLike() 처리....");
+            return likeDAO.unLike(likeDTO);
+    }
 
 
 

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,15 +73,15 @@ public class PostUploadController {
 	/*
 	 * Vue에서 포스트 상세 화면 표시 요청
 	 */
-	@GetMapping("/postdetail/{post_no}")
-	public @ResponseBody HashMap<String, Object> postDetail(@PathVariable int post_no) throws Exception {
-		logger.info("PostUploadController postDetail() post_no => " + post_no);
+	@GetMapping("/postdetail")
+	public @ResponseBody HashMap<String, Object> postDetail(@ModelAttribute PostDTO postDTO) throws Exception {
+		logger.info("PostUploadController postDetail() post_no => " + postDTO);
 		
 		HashMap<String, Object> postDetail = new HashMap<String, Object>();
-		postDetail.put("post", postUploadService.postDetail(post_no));
+		postDetail.put("post", postUploadService.postDetail(postDTO));
 		
 		ImageDTO imgDTO = new ImageDTO();
-		imgDTO.setPost_no(post_no);
+		imgDTO.setPost_no(postDTO.getPost_no());
 		imgDTO.setIs_posting(1);
 		List<ImageDTO> imageDTOs = postUploadService.postImages(imgDTO);
 		logger.info("PostUploadController postDetail() imageDTOs.size() => " + imageDTOs.size());

@@ -30,9 +30,9 @@ public class PostUploadServiceImpl implements PostUploadService {
 	}
 
 	@Override
-	public ListDTO postDetail(int post_no) throws DataAccessException {
+	public ListDTO postDetail(PostDTO postDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return postUploadDAO.postDetail(post_no);
+		return postUploadDAO.postDetail(postDTO);
 	}
 
 	@Override
