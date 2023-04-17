@@ -120,6 +120,7 @@ public class PostUploadController {
 			postUploadService.uploadImage(imageDTO);
 		}
 		currentPostNo = -1;
+		currentUserNo = -1;
 		return "Y";
 	}
 	
@@ -130,7 +131,7 @@ public class PostUploadController {
 	public String deletePost(@PathVariable int post_no) throws Exception {
 		logger.info("PostUploadController deletePost() post_no => " + post_no);
 		
-		deleteImages(currentPostNo, 1);
+		deleteImages(post_no, 1);
 		// post_no로 포스트 삭제
 		int delete = postUploadService.deletePost(post_no);
 		if (delete < 1)
@@ -145,10 +146,10 @@ public class PostUploadController {
 	@PatchMapping("/upadtepost")
 	public String updatePost(@RequestBody PostDTO postDTO) throws Exception {
 		logger.info("PostUploadController updatePost() => " + postDTO);
-		currentPostNo = postDTO.getPost_no();
-		currentUserNo = postDTO.getUser_no();
+//		currentPostNo = postDTO.getPost_no();
+//		currentUserNo = postDTO.getUser_no();
 		
-		deleteImages(currentPostNo, 0);
+		deleteImages(postDTO.getPost_no(), 0);
 
 		if(postUploadService.updatePost(postDTO) == 1) {	
 			return "Y";
@@ -158,6 +159,7 @@ public class PostUploadController {
 	}
 	
 	private void deleteImages(int post_no, int is_posting) throws IOException {
+		logger.info("PostUploadController deleteImages() imageDTO => " + post_no);
 		ImageDTO imgDTO = new ImageDTO();
 		imgDTO.setPost_no(post_no);
 		imgDTO.setIs_posting(is_posting);		
