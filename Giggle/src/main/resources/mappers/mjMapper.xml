@@ -22,6 +22,7 @@
 	<!-- 회원 등록하기 -->
 	<insert id="userRegister" parameterType="com.giggler.giggle.dto.UserDTO">
 		<![CDATA[
+
 		INSERT INTO user (user_email, user_pwd, user_nick, user_birth, user_phone, open_yn, naver_token, alarm_yn, message_yn, profile_image, google_token)
 		VALUES (#{user_email},  #{user_pwd}, #{user_nick}, #{user_birth}, #{user_phone}, #{open_yn}, #{naver_token}, #{alarm_yn}, #{message_yn}, #{profile_image}, #{google_token})
 		]]>
@@ -41,81 +42,30 @@
 		]]>
 	</select>
 	
-	<!-- 회원번호에 해당하는 비밀번호 가져오기 -->
-	<select id="checkPwd" parameterType="com.giggler.giggle.dto.UserDTO" resultType="String">
-		<![CDATA[
-		SELECT user_pwd FROM user WHERE user_no = #{user_no}
-		]]>
-	</select>
-	
-	<!-- 비밀번호 변경하기 -->
-	<update id="chagePwd" parameterType="com.giggler.giggle.dto.UserDTO">
-		<![CDATA[
-		UPDATE user SET user_pwd = #{user_pwd} WHERE user_no = #{user_no}
-		]]>
-	</update>
-	
-	<!-- 회원탈퇴하기 -->
-	<delete id="unregister" parameterType="Integer">
-		<![CDATA[
-		DELETE FROM user WHERE user_no = #{user_no}
-		]]>
-	</delete>
-	
 	<!-- 회원 번호로 AlarmDTO List 가져오기 -->
 	<select id="getAlarmListByUserNo" parameterType="Integer" resultType="com.giggler.giggle.dto.AlarmDTO">
 		<![CDATA[
+
 		SELECT a.alarm_no alarm_no, a.user_no user_no, a.alarm_user alarm_user, u2.user_nick alarm_user_nick,
 		u2.profile_image alarm_user_profile, a.alarm_type alarm_type, a.alarm_date alarm_date, a.post_no post_no
 		FROM alarm a, user u1, user u2
 		WHERE a.user_no = u1.user_no
 		AND a.alarm_user = u2.user_no
 		AND a.user_no = #{user_no}
-		ORDER BY a.alarm_no DESC
-		LIMIT 30
+		ORDER BY a.alarm_date
 		]]>	
 	</select>
-	
-	<!-- 회원번호에 해당하는 알람 유무 상태 가져오기 -->
-	<select id="getUserAlarmYN" parameterType="Integer" resultType="String">
-		<![CDATA[
-		SELECT alarm_yn FROM user WHERE user_no = #{user_no}
-		]]>
-	</select>
-	
-	<!-- 회원번호에 해당하는 알람 유무 상태 업데이트 -->
-	<update id="updateUserAlarmYN" parameterType="Integer">
-		<![CDATA[
-		UPDATE user SET alarm_yn = "N" WHERE user_no = #{user_yn}
-		]]>
-	</update>
-		
-	<!-- 알람 번호에 해당하는 데이터 삭제하기 -->
-	<delete id="deleteAlarm" parameterType="Integer">
-	<![CDATA[
-	DELETE FROM alarm WHERE alarm_no = #{alarm_no}
-	]]>
-	</delete>
 	
 	<!-- 회원 번호로 채팅방리스트 가져오기 -->
 	<select id="getChatRoomListByUserNo" parameterType="Integer" resultType="com.giggler.giggle.dto.ChatRoomDTO">
 		<![CDATA[
 		SELECT c.chatroom_no chatroom_no, IFNULL(c.user1, 0) user1, IFNULL(c.user2, 0) user2,
-		c.user1_yn user1_yn, c.user2_yn user2_yn, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message
+		c.user1_yn user1_yn, c.user2_yn user2_yn, IFNULL(m.message_content, '대화를 시작해보세요!') recent_message 
 		FROM chatroom c LEFT OUTER JOIN
-		(SELECT  message_content, chatroom_no, message_sendtime FROM  message
-		WHERE message_no IN
+		(SELECT  message_content, chatroom_no FROM  message WHERE message_no IN
 		(SELECT MAX(message_no) FROM message GROUP BY chatroom_no) ORDER BY message_no DESC) 
 		AS m ON (c.chatroom_no = m.chatroom_no)
 		WHERE c.user1 = #{user_no} or c.user2 = #{user_no}
-		ORDER BY m.message_sendtime DESC
-		]]>
-	</select>
-	
-	<!-- 회원번호에 해당하는 메세지 유무 상태 가져오기 -->
-	<select id="getUserMessageYN" parameterType="Integer" resultType="String">
-		<![CDATA[
-		SELECT message_yn FROM user WHERE user_no = #{user_no}
 		]]>
 	</select>
 	

@@ -12,16 +12,16 @@ public class UserDTO {
 	private String user_nick;
 	private String user_birth;
 	private String user_phone;
-	private String user_joindate;
+	private Timestamp user_joindate;
 	private String user_location;
-	private String open_yn = "Y";
+	private String open_yn;
 	private String status_message;
-	private String profile_image = "https://images.shoutwiki.com/sanrio/8/88/Kuromi.png";
+	private String profile_image;
 	private String back_image;
 	private String naver_token;
 	private String google_token;
-	private String alarm_yn = "N";
-	private String message_yn = "N";
+	private String alarm_yn;
+	private String message_yn;
 	private int alarm_no;
 	private int block_user;
 	private int follow_user;
@@ -72,10 +72,10 @@ public class UserDTO {
 	public void setUser_phone(String user_phone) {
 		this.user_phone = user_phone;
 	}
-	public String getUser_joindate() {
+	public Timestamp getUser_joindate() {
 		return user_joindate;
 	}
-	public void setUser_joindate(String user_joindate) {
+	public void setUser_joindate(Timestamp user_joindate) {
 		this.user_joindate = user_joindate;
 	}
 	public String getUser_location() {
